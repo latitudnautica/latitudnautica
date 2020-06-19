@@ -3,11 +3,12 @@ import CategoryMenu from '../components/categoryMenu'
 
 export default function MainLayout({ children }) {
     return (
-        <main style={{ border: '4px dashed blue' }}>
+        <main className='main'>
             <Menu />
-            <CategoryMenu />
+            {/* <CategoryMenu /> */}
             <div>List of items</div>
             {children}
             <footer>FOOTER</footer>
+<style></style>
         </main>)
 }

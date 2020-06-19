@@ -9,9 +9,11 @@
     "start": "next start"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "next": "latest",
     "react": "^16.7.0",
-    "react-dom": "^16.7.0"
+    "react-dom": "^16.7.0",
+    "swr": "^0.2.3"
   },
   "author": "",
   "license": "ISC"

@@ -1,4 +1,5 @@
 import App from 'next/app'
+import '../styles/styles.css'
 
 const Noop = ({ children }) => children
 

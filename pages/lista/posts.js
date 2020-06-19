@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import MainLayout from '../../layouts/MainLayout'
+
 const Posts = (props) => {
     return (
         <div>
