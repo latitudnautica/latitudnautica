@@ -1,7 +1,7 @@
 {
-  "name": "with-dynamic-app-layout",
+  "name": "ln-nextjs",
   "version": "1.0.0",
-  "description": "This example features:",
+  "description": "Web of Latitud Náutica",
   "main": "index.js",
   "scripts": {
     "dev": "next",
@@ -16,6 +16,6 @@
     "styled-components": "^5.1.1",
     "swr": "^0.2.3"
   },
-  "author": "",
+  "author": "Bernardo Munz",
   "license": "ISC"
 }

@@ -1,25 +1,34 @@
 import styled from "styled-components";
 
 const SideBarMenuStyled = styled.div`
-  width: 100px;
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  min-height: 50vh;
   border: 1px solid red;
 `;
 
 const SubCategoryLink = styled.button`
-  width: 100%;
   text-align: center;
-  margin: 5px 0;
+  margin: 5px;
 `;
 
 const SideBarMenu = (props) => {
-  const { subCategories } = props;
-  console.log(props);
+  const { subCategories, catHandler } = props;
 
   return (
     <SideBarMenuStyled>
       {subCategories.length > 0 &&
-        subCategories.map((item) => {
-          return <SubCategoryLink key={item.id}>{item.name}</SubCategoryLink>;
+        subCategories.map((subCat) => {
+          return (
+            <SubCategoryLink
+              key={subCat.id}
+              onClick={catHandler}
+              data-cid={subCat.id}
+            >
+              {subCat.name}
+            </SubCategoryLink>
+          );
         })}
     </SideBarMenuStyled>
   );

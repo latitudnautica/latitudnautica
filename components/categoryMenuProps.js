@@ -3,13 +3,14 @@ import styled from "styled-components";
 
 const ButtonCategory = styled.a`
   height: 25px;
-  width: 50;
+  /* width: 100px; */
   cursor: pointer;
   margin: 10px;
+  text-transform: capitalize;
 `;
 
 const categoryMenuProps = (props) => {
-  const { categories, isClient } = props;
+  const { categories } = props;
 
   return categories ? (
     <div className='catMenu'>
@@ -17,9 +18,7 @@ const categoryMenuProps = (props) => {
         return (
           <Link
             key={category.id}
-            href={`/lista/user/${category.id}/${
-              isClient ? "postsclient" : "posts"
-            }`}
+            href={`/lista/${category.name}/${category.id}/productos`}
           >
             <ButtonCategory
               key={category.id}
