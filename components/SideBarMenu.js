@@ -26,7 +26,7 @@ const SideBarMenu = (props) => {
               onClick={catHandler}
               data-cid={subCat.id}
             >
-              {subCat.name}
+              {subCat.id}-{subCat.name}
             </SubCategoryLink>
           );
         })}

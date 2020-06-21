@@ -35,30 +35,40 @@ const fetcher = (...args) =>
 export default function ListProducts(props) {
   const router = useRouter();
   const { cid, category } = router.query;
+  const { catSelected } = props;
 
-  const apiUrl = `http://localhost:5000/api/products/${category}/${cid}`;
-  const { data, error } = useSWR(apiUrl, fetcher);
+  const apiUrl = `http://localhost:5000/api/category/sub_cat/${category}/${catSelected}`;
+  const urlMainCategory = `http://localhost:5000/api/category/cat/${cid}`;
 
-  console.log("data", data);
-  console.log("Error", error);
+  const url = props.catSelected != 0 ? apiUrl : urlMainCategory;
+  const { data, error } = useSWR(url, fetcher);
+
+  // console.log("data", data);
+  // console.log("Error", error);
 
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
+  if (data) {
+    const Products = data.data[0] ? data.data[0].Products : [];
+    console.log(Products);
 
-  return (
-    <ListProductsStyled>
-      {data.data.map((item) => {
-        return (
-          <ProductCard key={item.id}>
-            <img
-              src={item.imageUrl ? item.imageUrl : "/images/logo_test.jpg"}
-            />
-            <div>{item.id}</div>
-            <div>{item.name}</div>
-            <div>{item.price}</div>
-          </ProductCard>
-        );
-      })}
-    </ListProductsStyled>
-  );
+    return (
+      <ListProductsStyled>
+        {Products.map((item) => {
+          return (
+            <ProductCard key={item.id}>
+              <img
+                src={item.imageUrl ? item.imageUrl : "/images/logo_test.jpg"}
+              />
+              <div>id:{item.id}</div>
+              <div>catId:{item.categoryId}</div>
+              <div>subCat:{item.subCategoryId}</div>
+              <div>{item.name}</div>
+              <div>{item.price}</div>
+            </ProductCard>
+          );
+        })}
+      </ListProductsStyled>
+    );
+  }
 }

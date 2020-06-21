@@ -10,6 +10,11 @@ const ListSection = styled.section`
   display: flex;
 `;
 
+const fetcher = (...args) =>
+  axios(...args).then((res) => {
+    return res;
+  });
+
 const Product = (props) => {
   const router = useRouter();
   const { categories } = props;
@@ -21,8 +26,6 @@ const Product = (props) => {
     setCatSelected(id);
   };
 
-
-
   return (
     <div>
       <CategoryMenuProps categories={categories} />
@@ -31,7 +34,7 @@ const Product = (props) => {
           subCategories={subCategories}
           catHandler={handleCatSelected}
         />
-        <ListProducts />
+        <ListProducts catSelected={catSelected} />
       </ListSection>
     </div>
   );
@@ -58,16 +61,10 @@ export async function getStaticPaths() {
 }
 // This also gets called at build time
 export async function getStaticProps({ params }) {
-  // params contains the post `id`.
-  // If the route is like /posts/1, then params.id is 1
-  // const res = await fetch(
-  //   `http://localhost:5000/api/products/${"electronica"}/${params.id}/`
-  // );
+  console.log(params);
 
   const cat = await fetch(`http://localhost:5000/api/category/all`);
   const categories = await cat.json();
-  // const products = await res.json();
 
-  // Pass post data to the page via props
   return { props: { categories } };
 }

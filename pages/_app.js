@@ -1,5 +1,6 @@
 import App from "next/app";
 import "../styles/styles.css";
+// import NProgress from "next-nprogress/component";
 import { ThemeProvider } from "styled-components";
 
 const theme = {
@@ -17,6 +18,7 @@ export default class MyApp extends App {
 
     return (
       <ThemeProvider theme={theme}>
+        {/* <NProgress /> */}
         <Layout>
           <Component {...pageProps} />
         </Layout>
