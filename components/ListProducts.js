@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import axios from "axios";
 import styled from "styled-components";
+import Link from "next/link";
 
 const ListProductsStyled = styled.main`
   display: flex;
@@ -65,6 +66,11 @@ export default function ListProducts(props) {
               <div>subCat:{item.subCategoryId}</div>
               <div>{item.name}</div>
               <div>{item.price}</div>
+              <div>
+                <Link href={`/detalle/${item.id}`}>
+                  <a>ver detalles</a>
+                </Link>
+              </div>
             </ProductCard>
           );
         })}

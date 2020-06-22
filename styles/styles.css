@@ -1,22 +1,12 @@
-.main {
-  width: 1440px;
-  border: 1px solid red;
-  margin: auto;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,700;1,400&family=Roboto&display=swap");
+
+body {
+  font-family: "Poppins", sans-serif;
+  /* font-family: "Roboto", sans-serif; */
+  box-sizing: border-box;
 }
 
-.menu {
-  background-color: gray;
-}
-
-.catMenu {
-  background-color: whitesmoke;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  vertical-align: middle;
-  align-items: center;
-}
-
-.catMenu > div {
-  margin: 0px 10px;
+a {
+  text-decoration: none;
+  color: black;
 }

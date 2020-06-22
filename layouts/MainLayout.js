@@ -1,6 +1,10 @@
 import Menu from "../components/Menu";
 import styled from "styled-components";
 
+const Container = styled.div`
+  max-width: 1440px;
+  margin: auto;
+`;
 const Header = styled.header`
   border: 1px solid green;
   display: flex;
@@ -17,7 +21,7 @@ const MenuLogo = styled.div`
 
 export default function MainLayout({ children }) {
   return (
-    <div>
+    <Container>
       <Header>
         <MenuLogo>
           <img src='/images/logo_test.jpg' />
@@ -27,6 +31,6 @@ export default function MainLayout({ children }) {
       {children}
       <footer>FOOTER</footer>
       <style></style>
-    </div>
+    </Container>
   );
 }

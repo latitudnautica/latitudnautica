@@ -2,7 +2,8 @@ import { useState } from "react";
 import MainLayout from "../../../../layouts/MainLayout";
 import { useRouter } from "next/router";
 import CategoryMenuProps from "../../../../components/categoryMenuProps";
-import SideBarMenu from "../../../../components/SideBarMenu";
+// import SideBarMenu from "../../../../components/SideBarMenu";
+import SideBarMenuClient from "../../../../components/SideBarMenuClient";
 import styled from "styled-components";
 import ListProducts from "../../../../components/ListProducts";
 
@@ -26,11 +27,18 @@ const Product = (props) => {
     setCatSelected(id);
   };
 
+  // If the page is not yet generated, this will be displayed
+  // initially until getStaticProps() finishes running
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
-      <CategoryMenuProps categories={categories} />
+      <h1>prod</h1>
+      <CategoryMenuProps categories={categories} /> */}
       <ListSection>
-        <SideBarMenu
+        <SideBarMenuClient
           subCategories={subCategories}
           catHandler={handleCatSelected}
         />
@@ -56,7 +64,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false
+    fallback: true
   };
 }
 // This also gets called at build time
