@@ -36,7 +36,7 @@ const Product = (props) => {
   return (
     <div>
       <h1>prod</h1>
-      <CategoryMenuProps categories={categories} /> */}
+      <CategoryMenuProps categories={categories} />
       <ListSection>
         <SideBarMenuClient
           subCategories={subCategories}
