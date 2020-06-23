@@ -51,7 +51,7 @@ export default function ListProducts(props) {
   if (!data) return <div>loading...</div>;
   if (data) {
     const Products = data.data[0] ? data.data[0].Products : [];
-    console.log(Products);
+    // console.log(Products);
 
     return (
       <ListProductsStyled>
@@ -67,7 +67,7 @@ export default function ListProducts(props) {
               <div>{item.name}</div>
               <div>{item.price}</div>
               <div>
-                <Link href={`/detalle/${item.id}`}>
+                <Link href={`/detalle/${item.name}/${item.id}`}>
                   <a>ver detalles</a>
                 </Link>
               </div>

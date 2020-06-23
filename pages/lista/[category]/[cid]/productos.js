@@ -52,27 +52,13 @@ Product.Layout = MainLayout;
 
 export default Product;
 
-// This function gets called at build time
-export async function getStaticPaths() {
-  const cat = await fetch(`http://localhost:5000/api/category/all`);
-  const categories = await cat.json();
 
-  const paths = categories.map((e) => {
-    const idS = e.id.toString();
-    return { params: { cid: idS, category: e.name } };
-  });
+export async function getServerSideProps({ params }) {
+// console.log(params);
 
-  return {
-    paths,
-    fallback: true
-  };
+const cat = await fetch(`http://localhost:5000/api/category/all`);
+const categories = await cat.json();
+
+return { props: { categories } };
 }
-// This also gets called at build time
-export async function getStaticProps({ params }) {
-  console.log(params);
 
-  const cat = await fetch(`http://localhost:5000/api/category/all`);
-  const categories = await cat.json();
-
-  return { props: { categories } };
-}

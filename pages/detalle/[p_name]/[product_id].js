@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import MainLayout from "../../layouts/MainLayout";
+import MainLayout from "../../../layouts/MainLayout";
 import styled from "styled-components";
 
 const ProductStyled = styled.main`
@@ -45,7 +45,9 @@ export default function Producto(props) {
     <ProductStyled>
       <ProductWrapper>
         <ProductImage>
-          <img src={product.imageUrl} />
+          <img
+            src={product.imageUrl ? product.imageUrl : "/images/logo_test.jpg"}
+          />
         </ProductImage>
         <ProductInfo>
           <div>Id:{product.id}</div>
@@ -61,6 +63,7 @@ export default function Producto(props) {
 }
 
 Producto.Layout = MainLayout;
+
 
 export async function getServerSideProps({ params }) {
   const pid = params.product_id;
