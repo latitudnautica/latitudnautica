@@ -38,8 +38,8 @@ export default function ListProducts(props) {
   const { cid, category } = router.query;
   const { catSelected } = props;
 
-  const apiUrl = `http://localhost:5000/api/category/sub_cat/${category}/${catSelected}`;
-  const urlMainCategory = `http://localhost:5000/api/category/cat/${cid}`;
+  const apiUrl = `https://www.demo.latitudnautica.com.ar/api/category/sub_cat/${category}/${catSelected}`;
+  const urlMainCategory = `https://www.demo.latitudnautica.com.ar/api/category/cat/${cid}`;
 
   const url = props.catSelected != 0 ? apiUrl : urlMainCategory;
   const { data, error } = useSWR(url, fetcher);

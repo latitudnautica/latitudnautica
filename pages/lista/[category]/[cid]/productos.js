@@ -56,7 +56,9 @@ export default Product;
 export async function getServerSideProps({ params }) {
 // console.log(params);
 
-const cat = await fetch(`http://localhost:5000/api/category/all`);
+const cat = await fetch(
+  `https://www.demo.latitudnautica.com.ar/api/category/all`
+);
 const categories = await cat.json();
 
 return { props: { categories } };

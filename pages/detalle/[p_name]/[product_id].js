@@ -67,7 +67,7 @@ Producto.Layout = MainLayout;
 
 export async function getServerSideProps({ params }) {
   const pid = params.product_id;
-  const apiUrl = `http://localhost:5000/api/products/${pid}/`;
+  const apiUrl = `https://www.demo.latitudnautica.com.ar/api/products/${pid}/`;
   const data = await fetch(apiUrl).then((res) => res.json());
   const product = JSON.parse(JSON.stringify(data));
 
