@@ -6,36 +6,27 @@ import CategoryMenuProps from "../../../../components/categoryMenuProps";
 import SideBarMenuClient from "../../../../components/SideBarMenuClient";
 import styled from "styled-components";
 import ListProducts from "../../../../components/ListProducts";
+import axios from "axios";
 
 const ListSection = styled.section`
   display: flex;
 `;
-
-const fetcher = (...args) =>
-  axios(...args).then((res) => {
-    return res;
-  });
 
 const Product = (props) => {
   const router = useRouter();
   const { categories } = props;
   const subCategories = categories[router.query.cid - 1].SubCategories;
   const [catSelected, setCatSelected] = useState(0);
+    // console.log(props);
 
   const handleCatSelected = (e) => {
     const id = e.target.dataset.cid;
+
     setCatSelected(id);
   };
-
-  // If the page is not yet generated, this will be displayed
-  // initially until getStaticProps() finishes running
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
-
+ 
   return (
     <div>
-      <h1>prod</h1>
       <CategoryMenuProps categories={categories} />
       <ListSection>
         <SideBarMenuClient
@@ -52,15 +43,19 @@ Product.Layout = MainLayout;
 
 export default Product;
 
-
 export async function getServerSideProps({ params }) {
-// console.log(params);
+  // console.log(params);
+  console.log(process.env.API_URL);
 
-const cat = await fetch(
-  `https://www.demo.latitudnautica.com.ar/api/category/all`
-);
-const categories = await cat.json();
+  const cat = await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/category/all`)
+    .then((res) => {
+      console.log('server response',res);
+      
+      return res;
+    })
+    .catch((err) => console.log(err));
 
-return { props: { categories } };
+  const categories = cat.data;
+
+  return { props: { categories } };
 }
-

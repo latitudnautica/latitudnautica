@@ -23,10 +23,10 @@ export default function Menu() {
       <Link href='/'>
         <a>Home</a>
       </Link>
-      <Link href='/test'>
-        <a>Test</a>
+      <Link href='/cms/main'>
+        <a>Administrar</a>
       </Link>
-      <Link href='/lista/electricidad/2/productos'>
+      <Link href='/productos'>
         <a>Productos</a>
       </Link>
     </MenuStyled>

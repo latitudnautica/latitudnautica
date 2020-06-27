@@ -10,9 +10,10 @@
     "prod": "NODE_ENV=production node server.js"
   },
   "dependencies": {
+    "@material-ui/core": "^4.10.2",
     "axios": "^0.19.2",
+    "formik": "^2.1.4",
     "next": "latest",
-    "next-nprogress": "^1.4.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "styled-components": "^5.1.1",

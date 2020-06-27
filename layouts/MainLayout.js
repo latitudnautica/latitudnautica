@@ -2,7 +2,7 @@ import Menu from "../components/Menu";
 import styled from "styled-components";
 
 const Container = styled.div`
-  max-width: 1440px;
+  max-width: 1300px;
   margin: auto;
 `;
 const Header = styled.header`

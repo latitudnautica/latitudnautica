@@ -2,28 +2,13 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import axios from "axios";
 import styled from "styled-components";
-import Link from "next/link";
+import ProductCard from "../components/ProductCard";
 
 const ListProductsStyled = styled.main`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
-`;
-
-const ProductCard = styled.div`
-  width: 200px;
-  border: 1px solid red;
-  margin: 7px;
-  padding: 5px;
-
-  img {
-    width: 100%;
-  }
-
-  header {
-    font-size: 1.5em;
-  }
+  justify-content: space-around;
 `;
 
 const fetcher = (...args) =>
@@ -38,8 +23,8 @@ export default function ListProducts(props) {
   const { cid, category } = router.query;
   const { catSelected } = props;
 
-  const apiUrl = `https://www.demo.latitudnautica.com.ar/api/category/sub_cat/${category}/${catSelected}`;
-  const urlMainCategory = `https://www.demo.latitudnautica.com.ar/api/category/cat/${cid}`;
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/category/sub_cat/${category}/${catSelected}`;
+  const urlMainCategory = `${process.env.NEXT_PUBLIC_API_URL}/api/category/cat/${cid}`;
 
   const url = props.catSelected != 0 ? apiUrl : urlMainCategory;
   const { data, error } = useSWR(url, fetcher);
@@ -56,23 +41,7 @@ export default function ListProducts(props) {
     return (
       <ListProductsStyled>
         {Products.map((item) => {
-          return (
-            <ProductCard key={item.id}>
-              <img
-                src={item.imageUrl ? item.imageUrl : "/images/logo_test.jpg"}
-              />
-              <div>id:{item.id}</div>
-              <div>catId:{item.categoryId}</div>
-              <div>subCat:{item.subCategoryId}</div>
-              <div>{item.name}</div>
-              <div>{item.price}</div>
-              <div>
-                <Link href={`/detalle/${item.name}/${item.id}`}>
-                  <a>ver detalles</a>
-                </Link>
-              </div>
-            </ProductCard>
-          );
+          return <ProductCard key={item.id} item={item} />;
         })}
       </ListProductsStyled>
     );

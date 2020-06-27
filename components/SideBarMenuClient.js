@@ -1,6 +1,6 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from "react";
 import styled from "styled-components";
-import axios from 'axios';
+import axios from "axios";
 
 const SideBarMenuStyled = styled.div`
   display: flex;
@@ -20,7 +20,7 @@ const SideBarMenu = (props) => {
 
   return (
     <SideBarMenuStyled>
-      {subCategories.length > 0 &&
+      {subCategories && subCategories.length > 0 ? (
         subCategories.map((subCat) => {
           return (
             <SubCategoryLink
@@ -31,7 +31,10 @@ const SideBarMenu = (props) => {
               {subCat.id}-{subCat.name}
             </SubCategoryLink>
           );
-        })}
+        })
+      ) : (
+        <div>No hay sub categorías</div>
+      )}
     </SideBarMenuStyled>
   );
 };
