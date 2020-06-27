@@ -29,16 +29,3 @@ export default function MyApp({ Component, pageProps }) {
     </>
   );
 }
-
-// MyApp.getInitialProps = async (appContext) => {
-//   // calls page's `getInitialProps` and fills `appProps.pageProps`
-//   const getCategories = await axios(
-//     `${process.env.NEXT_PUBLIC_API_URL}/api/category/all`
-//   )
-//     .then((res) => res)
-//     .then((data) => data);
-
-//   const appProps = await App.getInitialProps(appContext);
-
-//   return { ...appProps };
-// };
