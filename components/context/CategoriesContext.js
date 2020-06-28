@@ -23,20 +23,6 @@ const reducer = (state, action) => {
 export const CategoriesProvider = (props) => {
   const [state, dispatch] = useReducer(reducer, 0);
 
-  // const getCategories = axios(
-  //   `${process.env.NEXT_PUBLIC_API_URL}/api/category/all`
-  // )
-  //   .then((res) => res)
-  //   .then((data) => data);
-
-  // const data = getCategories;
-
-  // const [categories, setCategories] = useState(data);
-
-  // const storeCategories = (categories) => {
-  //   setCategories(categories);
-  // };
-
   return (
     <CategoriesDispatchContext.Provider value={dispatch}>
       <CategoriesContext.Provider value={{ state }}>
