@@ -28,7 +28,13 @@ const ListContainer = styled.div`
 
 const ListItem = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
+  align-items: center;
+
+  img {
+    width: 50px;
+    margin-right: 10%;
+  }
 `;
 
 export default function Categories(props) {
@@ -55,21 +61,29 @@ export default function Categories(props) {
     setCatSelected(cat[0]);
   };
 
-  const handleDeleteSubCategory = (e) => {
-    const subCatId = e.target.dataset.cid;
-    axios
-      .delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/category/subcat/${subCatId}`
-      )
-      .then((res) => {
-        console.log(res);
-        Router.push("/cms/categorias");
-        setCatSelected(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleUpdateSubCategory = (e) => {
+    const subCatId = e.target.dataset.scid;
+    const newName = prompt("ingresa un nuevo nombre");
+    if (!newName) return;
+
+    if (newName.match(/^[a-zA-Z,\d\-_\s]+$/)) {
+      const data = { name: newName.toLowerCase() };
+      axios
+        .put(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/category/subcat/${subCatId}`,
+          data
+        )
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log(`${newName} No esta permitido, Solo se permiten letras, numero y Comas. No se permiten puntos`);
+    }
   };
+
   const handleInputCat = (e) => {
     const value = e.target.value;
     setNewCategory(value);
@@ -79,22 +93,32 @@ export default function Categories(props) {
     setNewSubCategory(value);
   };
   const handleAddCat = (e) => {
-    const cat = { name: newCategory };
+    const value = { name: newCategory };
+    //Validation
 
     if (!newCategory == "") {
-      sendData(cat, "cat");
+      sendData(value, "cat");
     } else {
       alert("el campo categoría esta vacío");
     }
   };
-  const handleAddSubCat = (e) => {};
+  const handleAddSubCat = (e) => {
+    const value = { name: newSubCategory, categoryId: catSelected.id };
+    //Validation
+    if (!newSubCategory == "") {
+      sendData(value, "subcat");
+    } else {
+      alert("el campo sub categoría esta vacío");
+    }
+  };
   return (
     <CategoriesStyled>
       <ListContainer>
         <h3>Categorías</h3>
         {categories.map((cat) => (
           <ListItem id={cat.id} key={cat.id} onClick={handleCategorySelector}>
-            {cat.id} - {cat.name}
+            <img src={cat.imageUrl ? cat.imageUrl : "/images/test.png"} />{" "}
+            {cat.name}
           </ListItem>
         ))}
         <ListItem>
@@ -114,11 +138,11 @@ export default function Categories(props) {
         )}
 
         {catSelected &&
-          catSelected.SubCategories.map((cat) => (
-            <ListItem id={cat.id} key={cat.id}>
-              {cat.id} - {cat.name}
-              <div data-cid={cat.id} onClick={handleDeleteSubCategory}>
-                Borrar
+          catSelected.SubCategories.map((subCat) => (
+            <ListItem id={subCat.id} key={subCat.id}>
+              {subCat.id} - {subCat.name}
+              <div data-scid={subCat.id} onClick={handleUpdateSubCategory}>
+                Editar
               </div>
             </ListItem>
           ))}
