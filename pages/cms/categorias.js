@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Router from "next/router";
 import styled from "styled-components";
 import axios from "axios";
+import { css } from "@emotion/core";
+import BarLoader from "react-spinners/BarLoader";
 import CmsLayout from "../../layouts/CmsLayout";
 
 const CategoriesStyled = styled.section`
@@ -87,56 +89,65 @@ export default function Categories(props) {
   const [catSelected, setCatSelected] = useState(false);
   const [categories, setCategories] = useState([]);
   const [lastDataAdded, setLastDataAdded] = useState(null);
-  // const { categories } = props;
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       const categories = await axios(
         `${process.env.NEXT_PUBLIC_API_URL}/api/category/all`
       )
-        .then((res) => res)
+        .then((res) => {
+          setIsLoading(false);
+          return res;
+        })
         .catch((err) => console.log(err));
 
       setCategories(categories.data);
+      return categories;
     };
     fetchData();
+    console.log("fetch Data");
   }, [lastDataAdded]);
 
   useEffect(() => {
     if (catSelectedId != false) {
       if (categories.length > 0) {
-        const cat = categories.filter((c) => c.id == catSelectedId);
-        console.log(cat);
-
-        setCatSelected(cat[0]);
+        const cat = categories.filter((c) => c.id == catSelectedId)[0];
+        console.log("setCatSelected called");
+        setCatSelected(cat);
       }
     }
   }, [catSelectedId, categories]);
 
-  console.log(catSelected);
-
   const sendData = (data, type) => {
+    setIsLoading(true);
     const url =
       type == "cat"
         ? `${process.env.NEXT_PUBLIC_API_URL}/api/category/cat`
-        : `${process.env.NEXT_PUBLIC_API_URL}/api/category/subcat/`;
+        : type == "subCat" &&
+          `${process.env.NEXT_PUBLIC_API_URL}/api/category/subcat/`;
     axios
       .post(url, data)
       .then((res) => {
+        //if the transaction is ok
         setLastDataAdded(res);
       })
       .catch((err) => console.log(err));
   };
 
   const enterName = (text) => {
+    setIsLoading(true);
     const newName = prompt(text);
     if (newName == "" || newName === null) {
       console.log("prompt canceled");
+      setIsLoading(false);
       return null;
     } else {
       if (newName.match(/^[a-zA-Z,\d\-_\s]+$/)) {
         return newName.toLowerCase();
       } else {
+        setIsLoading(false);
+
         alert(
           `${newName} No esta permitido, Solo se permiten letras, numero y Comas. No se permiten puntos`
         );
@@ -153,7 +164,7 @@ export default function Categories(props) {
 
   const handleUpdateSubCategory = (e) => {
     const subCatId = e.target.dataset.scid;
-    const newName = enterName("Ingresa el nuevo nombre");
+    const newName = enterName("Ingresa el nuevo nombre ");
 
     axios
       .put(
@@ -171,8 +182,8 @@ export default function Categories(props) {
 
   const handleAddCat = (e) => {
     const newCategory = enterName("Ingresa una nueva Categoría");
-    const payload = { name: newCategory };
     if (newCategory == null) return;
+    const payload = { name: newCategory };
     sendData(payload, "cat");
   };
 
@@ -183,7 +194,7 @@ export default function Categories(props) {
     if (newSubCategory == null) return;
 
     const payload = { name: newSubCategory, categoryId: catSelected.id };
-    sendData(payload, "subcat");
+    sendData(payload, "subCat");
   };
 
   return (
@@ -215,7 +226,11 @@ export default function Categories(props) {
           </tbody>
         </Table>
         <AddItem>
-          <button onClick={handleAddCat}>Agregar Categoría</button>
+          {isLoading ? (
+            <BarLoader height={10} width={"100%"} />
+          ) : (
+            <button onClick={handleAddCat}>Agregar Categoría</button>
+          )}
         </AddItem>
       </ListContainer>
       <ListContainer>
@@ -260,28 +275,16 @@ export default function Categories(props) {
               ))}
           </tbody>
         </Table>
-        {catSelected && (
-          <AddItem>
-            <button onClick={handleAddSubCat}>Agregar</button>
-          </AddItem>
-        )}
+        <AddItem>
+          {isLoading ? (
+            <BarLoader height={10} width={"100%"} />
+          ) : (
+            catSelected && <button onClick={handleAddSubCat}>Agregar</button>
+          )}
+        </AddItem>
       </ListContainer>
     </CategoriesStyled>
   );
 }
 
 Categories.Layout = CmsLayout;
-
-// export async function getServerSideProps(context) {
-//   // console.log(context);
-
-//   const categories = await axios(
-//     `${process.env.NEXT_PUBLIC_API_URL}/api/category/all`
-//   ).then((res) => res);
-//   // console.log("cat getServer", categories);
-
-//   const data = categories.data;
-//   return {
-//     props: { categories: data } // will be passed to the page component as props
-//   };
-// }
