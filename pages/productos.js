@@ -27,14 +27,17 @@ const CardImage = styled.img`
 
 const ProductosMain = (props) => {
   const { categories } = props;
+  console.log("ProductosMain", props);
 
   return (
     <CategoriesContainer>
       {categories.map((cat) => {
         return (
-          <Link href={`/lista/${cat.name}/${cat.id}/productos`}>
+          <Link key={cat.id} href={`/lista/${cat.name}/${cat.id}/productos`}>
             <CategoryCard key={cat.id}>
-              <CardImage src='/images/logo_test.jpg' />
+              <CardImage
+                src={cat.imageUrl ? cat.imageUrl : "/images/logo_test.jpg"}
+              />
               <a>{cat.name.toUpperCase()}</a>
             </CategoryCard>
           </Link>
@@ -49,13 +52,8 @@ ProductosMain.Layout = MainLayout;
 export default ProductosMain;
 
 export async function getServerSideProps({ params }) {
-  // console.log(params);
-  console.log(process.env.API_URL);
-
   const cat = await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/category/all`)
     .then((res) => {
-      console.log("server response", res);
-
       return res;
     })
     .catch((err) => console.log(err));

@@ -71,7 +71,7 @@ export async function getServerSideProps({ params }) {
   const data = await fetch(apiUrl).then((res) => res.json());
   const product = JSON.parse(JSON.stringify(data));
 
-  console.log(product);
+  // console.log(product);
 
   return {
     props: { product } // will be passed to the page component as props

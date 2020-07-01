@@ -23,10 +23,10 @@ export default function ListProducts(props) {
   const { cid, category } = router.query;
   const { catSelected } = props;
 
-  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/category/sub_cat/${category}/${catSelected}`;
   const urlMainCategory = `${process.env.NEXT_PUBLIC_API_URL}/api/category/cat/${cid}`;
+  const urlSubCategory = `${process.env.NEXT_PUBLIC_API_URL}/api/category/sub_cat/${category}/${catSelected}`;
 
-  const url = props.catSelected != 0 ? apiUrl : urlMainCategory;
+  const url = props.catSelected != 0 ? urlSubCategory : urlMainCategory;
   const { data, error } = useSWR(url, fetcher);
 
   // console.log("data", data);
