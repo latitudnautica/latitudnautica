@@ -19,7 +19,8 @@
     "react-dom": "^16.7.0",
     "react-spinners": "^0.9.0",
     "styled-components": "^5.1.1",
-    "swr": "^0.2.3"
+    "swr": "^0.2.3",
+    "yup": "^0.29.1"
   },
   "author": "Bernardo Munz",
   "license": "ISC"

@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Field, Form } from "formik";
 import styled from "styled-components";
 import axios from "axios";
 import UploadFile from "./uploadFiles";
 import ProductCard from "../ProductCard";
+import createProductSchema from "../../schemas/crateProd.schema";
+import Link from "next/link";
 
 const CreateItemStyled = styled.div`
   font-family: "Roboto", sans-serif;
@@ -16,29 +18,42 @@ const CreateItemStyled = styled.div`
 `;
 
 const FormContainer = styled.div`
+  width: 90%;
   form {
     width: 100%;
-    /* max-width: 75%; */
     display: grid;
+    background-color: whitesmoke;
     grid-template-columns: 1fr 1fr 1fr;
-    border: 1px solid red;
+    /* border: 1px solid red; */
+
+    @media (max-width: 600px) {
+      grid-template-rows: 1fr 1fr 1fr;
+      background-color: white;
+    }
   }
 `;
 const UploadFileContainer = styled.div`
-  display: block;
+  width: 100%;
+  display: grid;
+  background-color: whitesmoke;
+  grid-template-columns: 1fr 1fr auto;
+  /* border: 1px solid red; */
+  img {
+    width: 100%;
+  }
 `;
 const FormGroupContainer = styled.div`
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
+  /* width: 100%; */
   padding: 25px;
 `;
 
 const FieldGroup = styled.div`
   display: flex;
-  /* flex-flow: 1; */
-  /* flex-grow: 1; */
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
+  align-items: left;
 
   label {
     max-width: 150px;
@@ -46,8 +61,8 @@ const FieldGroup = styled.div`
   }
   input {
     margin: 10px;
-    height: 15px;
-    padding: 10px;
+    height: 20px;
+    padding: 15px;
     border: 1px solid green;
     border-radius: 5px;
   }
@@ -60,6 +75,32 @@ const FieldGroup = styled.div`
     margin: 10px;
     height: 25px;
   }
+  button {
+    box-sizing: border-box;
+    cursor: pointer;
+    background-color: blue;
+    text-transform: uppercase;
+    color: white;
+    padding: 10px;
+    border: 1px solid blue;
+    transition: all 200ms ease-in;
+    margin: 10px;
+
+    :hover {
+      background-color: white;
+      color: green;
+      border: 1px solid blue;
+    }
+  }
+`;
+const FieldError = styled.span`
+  color: red;
+`;
+
+const ProductCardContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 10px;
 `;
 
 export default function CreateItem(props) {
@@ -67,6 +108,13 @@ export default function CreateItem(props) {
   const [isProdCreated, setIsProdCreated] = useState(false);
   const [subCategories, setSubCategories] = useState([]);
   const { categories } = props;
+  console.log(prodCreated);
+
+  useEffect(() => {
+    const id = 1;
+    const subCat = categories.filter((c) => c.id == id);
+    setSubCategories(subCat[0].SubCategories);
+  }, []);
 
   const handleSubmit = (values) => {
     // console.log(values);
@@ -94,59 +142,40 @@ export default function CreateItem(props) {
 
   return (
     <CreateItemStyled>
-      {isProdCreated && prodCreated ? (
-        <ProductCard item={prodCreated.data} />
-      ) : (
-        <Formik
-          initialValues={{
-            categoryId: 1,
-            subCategoryId: 1,
-            name: "Test de Producto",
-            description: "aksjfhd askjdh asdjlh",
-            price: 34,
-            codeArticle: "qawer",
-            codePromo: "qwer",
-            priceDolar: 4,
-            promoActive: "24wqer",
-            sku: "qwer",
-            serialNumber: null,
-            stock: 4,
-            tasasIVA: 21,
-            upc: "qwer"
-          }}
-          validate={(values) => {
-            const errors = {};
-            if (!values.name) {
-              errors.name = "Este valor es requerido";
-            }
-            //  else if (
-            //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.name)
-            // ) {
-            //   errors.email = "Invalid email address";
-            // }
-            return errors;
-          }}
-          onSubmit={(values, { setSubmitting }) => {
-            handleSubmit(values);
-            setSubmitting(false);
-          }}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting
-            /* and other goodies */
-          }) => (
-            <FormContainer>
+      <Formik
+        validateOnChange
+        validationSchema={createProductSchema}
+        initialValues={{
+          categoryId: 5,
+          subCategoryId: 22,
+          name: "testing image uploading",
+          visible: true
+        }}
+        onSubmit={(values, { setSubmitting }) => {
+          handleSubmit(values);
+          setSubmitting(false);
+        }}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          isSubmitting,
+          isValidating
+          /* and other goodies */
+        }) => (
+          <FormContainer>
+            <h3>Formulario para cargar productos</h3>
+            {!isProdCreated && (
               <Form onSubmit={handleSubmit}>
                 <FormGroupContainer>
                   <FieldGroup>
                     <label>Categoría</label>
-                    <select
+                    <Field
+                      as='select'
                       name='categoryId'
                       onChange={handleChange}
                       onClick={handleCategorySelector}
@@ -159,29 +188,28 @@ export default function CreateItem(props) {
                           {cat.name}
                         </option>
                       ))}
-                    </select>
+                    </Field>
                     {errors.categoryId &&
                       touched.categoryId &&
                       errors.categoryId}
                   </FieldGroup>
                   <FieldGroup>
                     <label>Sub Categoría</label>
-                    <select
+                    <Field
+                      as='select'
                       name='subCategoryId'
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.subCategoryId}
                       required
                     >
-                      <option key='a5s2' value={null}>
-                        varios
-                      </option>
-                      {subCategories.map((cat) => (
-                        <option key={cat.id} value={cat.id}>
-                          {cat.name}
+                      {subCategories.map((scat) => (
+                        <option key={scat.id} value={scat.id}>
+                          {scat.name}
                         </option>
                       ))}
-                    </select>
+                    </Field>
+
                     {errors.subCategoryId &&
                       touched.subCategoryId &&
                       errors.subCategoryId}
@@ -195,7 +223,9 @@ export default function CreateItem(props) {
                       onBlur={handleBlur}
                       value={values.name}
                     />
-                    {errors.name && touched.name && errors.name}
+                    {errors.name && touched.name ? (
+                      <FieldError>{errors.name}</FieldError>
+                    ) : null}
                   </FieldGroup>
                   <FieldGroup>
                     <label>Precio</label>
@@ -233,17 +263,6 @@ export default function CreateItem(props) {
                     {errors.tasasIVA && touched.tasasIVA && errors.tasasIVA}
                   </FieldGroup>
                   <FieldGroup>
-                    <label>Visible</label>
-                    <Field
-                      type='checkbox'
-                      name='visible'
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.visible}
-                    />
-                    {errors.visible && touched.visible && errors.visible}
-                  </FieldGroup>
-                  <FieldGroup>
                     <label>Stock</label>
                     <Field
                       type='number'
@@ -253,19 +272,6 @@ export default function CreateItem(props) {
                       value={values.stock}
                     />
                     {errors.stock && touched.stock && errors.stock}
-                  </FieldGroup>
-                  <FieldGroup>
-                    <label>Promoción</label>
-                    <Field
-                      type='text'
-                      name='promoActive'
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.promoActive}
-                    />
-                    {errors.promoActive &&
-                      touched.promoActive &&
-                      errors.promoActive}
                   </FieldGroup>
                 </FormGroupContainer>
                 <FormGroupContainer>
@@ -281,6 +287,19 @@ export default function CreateItem(props) {
                     {errors.codeArticle &&
                       touched.codeArticle &&
                       errors.codeArticle}
+                  </FieldGroup>
+                  <FieldGroup>
+                    <label>Promoción</label>
+                    <Field
+                      type='text'
+                      name='promoActive'
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.promoActive}
+                    />
+                    {errors.promoActive &&
+                      touched.promoActive &&
+                      errors.promoActive}
                   </FieldGroup>
                   <FieldGroup>
                     <label>Código promoción</label>
@@ -330,24 +349,64 @@ export default function CreateItem(props) {
                       touched.description &&
                       errors.description}
                   </FieldGroup>
+                  <FieldGroup>
+                    <label>Visible</label>
+                    <Field name={"visible"}>
+                      {({ field }) => (
+                        <input
+                          type='checkbox'
+                          checked={values.visible}
+                          {...field}
+                        />
+                      )}
+                    </Field>
+                  </FieldGroup>
+                  <FieldGroup>
+                    <p>
+                      Después de cargar el producto podrás cargar la imagen del
+                      producto.
+                    </p>
+                    <button type='submit' disabled={isSubmitting}>
+                      Cargar Producto
+                    </button>
+                    <button type='reset' disabled={isSubmitting}>
+                      Reset
+                    </button>
+                  </FieldGroup>
                 </FormGroupContainer>
-
-                <button type='submit' disabled={isSubmitting}>
-                  Cargar Producto
-                </button>
               </Form>
-            </FormContainer>
-          )}
-        </Formik>
-      )}
+            )}
 
-      <UploadFileContainer>
-        {isProdCreated && prodCreated ? (
-          <UploadFile prodId={prodCreated.data.id} />
-        ) : (
-          <h3>Carga un producto para subir una imagen</h3>
+            {isProdCreated && (
+              <UploadFileContainer>
+                <FormGroupContainer>
+                  <UploadFile prodId={prodCreated.data.id} />
+                  <button
+                    onClick={() => {
+                      setIsProdCreated(false);
+                    }}
+                  >
+                    <a>No cargar imagen</a>
+                  </button>
+                </FormGroupContainer>
+                <FormGroupContainer style={{ textAlign: "center" }}>
+                  <h4>Ejemplo del producto creado</h4>
+                  <p>Selecciona una imagen para este producto</p>
+                  <ProductCardContainer>
+                    <ProductCard
+                      item={prodCreated.data}
+                      style={{ margin: "auto" }}
+                    />
+                    <Link href={`/cms/editar_producto/${prodCreated.data.id}`}>
+                      <a>Editar</a>
+                    </Link>
+                  </ProductCardContainer>
+                </FormGroupContainer>
+              </UploadFileContainer>
+            )}
+          </FormContainer>
         )}
-      </UploadFileContainer>
+      </Formik>
     </CreateItemStyled>
   );
 }

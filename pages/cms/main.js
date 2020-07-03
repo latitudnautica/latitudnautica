@@ -5,6 +5,7 @@ import Link from "next/link";
 const Menu = styled.div`
   display: inline;
 `;
+
 export default function main() {
   return (
     <div>
