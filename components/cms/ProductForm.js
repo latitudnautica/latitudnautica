@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Formik, Field, Form } from "formik";
 import styled from "styled-components";
 import axios from "axios";
-import createProductSchema from "../../schemas/crateProd.schema";
-import Link from "next/link";
+import Router from "next/router";
 
 const FormContainer = styled.div`
   width: 90%;
@@ -72,35 +71,72 @@ const FieldGroup = styled.div`
     }
   }
 `;
+
 const FieldError = styled.span`
   color: red;
 `;
 
-const ProductCardContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 10px;
+const Select = styled.select`
+  border: none;
+  height: 35px;
+  width: 200px;
+  margin: 0 0 0 25px;
+  padding: 0 15px;
+  font-size: 1.1em;
+
+  option {
+    margin: 5px 0;
+  }
 `;
-const ProductForm = (props) => {
-  const { product } = props;
+
+const ProductForm = ({ product }) => {
   const [isEdited, setIsEdited] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/category/all`)
+        .then((res) => {
+          setCategories(res.data);
+          return res.data;
+        })
+        .then((categories) => {
+          const subCat = categories.filter(
+            (cat) => cat.id == product.CategoryId
+          );
+          setSubCategories(subCat[0].SubCategories);
+        })
+        .catch((err) => console.log(err));
+    };
+
+    fetchData();
+  }, [isEdited]);
 
   const handleSubmit = (values) => {
-    console.log(values);
+    const data = values;
+    data.visible = data.visible ? 1 : 0; //workaround FixThis
+    data.id = product.id;
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/product/`;
     axios
       .put(apiUrl, values)
       .then((data) => {
         console.log(data);
         setIsEdited(true);
+        console.log(data);
+        Router.reload();
       })
       .catch((err) => {
         console.log(err);
         setIsError(true);
       });
+  };
 
-    // error ? console.log(error) : console.log(data);
+  const handleCategorySelector = (e) => {
+    const id = e.target.value;
+    const subCat = categories.filter((c) => c.id == id);
+    setSubCategories(subCat[0].SubCategories);
   };
 
   if (isEdited)
@@ -110,22 +146,20 @@ const ProductForm = (props) => {
       </div>
     );
   if (isError)
-    return (
-      <div>
-        Producto Editado, presiona F5 o refresca la pagina para ver los cambios
-      </div>
-    );
+    return <div>Algo salio mal Refresca la pagina e intenta de nuevo</div>;
 
   return (
     <Formik
       validateOnChange
       // validationSchema={createProductSchema}
-      initialValues={product}
+      initialValues={{
+        categoryId: Number(product.categoryId),
+        subCategoryId: Number(product.subCategoryId),
+        name: product.name,
+        visible: product.visible == 1 ? true : false
+      }}
       onSubmit={(values, { setSubmitting }) => {
-        console.log("clicked submit");
-
         handleSubmit(values);
-        setSubmitting(false);
       }}
     >
       {({
@@ -135,13 +169,51 @@ const ProductForm = (props) => {
         handleChange,
         handleBlur,
         handleSubmit,
-        isSubmitting,
-        isValidating
-        /* and other goodies */
+        isSubmitting
       }) => (
         <FormContainer>
           <Form onSubmit={handleSubmit}>
             <FormGroupContainer>
+              <FieldGroup>
+                <label>Categoría</label>
+                <Select
+                  as='select'
+                  name='categoryId'
+                  onChange={handleChange}
+                  onClick={handleCategorySelector}
+                  onBlur={handleBlur}
+                  value={values.categoryId}
+                  required
+                >
+                  {categories.map((cat) => (
+                    <option key={cat.id} value={Number(cat.id)}>
+                      {cat.name}
+                    </option>
+                  ))}
+                </Select>
+                {errors.categoryId && touched.categoryId && errors.categoryId}
+              </FieldGroup>
+              <FieldGroup>
+                <label>Sub Categoría</label>
+                <Select
+                  as='select'
+                  name='subCategoryId'
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.subCategoryId}
+                  required
+                >
+                  {subCategories.map((scat) => (
+                    <option key={scat.id} value={Number(scat.id)}>
+                      {scat.name}
+                    </option>
+                  ))}
+                </Select>
+
+                {errors.subCategoryId &&
+                  touched.subCategoryId &&
+                  errors.subCategoryId}
+              </FieldGroup>
               <FieldGroup>
                 <label>Nombre</label>
                 <Field
@@ -274,6 +346,18 @@ const ProductForm = (props) => {
                 {errors.description &&
                   touched.description &&
                   errors.description}
+              </FieldGroup>
+              <FieldGroup>
+                <label>Visible</label>
+                <Field name={"visible"}>
+                  {({ field }) => (
+                    <input
+                      type='checkbox'
+                      checked={values.visible}
+                      {...field}
+                    />
+                  )}
+                </Field>
               </FieldGroup>
               <FieldGroup>
                 <p>

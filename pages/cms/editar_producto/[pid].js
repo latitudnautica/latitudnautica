@@ -1,6 +1,6 @@
-import { useRouter } from "next/router";
-import CmsLayout from "../../../layouts/CmsLayout";
+import Error from "next/error";
 import styled from "styled-components";
+import CmsLayout from "../../../layouts/CmsLayout";
 import ProductCard from "../../../components/ProductCard";
 import ProductForm from "../../../components/cms/ProductForm";
 
@@ -29,11 +29,32 @@ const InfoDetails = styled.div`
   padding: 15px;
   background-color: white;
 `;
+const Select = styled.select`
+  border: none;
+  height: 35px;
+  width: 200px;
+  margin: 0 0 0 25px;
+  padding: 0 15px;
+  font-size: 1.1em;
 
+  option {
+    margin: 5px 0;
+  }
+`;
 
 const EditProduct = (props) => {
-  console.log(props.product);
-  const { product } = props;
+  console.log("EditProduct props", props);
+  const { product, errorCode } = props;
+  if (errorCode || product === null) {
+    return (
+      <Error
+        statusCode={errorCode}
+        title='No se encuentra el producto seleccionado'
+      />
+    );
+  }
+
+  const handleChangeProductVisibility = (value) => {};
 
   return (
     <ProductsContainer>
@@ -43,9 +64,9 @@ const EditProduct = (props) => {
       <ProdDetails>
         <ProductCard item={product} />
         <div>
-          <h3>Agregar cambios de categoria</h3>
-          <h3>Agregar cambios de subCategoria</h3>
-          <h3>Agregar estado visible o oculto</h3>
+          <h3>Categoría: {product.Category.name}</h3>
+          <h3>Sub Categoría: {product.SubCategory.name}</h3>
+          <h3>Producto Visible:{product.visible}</h3>
         </div>
       </ProdDetails>
       <h2>Editar Info del Producto</h2>
@@ -62,13 +83,12 @@ export default EditProduct;
 
 export async function getServerSideProps({ params }) {
   const pid = params.pid;
-  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/product/${pid}/`;
-  const data = await fetch(apiUrl).then((res) => res.json());
-  const product = JSON.parse(JSON.stringify(data));
-
-  // console.log(product);
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/product/cms/${pid}/`;
+  const res = await fetch(apiUrl);
+  const errorCode = res.ok ? false : res.statusCode;
+  const product = await res.json();
 
   return {
-    props: { product } // will be passed to the page component as props
+    props: { errorCode, product } // will be passed to the page component as props
   };
 }

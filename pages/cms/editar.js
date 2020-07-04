@@ -182,11 +182,7 @@ const Editar = (props) => {
                       <td>{prod.id}</td>
                       <td>{prod.name}</td>
                       <td>{catData.name}</td>
-                      <td>
-                        {/* {catData.SubCategories.filter(
-                          (scat) => scat.id == prod.subCategoryId
-                        )[0].name} */}
-                      </td>
+                      <td>{prod.SubCategoryId}</td>
                       <td>{prod.visible}</td>
                       <td>
                         <Link href={`/cms/editar_producto/${prod.id}`}>
