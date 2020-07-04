@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const ProductCardStyled = styled.div`
   width: 230px;
-  margin: 3px;
+  margin: 10px;
   padding: 5px;
   border: solid thin #ccc;
   /* box-shadow: 0px 0px 14px -5px gray; */
@@ -28,13 +28,19 @@ export default function ProductCard(props) {
   return (
     <ProductCardStyled key={item.id}>
       <img src={item.imageUrl ? item.imageUrl : "/images/logo_test.jpg"} />
+      <div>
+        <b>{item.name}</b>
+      </div>
       <div>id:{item.id}</div>
+      <div>$ {item.price}</div>
+      <hr />
       <div>catId:{item.categoryId}</div>
       <div>subCat:{item.subCategoryId}</div>
-      <div>{item.name}</div>
-      <div>{item.price}</div>
       <div>
-        <Link href={`/detalle/${item.name}/${item.id}`}>
+        <Link
+          href={`/detalle/[p_name]/[product_id]`}
+          as={`/detalle/${item.name}/${item.id}`}
+        >
           <a>ver detalles</a>
         </Link>
       </div>

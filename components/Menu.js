@@ -14,6 +14,11 @@ const MenuStyled = styled.nav`
     margin: 10px;
     /* color: white; */
     text-transform: uppercase;
+    transition: all 300ms ease-in;
+
+    :hover {
+      font-weight: 700;
+    }
   }
 `;
 

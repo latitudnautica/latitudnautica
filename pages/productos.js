@@ -33,7 +33,11 @@ const ProductosMain = (props) => {
     <CategoriesContainer>
       {categories.map((cat) => {
         return (
-          <Link key={cat.id} href={`/lista/${cat.name}/${cat.id}/productos`}>
+          <Link
+            key={cat.id}
+            href={`/lista/[category]/[cid]/productos`}
+            as={`/lista/${cat.name}/${cat.id}/productos`}
+          >
             <CategoryCard key={cat.id}>
               <CardImage
                 src={cat.imageUrl ? cat.imageUrl : "/images/logo_test.jpg"}
