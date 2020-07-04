@@ -116,7 +116,7 @@ const ProductForm = ({ product }) => {
 
   const handleSubmit = (values) => {
     const data = values;
-    data.visible = data.visible ? 1 : 0; //workaround FixThis
+    // data.visible = data.visible ? 1 : 0; //workaround FixThis
     data.id = product.id;
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/product/`;
     axios

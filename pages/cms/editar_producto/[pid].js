@@ -66,7 +66,7 @@ const EditProduct = (props) => {
         <div>
           <h3>Categoría: {product.Category.name}</h3>
           <h3>Sub Categoría: {product.SubCategory.name}</h3>
-          <h3>Producto Visible:{product.visible}</h3>
+          <h3>Producto Visible: {product.visible ? "visible" : "oculto"}</h3>
         </div>
       </ProdDetails>
       <h2>Editar Info del Producto</h2>
