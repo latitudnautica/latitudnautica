@@ -2,12 +2,18 @@ import { useContext } from "react";
 import axios from "axios";
 import Link from "next/link";
 import MainLayout from "../layouts/MainLayout";
-// import { CategoriesContext } from "../components/context/CategoriesContext";
+import HomeCarrousel from "../components/HomeCarrousel";
 
 const Index = (props) => {
-  // const { categories, storeCategories } = useContext(CategoriesContext);
-  // console.log(categories);
-  return <div> Index </div>;
+console.log(props);
+  return (
+    <>
+      <HomeCarrousel />
+      <h1>
+        Latitud Náutica <small>Productos y servicios Náuticos</small>
+      </h1>
+    </>
+  );
 };
 
 Index.Layout = MainLayout;

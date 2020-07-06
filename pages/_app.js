@@ -1,20 +1,24 @@
 // /pages/_app.tsx
-import App, { AppProps, AppContext } from "next/app";
 import Head from "next/head";
 import "../styles/styles.css";
+import "react-banner/dist/style.css";
 import { ThemeProvider } from "styled-components";
 import { CategoriesProvider } from "../components/context/CategoriesContext";
-import axios from "axios";
 
 const theme = {
   colors: {
-    primary: "#0070f3"
+    primary: "#0070f3",
+    charcoal: "#264653ff",
+    persianGreen: "#2a9d8fff",
+    orangeYellowCrayola: "#e9c46aff",
+    sandyBrown: "#f4a261ff",
+    $burntSienna: "#e76f51ff"
   }
 };
 
 const Noop = ({ children }) => children;
 
-export default function MyApp({ Component, pageProps }) {
+export default function MyApp ({ Component, pageProps }) {
   const Layout = Component.Layout || Noop;
 
   return (

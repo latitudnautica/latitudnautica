@@ -1,19 +1,28 @@
 import Link from "next/link";
 import styled from "styled-components";
 
+const MenuCategories = styled.nav`
+  justify-content: center;
+  display: flex;
+`;
+
 const ButtonCategory = styled.a`
   height: 25px;
   /* width: 100px; */
   cursor: pointer;
   margin: 10px;
   text-transform: capitalize;
+
+  :hover {
+    font-weight: 700;
+  }
 `;
 
 const categoryMenuProps = (props) => {
   const { categories } = props;
 
   return categories ? (
-    <div className='catMenu'>
+    <MenuCategories>
       {categories.map((category) => {
         return (
           <Link
@@ -30,7 +39,7 @@ const categoryMenuProps = (props) => {
           </Link>
         );
       })}
-    </div>
+    </MenuCategories>
   ) : (
     "menu error"
   );
