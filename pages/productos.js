@@ -1,7 +1,9 @@
+import { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import axios from "axios";
 import styled from "styled-components";
 import Link from "next/link";
+import GridLoader from "react-spinners/GridLoader";
 
 const CategoriesContainer = styled.main`
   display: flex;
@@ -26,9 +28,22 @@ const CardImage = styled.img`
 `;
 
 const ProductosMain = (props) => {
-  const { categories } = props;
-  console.log("ProductosMain", props);
+  const [categories, setCategories] = useState([]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/category/all`)
+        .then((res) => {
+          setCategories(res.data);
+          return res.data;
+        })
+        .catch((err) => console.log(err));
+    };
+
+    fetchData();
+  }, []);
+console.log(categories);
+if(categories.length == 0)return(<CategoriesContainer><GridLoader/></CategoriesContainer>)
   return (
     <CategoriesContainer>
       {categories.map((cat) => {
@@ -55,14 +70,14 @@ ProductosMain.Layout = MainLayout;
 
 export default ProductosMain;
 
-export async function getServerSideProps({ params }) {
-  const cat = await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/category/all`)
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => console.log(err));
+// export async function getServerSideProps({ params }) {
+//   const cat = await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/category/all`)
+//     .then((res) => {
+//       return res;
+//     })
+//     .catch((err) => console.log(err));
 
-  const categories = cat.data;
+//   const categories = cat.data;
 
-  return { props: { categories } };
-}
+//   return { props: { categories } };
+// }
