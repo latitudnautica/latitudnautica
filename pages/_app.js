@@ -1,7 +1,6 @@
 // /pages/_app.tsx
 import Head from "next/head";
 import "../styles/styles.css";
-import "react-banner/dist/style.css";
 import { ThemeProvider } from "styled-components";
 import { CategoriesProvider } from "../components/context/CategoriesContext";
 
