@@ -1,4 +1,5 @@
 * Spinner https://www.npmjs.com/package/react-spinners
+* Burger Menu https://css-tricks.com/hamburger-menu-with-a-side-of-react-hooks-and-styled-components/
 
 /* CSS */
 --charcoal: hsla(197, 54%, 33%, 1);

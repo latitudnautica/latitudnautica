@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import ItemsCarousel from "react-items-carousel";
 import styled from "styled-components";
 
+import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
+
 const HomeCarrouselStyled = styled.div`
   text-align: center;
   margin-top: 10px;
@@ -9,11 +11,12 @@ const HomeCarrouselStyled = styled.div`
 
 const SlideArrow = styled.div`
   background: none;
-  width: 20px;
   border: none;
-  font-size: x-large;
+  font-size: 2.8em;
+
   :hover {
-    border: 1px solid gray;
+    color: ${({ theme }) => theme.colors.primary};
+    box-shadow: 0 0 0 0 white;
   }
 `;
 
@@ -36,8 +39,16 @@ export default function HomeCarrousel() {
         numberOfCards={1}
         showSlither={false}
         gutter={20}
-        leftChevron={<SlideArrow>{"<"}</SlideArrow>}
-        rightChevron={<SlideArrow>{">"}</SlideArrow>}
+        leftChevron={
+          <SlideArrow>
+            <RiArrowLeftSLine />
+          </SlideArrow>
+        }
+        rightChevron={
+          <SlideArrow>
+            <RiArrowRightSLine />
+          </SlideArrow>
+        }
         outsideChevron={false}
         chevronWidth={chevronWidth}
       >

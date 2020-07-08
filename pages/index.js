@@ -11,6 +11,7 @@ const BannerFullWidth = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 1.3em;
   color: ${({ theme }) => theme.colors.charcoal};
 `;
 
