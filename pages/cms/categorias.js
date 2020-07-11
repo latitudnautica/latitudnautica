@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import Router from "next/router";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { css } from "@emotion/core";
 import BarLoader from "react-spinners/BarLoader";
-import CmsLayout from "../../layouts/CmsLayout";
+import CmsLayout from "../../components/layouts/CmsLayout";
+
 
 const CategoriesStyled = styled.section`
   display: flex;
@@ -84,7 +83,7 @@ const Table = styled.table`
   }
 `;
 
-export default function Categories(props) {
+const Categories = (props) => {
   const [catSelectedId, setCatSelectedId] = useState(false);
   const [catSelected, setCatSelected] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -288,3 +287,6 @@ export default function Categories(props) {
 }
 
 Categories.Layout = CmsLayout;
+
+
+export default Categories;

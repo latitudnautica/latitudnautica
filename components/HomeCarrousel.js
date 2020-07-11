@@ -31,12 +31,12 @@ const ItemCarrousel = styled.img`
 
 export default function HomeCarrousel() {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
-  const noOfItems = 6; //dynamic from items in db
+  const noOfItems = 6; //value dynamic from items in db
   const noOfCards = 2; //how many card on screen
-  const autoPlayDelay = 2000;
+  const autoPlayDelay = 3000;
 
   useEffect(() => {
-    const interval = setInterval(tick, 3000);
+    const interval = setInterval(tick, autoPlayDelay);
 
     return () => {
       clearInterval(interval);
@@ -48,7 +48,6 @@ export default function HomeCarrousel() {
       return (activeItemIndex + 1) % (noOfItems - noOfCards + 1);
     });
 
-  console.log("activecard", activeItemIndex);
 
   return (
     <HomeCarrouselStyled>

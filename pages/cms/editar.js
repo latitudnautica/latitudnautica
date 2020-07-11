@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import Link from "next/link";
-import CmsLayout from "../../layouts/CmsLayout";
+import CmsLayout from "../../components/layouts/CmsLayout";
 
 const Select = styled.select`
   border: none;
@@ -87,7 +87,7 @@ const Editar = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const categories = await axios(
+      await axios(
         `${process.env.NEXT_PUBLIC_API_URL}/api/category/${catSelected}`
       )
         .then((res) => {
@@ -120,7 +120,7 @@ const Editar = (props) => {
         console.log(err);
       });
   };
-
+  console.log(props);
   return (
     <div>
       <h1>EDITAR</h1>

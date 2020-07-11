@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MainLayout from "../layouts/MainLayout";
+import MainLayout from "../components/layouts/MainLayout";
 import axios from "axios";
 import styled from "styled-components";
 import Link from "next/link";

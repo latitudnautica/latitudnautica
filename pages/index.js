@@ -2,7 +2,7 @@ import { useContext } from "react";
 import axios from "axios";
 import Link from "next/link";
 import styled from "styled-components";
-import MainLayout from "../layouts/MainLayout";
+import MainLayout from "../components/layouts/MainLayout";
 import HomeCarrousel from "../components/HomeCarrousel";
 
 const BannerFullWidth = styled.div`

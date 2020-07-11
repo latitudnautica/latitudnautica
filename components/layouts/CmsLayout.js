@@ -23,10 +23,10 @@ export default function CmsLayout({ children }) {
   return (
     <Container>
       <Header>
-        <Link href='/'>
+        <Link href='/cms/main'>
           <a>Home</a>
         </Link>
-        <Link href='/cms/cargar_producto'>
+        <Link href='/cms/cargar_producto' shallow={false}>
           <a>Cargar Producto</a>
         </Link>
         <Link href='/cms/editar'>

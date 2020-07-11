@@ -1,8 +1,9 @@
 // /pages/_app.tsx
 import Head from "next/head";
-import "../styles/styles.css";
 import { ThemeProvider } from "styled-components";
+import { AuthProvider } from "../components/context/AuthContext";
 import { CategoriesProvider } from "../components/context/CategoriesContext";
+import "../styles/styles.css";
 
 const theme = {
   colors: {

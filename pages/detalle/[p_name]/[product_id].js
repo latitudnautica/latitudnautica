@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import MainLayout from "../../../layouts/MainLayout";
+import MainLayout from "../../../components/layouts/MainLayout";
 import styled from "styled-components";
 
 const ProductStyled = styled.main`

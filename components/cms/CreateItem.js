@@ -6,6 +6,8 @@ import UploadFile from "./uploadFiles";
 import ProductCard from "../ProductCard";
 import createProductSchema from "../../schemas/crateProd.schema";
 import Link from "next/link";
+import Cookies from "js-cookie";
+import getCategories from "../../lib/getCategories";
 
 const CreateItemStyled = styled.div`
   font-family: "Roboto", sans-serif;
@@ -107,20 +109,31 @@ export default function CreateItem(props) {
   const [prodCreated, setProdCreated] = useState();
   const [isProdCreated, setIsProdCreated] = useState(false);
   const [subCategories, setSubCategories] = useState([]);
-  const { categories } = props;
-  console.log(prodCreated);
+  const [categories, setCategories] = useState(false);
+
+  useEffect(() => {
+    const categoryList = getCategories();
+    categoryList.then((data) => {
+      console.log(data);
+      setCategories(data);
+    });
+  }, []);
 
   useEffect(() => {
     const id = 1;
-    const subCat = categories.filter((c) => c.id == id);
-    setSubCategories(subCat[0].SubCategories);
-  }, []);
+    if (categories) {
+      const subCat = categories.filter((c) => c.id == id);
+      setSubCategories(subCat[0].SubCategories);
+    }
+  }, [categories]);
 
   const handleSubmit = (values) => {
     // console.log(values);
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/product/create/`;
     axios
-      .post(apiUrl, values)
+      .post(apiUrl, values, {
+        headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+      })
       .then((data) => {
         setProdCreated(data);
         setIsProdCreated(true);
@@ -146,8 +159,7 @@ export default function CreateItem(props) {
         validateOnChange
         validationSchema={createProductSchema}
         initialValues={{
-          categoryId: 5,
-          subCategoryId: 22,
+          categoryId: 1,
           name: "testing image uploading",
           visible: true
         }}
@@ -183,11 +195,12 @@ export default function CreateItem(props) {
                       value={values.categoryId}
                       required
                     >
-                      {categories.map((cat) => (
-                        <option key={cat.id} value={cat.id}>
-                          {cat.name}
-                        </option>
-                      ))}
+                      {categories &&
+                        categories.map((cat) => (
+                          <option key={cat.id} value={cat.id}>
+                            {cat.name}
+                          </option>
+                        ))}
                     </Field>
                     {errors.categoryId &&
                       touched.categoryId &&
@@ -203,11 +216,12 @@ export default function CreateItem(props) {
                       value={values.subCategoryId}
                       required
                     >
-                      {subCategories.map((scat) => (
-                        <option key={scat.id} value={scat.id}>
-                          {scat.name}
-                        </option>
-                      ))}
+                      {subCategories &&
+                        subCategories.map((scat) => (
+                          <option key={scat.id} value={scat.id}>
+                            {scat.name}
+                          </option>
+                        ))}
                     </Field>
 
                     {errors.subCategoryId &&

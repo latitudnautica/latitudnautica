@@ -20,13 +20,13 @@ const reducer = (state, action) => {
   }
 };
 
-export const CategoriesProvider = (props) => {
-  const [state, dispatch] = useReducer(reducer, 0);
+export const CategoriesProvider = ({children}) => {
+  const [state, dispatch] = useReducer(reducer, 10);
 
   return (
     <CategoriesDispatchContext.Provider value={dispatch}>
       <CategoriesContext.Provider value={{ state }}>
-        {props.children}
+        {children}
       </CategoriesContext.Provider>
     </CategoriesDispatchContext.Provider>
   );

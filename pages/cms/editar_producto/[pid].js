@@ -1,6 +1,6 @@
 import Error from "next/error";
 import styled from "styled-components";
-import CmsLayout from "../../../layouts/CmsLayout";
+import CmsLayout from "../../../components/layouts/CmsLayout";
 import ProductCard from "../../../components/ProductCard";
 import ProductForm from "../../../components/cms/ProductForm";
 
