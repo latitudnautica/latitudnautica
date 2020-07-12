@@ -37,13 +37,13 @@ cargarProducto.getInitialProps = async (ctx) => {
 
   if (isServer) {
     const cookies = ctx.req && cookie.parse(ctx.req.headers.cookie || "");
-    const key = process.env.NEXT_JWT_KEY;
 
     if (Object.keys(cookies).length !== 0 && cookies.constructor === Object) {
+      const key = process.env.NEXT_JWT_KEY;
       token = cookies.token;
       console.log("token server:", token);
 
-      if (isValid(token)) return { loggedIn: true };
+      if (isValid(token, key)) return { loggedIn: true };
     }
     return { loggedIn: false };
   } else {

@@ -24,6 +24,22 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
+        <script
+          async
+          src='https://www.googletagmanager.com/gtag/js?id=UA-172432120-1'
+        ></script>
+        dangerouslySetInnerHTML=
+        {{
+          __html: `
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments)};
+              gtag('js', new Date());
+
+              gtag('config', 'UA-172432120-1')};
+            </script>
+              `
+        }}
         <link
           rel='apple-touch-icon'
           sizes='180x180'
