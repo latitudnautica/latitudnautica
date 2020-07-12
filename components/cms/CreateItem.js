@@ -128,7 +128,7 @@ export default function CreateItem(props) {
   }, [categories]);
 
   const handleSubmit = (values) => {
-    // console.log(values);
+    console.log(values);
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/product/create/`;
     axios
       .post(apiUrl, values, {

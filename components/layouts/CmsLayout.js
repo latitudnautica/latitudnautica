@@ -5,6 +5,7 @@ const Container = styled.div`
   max-width: 1300px;
   margin: auto;
   background-color: #f4f6ff;
+  height: 100vh;
 `;
 
 const Header = styled.header`
@@ -23,19 +24,19 @@ export default function CmsLayout({ children }) {
   return (
     <Container>
       <Header>
-        <Link href='/cms/main'>
+        <Link href='/cms/main' shallow={false}>
           <a>Home</a>
         </Link>
         <Link href='/cms/cargar_producto' shallow={false}>
           <a>Cargar Producto</a>
         </Link>
-        <Link href='/cms/editar'>
+        <Link href='/cms/editar' shallow={false}>
           <a>Editar Producto</a>
         </Link>
-        <Link href='/cms/categorias'>
+        <Link href='/cms/categorias' shallow={false}>
           <a>Categorías</a>
         </Link>
-        <Link href='/cms/banners'>
+        <Link href='/cms/banners' shallow={false}>
           <a>Banners</a>
         </Link>
       </Header>
