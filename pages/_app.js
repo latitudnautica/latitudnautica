@@ -4,7 +4,7 @@ import { ThemeProvider } from "styled-components";
 import { AuthProvider } from "../components/context/AuthContext";
 import { CategoriesProvider } from "../components/context/CategoriesContext";
 import "../styles/styles.css";
-
+import { GA_TRACKING_ID } from "../lib/gtag";
 const theme = {
   colors: {
     primary: "#4888ca",
@@ -24,22 +24,23 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
+        {/* Global Site Tag (gtag.js) - Google Analytics */}
         <script
           async
-          src='https://www.googletagmanager.com/gtag/js?id=UA-172432120-1'
-        ></script>
-        dangerouslySetInnerHTML=
-        {{
-          __html: `
-            <script>
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments)};
-              gtag('js', new Date());
-
-              gtag('config', 'UA-172432120-1')};
-            </script>
-              `
-        }}
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_TRACKING_ID}', {
+              page_path: window.location.pathname,
+            });
+          `
+          }}
+        />
         <link
           rel='apple-touch-icon'
           sizes='180x180'
