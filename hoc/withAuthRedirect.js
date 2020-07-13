@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
-import { useAuth } from "../providers/Auth";
+import { useAuth } from "../context/AuthProvider";
 
 function DefaultLoadingFallback() {
-  return <p>Loading...</p>;
+  return <p>Verificando usuario... aguarde un instante.</p>;
 }
 
 /**
@@ -26,6 +26,10 @@ export default function withAuthRedirect({
   const WithAuthRedirectWrapper = (props) => {
     const router = useRouter();
     const { isLoading, isAuthenticated } = useAuth();
+
+    console.log("isLoading", isLoading);
+    console.log("isAuthenticated", isAuthenticated);
+
     if (isLoading) {
       return <LoadingComponent />;
     }

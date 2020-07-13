@@ -3,6 +3,7 @@ import styled from "styled-components";
 import CmsLayout from "../../../components/layouts/CmsLayout";
 import ProductCard from "../../../components/ProductCard";
 import ProductForm from "../../../components/cms/ProductForm";
+import withAuth from "../../../hoc/withAut";
 
 const ProductsContainer = styled.main`
   padding: 20px;
@@ -57,29 +58,31 @@ const EditProduct = (props) => {
   const handleChangeProductVisibility = (value) => {};
 
   return (
-    <ProductsContainer>
-      <h2>
-        Editando el Producto: <b>{product.name}</b>
-      </h2>
-      <ProdDetails>
-        <ProductCard item={product} />
-        <div>
-          <h3>Categoría: {product.Category.name}</h3>
-          <h3>Sub Categoría: {product.SubCategory.name}</h3>
-          <h3>Producto Visible: {product.visible ? "visible" : "oculto"}</h3>
-        </div>
-      </ProdDetails>
-      <h2>Editar Info del Producto</h2>
-      <InfoDetails>
-        <ProductForm product={product} />
-      </InfoDetails>
-    </ProductsContainer>
+    <CmsLayout>
+      <ProductsContainer>
+        <h2>
+          Editando el Producto: <b>{product.name}</b>
+        </h2>
+        <ProdDetails>
+          <ProductCard item={product} />
+          <div>
+            <h3>Categoría: {product.Category.name}</h3>
+            <h3>Sub Categoría: {product.SubCategory.name}</h3>
+            <h3>Producto Visible: {product.visible ? "visible" : "oculto"}</h3>
+          </div>
+        </ProdDetails>
+        <h2>Editar Info del Producto</h2>
+        <InfoDetails>
+          <ProductForm product={product} />
+        </InfoDetails>
+      </ProductsContainer>
+    </CmsLayout>
   );
 };
 
 EditProduct.Layout = CmsLayout;
 
-export default EditProduct;
+export default withAuth(EditProduct);
 
 export async function getServerSideProps({ params }) {
   const pid = params.pid;

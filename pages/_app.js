@@ -1,8 +1,7 @@
 // /pages/_app.tsx
 import Head from "next/head";
-import { AuthProvider } from "../components/context/AuthProvider";
+import { AuthProvider } from "../context/AuthProvider";
 import { ThemeProvider } from "styled-components";
-import { CategoriesProvider } from "../components/context/CategoriesContext";
 import "../styles/styles.css";
 import { GA_TRACKING_ID } from "../lib/gtag";
 const theme = {
@@ -61,15 +60,13 @@ export default function MyApp({ Component, pageProps }) {
           href='/images/favicon/favicon-16x16.png'
         />
       </Head>
-      <AuthProvider>
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <AuthProvider>
           <Layout>
-            <CategoriesProvider>
-              <Component {...pageProps} />
-            </CategoriesProvider>
+            <Component {...pageProps} />
           </Layout>
-        </ThemeProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </>
   );
 }

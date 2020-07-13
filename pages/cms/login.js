@@ -1,9 +1,9 @@
 import { useState } from "react";
 import Router from "next/router";
-import CmsLayout from "../../components/layouts/CmsLayout";
 import { Formik, Field } from "formik";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useAuth } from "../../context/AuthProvider";
 
 function validateEmail(value) {
   let error;
@@ -27,8 +27,12 @@ function validatePassword(value) {
 
 const Login = () => {
   const [loginError, setLoginError] = useState(null);
+
+  const { setAuthenticated } = useAuth();
+
   const handleLogin = (data) => {
     console.log(data);
+
     const getToken = axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/api/user/login`,
       data
@@ -39,7 +43,8 @@ const Login = () => {
         Cookies.set("token", user.data.token);
       })
       .then((r) => {
-        Router.reload();
+        setAuthenticated(true);
+        Router.back();
       })
       .catch((err) => {
         Cookies.remove("token");
@@ -104,6 +109,6 @@ const Login = () => {
   );
 };
 
-Login.Layout = CmsLayout;
+// Login.Layout = CmsLayout;
 
 export default Login;

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import withAuth from "../../hoc/withAut";
 import axios from "axios";
 import styled from "styled-components";
 import Link from "next/link";
@@ -122,7 +123,7 @@ const Editar = (props) => {
   };
   console.log(props);
   return (
-    <div>
+    <CmsLayout>
       <h1>EDITAR</h1>
       <div>
         <h3>
@@ -202,18 +203,18 @@ const Editar = (props) => {
           </Table>
         )}
       </div>
-    </div>
+    </CmsLayout>
   );
 };
 
-Editar.Layout = CmsLayout;
-
-export default Editar;
+export default withAuth(Editar);
 
 export async function getServerSideProps(context) {
   const fetchCategories = await axios(
     `${process.env.NEXT_PUBLIC_API_URL}/api/category/all`
-  ).then((res) => res);
+  )
+    .then((res) => res)
+    .catch((err) => console.log(err));
 
   const categories = fetchCategories.data;
   return {

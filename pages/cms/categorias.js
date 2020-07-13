@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import withAuth from "../../hoc/withAut";
 import styled from "styled-components";
 import axios from "axios";
 import BarLoader from "react-spinners/BarLoader";
@@ -286,15 +287,8 @@ const Categories = (props) => {
   );
 };
 
-Categories.Layout = CmsLayout;
+Categories.Layout = withAuth(CmsLayout);
 
 export default Categories;
 
-Categories.getInitialProps = async (ctx) => {
 
-  const isLoggedIn = axios(`${process.env.NEXT_API_URL}/api/login/1`)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
-
-  return { loggedIn: isLoggedIn };
-};
