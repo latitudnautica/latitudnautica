@@ -31,7 +31,8 @@ export default function MyApp({ Component, pageProps }) {
         />
         <script
           dangerouslySetInnerHTML={{
-            __html: `
+            __html: [
+              `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
@@ -39,6 +40,7 @@ export default function MyApp({ Component, pageProps }) {
               page_path: window.location.pathname,
             });
           `
+            ]
           }}
         />
         <link
