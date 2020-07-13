@@ -1,7 +1,7 @@
 // /pages/_app.tsx
 import Head from "next/head";
+import { AuthProvider } from "../components/context/AuthProvider";
 import { ThemeProvider } from "styled-components";
-import { AuthProvider } from "../components/context/AuthContext";
 import { CategoriesProvider } from "../components/context/CategoriesContext";
 import "../styles/styles.css";
 import { GA_TRACKING_ID } from "../lib/gtag";
@@ -24,7 +24,7 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        {/* Global Site Tag (gtag.js) - Google Analytics
+        {/* Global Site Tag (gtag.js) - Google Analytics */}
         <script
           async
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
@@ -42,7 +42,7 @@ export default function MyApp({ Component, pageProps }) {
           `
             ]
           }}
-        /> */}
+        />
         <link
           rel='apple-touch-icon'
           sizes='180x180'
@@ -61,13 +61,15 @@ export default function MyApp({ Component, pageProps }) {
           href='/images/favicon/favicon-16x16.png'
         />
       </Head>
-      <ThemeProvider theme={theme}>
-        <Layout>
-          <CategoriesProvider>
-            <Component {...pageProps} />
-          </CategoriesProvider>
-        </Layout>
-      </ThemeProvider>
+      <AuthProvider>
+        <ThemeProvider theme={theme}>
+          <Layout>
+            <CategoriesProvider>
+              <Component {...pageProps} />
+            </CategoriesProvider>
+          </Layout>
+        </ThemeProvider>
+      </AuthProvider>
     </>
   );
 }

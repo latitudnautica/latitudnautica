@@ -4,7 +4,6 @@ import axios from "axios";
 import BarLoader from "react-spinners/BarLoader";
 import CmsLayout from "../../components/layouts/CmsLayout";
 
-
 const CategoriesStyled = styled.section`
   display: flex;
   flex-wrap: wrap;
@@ -89,6 +88,7 @@ const Categories = (props) => {
   const [categories, setCategories] = useState([]);
   const [lastDataAdded, setLastDataAdded] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  console.log("loggedIn", props.loggedIn);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -284,9 +284,17 @@ const Categories = (props) => {
       </ListContainer>
     </CategoriesStyled>
   );
-}
+};
 
 Categories.Layout = CmsLayout;
 
-
 export default Categories;
+
+Categories.getInitialProps = async (ctx) => {
+
+  const isLoggedIn = axios(`${process.env.NEXT_API_URL}/api/login/1`)
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));
+
+  return { loggedIn: isLoggedIn };
+};
