@@ -3,6 +3,7 @@ import withAuth from "../../hoc/withAut";
 import axios from "axios";
 import styled from "styled-components";
 import Link from "next/link";
+import Cookies from "js-cookie";
 import CmsLayout from "../../components/layouts/CmsLayout";
 
 const Select = styled.select`

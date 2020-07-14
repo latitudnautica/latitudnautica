@@ -32,10 +32,11 @@ const Login = () => {
 
   const handleLogin = (data) => {
     console.log(data);
-
+   
     const getToken = axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/api/user/login`,
       data
+     
     );
 
     getToken

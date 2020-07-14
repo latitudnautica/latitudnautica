@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import Cookies from "js-cookie";
+
 
 const ProgressBar = styled.div`
   width: ${(props) => props.progress || 0}%;
@@ -57,6 +59,7 @@ export default function UploadFiles(props) {
         `${process.env.NEXT_PUBLIC_API_URL}/api/product/upload/image`,
         data,
         {
+          headers: { Authorization: `Bearer ${Cookies.get("token")}` },
           onUploadProgress: (ProgressEvent) => {
             let progress = Math.round(
               (ProgressEvent.loaded / ProgressEvent.total) * 100

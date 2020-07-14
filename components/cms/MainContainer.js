@@ -4,7 +4,6 @@ import Link from "next/link";
 const MainContainerStyled = styled.div`
   width: 75vw;
   margin: auto;
-
 `;
 
 const MainContainer = () => {
