@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 
 export default (req, res) => {
-  console.log("cookies", req.cookies);
 
   if (req.headers.cookie && req.headers.cookie.includes("token")) {
     jwt.verify(req.cookies.token, process.env.NEXT_JWT_KEY, function (

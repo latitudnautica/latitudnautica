@@ -187,7 +187,7 @@ const Editar = (props) => {
                       <td>{prod.SubCategoryId}</td>
                       <td>{prod.visible}</td>
                       <td>
-                        <Link href={`/cms/editar_producto/${prod.id}`}>
+                        <Link href={`/cms/editar_producto/[pid]`} as={`/cms/editar_producto/${prod.id}`}>
                           <button>Editar</button>
                         </Link>
                         <button
