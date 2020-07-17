@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Formik, Field, Form } from "formik";
 import styled from "styled-components";
 import axios from "axios";
-import Router from "next/router";
+import Cookies from "js-cookie";
+import { positions, useAlert } from "react-alert";
+import Button from "../Button";
 
 const FormContainer = styled.div`
   width: 90%;
@@ -53,23 +55,6 @@ const FieldGroup = styled.div`
     margin: 10px;
     height: 25px;
   }
-  button {
-    box-sizing: border-box;
-    cursor: pointer;
-    background-color: blue;
-    text-transform: uppercase;
-    color: white;
-    padding: 10px;
-    border: 1px solid blue;
-    transition: all 200ms ease-in;
-    margin: 10px;
-
-    :hover {
-      background-color: white;
-      color: green;
-      border: 1px solid blue;
-    }
-  }
 `;
 
 const FieldError = styled.span`
@@ -91,9 +76,10 @@ const Select = styled.select`
 
 const ProductForm = ({ product }) => {
   const [isEdited, setIsEdited] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
+  const alert = useAlert();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -120,16 +106,23 @@ const ProductForm = ({ product }) => {
     data.id = product.id;
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/product/`;
     axios
-      .put(apiUrl, values)
+      .put(apiUrl, values, {
+        headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+      })
       .then((data) => {
-        console.log(data);
         setIsEdited(true);
-        console.log(data);
-        Router.reload();
+        alert.success(`${data.data.productData.name} modificado con éxito.`);
       })
       .catch((err) => {
+        if (err.response) {
+          const errMessage = {
+            status: err.response.status,
+            data: err.response.data
+          };
+          setErrorMessage(errMessage);
+        }
+
         console.log(err);
-        setIsError(true);
       });
   };
 
@@ -139,15 +132,21 @@ const ProductForm = ({ product }) => {
     setSubCategories(subCat[0].SubCategories);
   };
 
-  if (isEdited)
-    return (
-      <div>
-        Producto Editado, presiona F5 o refresca la pagina para ver los cambios
-      </div>
+  console.error("error message:", errorMessage);
+  if (errorMessage.status == 406) {
+    alert.error(
+      `Ya existe un producto con ese nombre. Modifica el Nombre del producto e intenta de nuevo. [ ${errorMessage.data.message} ]`
     );
-  if (isError)
-    return <div>Algo salio mal Refresca la pagina e intenta de nuevo</div>;
+  }
+  if (errorMessage.status == 401) {
+    alert.error(
+      `Debes Iniciar sesión nuevamente refresca la pagina presionando F5`
+    );
+  }
 
+  if (isEdited) {
+    return <div>Producto Editado Exitosamente.</div>;
+  }
   return (
     <Formik
       validateOnChange
@@ -364,12 +363,10 @@ const ProductForm = ({ product }) => {
                   Después de cargar el producto podrás cargar la imagen del
                   producto.
                 </p>
-                <button type='submit' disabled={isSubmitting}>
-                  Enviar
-                </button>
-                <button type='reset' disabled={isSubmitting}>
+                <Button type='submit'>Enviar</Button>
+                <Button type='reset' disabled={isSubmitting}>
                   Reset
-                </button>
+                </Button>
               </FieldGroup>
             </FormGroupContainer>
           </Form>

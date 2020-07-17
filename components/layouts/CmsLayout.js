@@ -24,8 +24,11 @@ export default function CmsLayout({ children }) {
   return (
     <Container>
       <Header>
+        <Link href='/' shallow={false}>
+          <a>Home Page</a>
+        </Link>
         <Link href='/cms/main' shallow={false}>
-          <a>Home</a>
+          <a>Dashboard</a>
         </Link>
         <Link href='/cms/cargar_producto' shallow={false}>
           <a>Cargar Producto</a>

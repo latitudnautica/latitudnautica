@@ -27,8 +27,8 @@ export default function withAuthRedirect({
     const router = useRouter();
     const { isLoading, isAuthenticated } = useAuth();
 
-    console.log("isLoading", isLoading);
-    console.log("isAuthenticated", isAuthenticated);
+    // console.log("isLoading", isLoading);
+    // console.log("isAuthenticated", isAuthenticated);
 
     if (isLoading) {
       return <LoadingComponent />;

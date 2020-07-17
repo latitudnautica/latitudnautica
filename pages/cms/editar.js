@@ -4,7 +4,9 @@ import axios from "axios";
 import styled from "styled-components";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import Button from "../../components/Button";
 import CmsLayout from "../../components/layouts/CmsLayout";
+import { useAlert } from "react-alert";
 
 const Select = styled.select`
   border: none;
@@ -37,24 +39,6 @@ const Table = styled.table`
   tr::hover {
     font-weight: bold;
   }
-
-  button {
-    box-sizing: border-box;
-    cursor: pointer;
-    background-color: blue;
-    text-transform: uppercase;
-    color: white;
-    padding: 10px;
-    border: 1px solid blue;
-    transition: all 200ms ease-in;
-    margin: 3px;
-
-    :hover {
-      background-color: white;
-      color: green;
-      border: 1px solid blue;
-    }
-  }
 `;
 const CategoryInfoContainer = styled.div`
   display: flex;
@@ -82,10 +66,10 @@ const CategoryInfoItem = styled.div`
   }
 `;
 
-const Editar = (props) => {
+const Editar = ({ categories }) => {
   const [catSelected, setCatSelected] = useState(1);
   const [catData, setCatData] = useState(false);
-  const { categories } = props;
+  const Alert = useAlert();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,10 +84,7 @@ const Editar = (props) => {
       return;
     };
     fetchData();
-    console.log("fetch Data");
   }, [catSelected]);
-
-  console.log("catData:", catData);
 
   const handleCategorySelector = (e) => {
     const id = e.target.value;
@@ -112,17 +93,19 @@ const Editar = (props) => {
 
   const handleDeleteProduct = (e) => {
     const pid = e.target.dataset.pid;
-    console.log(pid);
     axios
-      .delete(`${process.env.NEXT_PUBLIC_API_URL}/api/product/${pid}`, pid)
+      .delete(`${process.env.NEXT_PUBLIC_API_URL}/api/product/${pid}`, {
+        headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+      })
       .then((res) => {
         console.log("deleted", res);
+        Alert.success(" Producto Eliminado");
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
       });
   };
-  console.log(props);
+
   return (
     <CmsLayout>
       <h1>EDITAR</h1>
@@ -187,15 +170,20 @@ const Editar = (props) => {
                       <td>{prod.SubCategoryId}</td>
                       <td>{prod.visible}</td>
                       <td>
-                        <Link href={`/cms/editar_producto/[pid]`} as={`/cms/editar_producto/${prod.id}`}>
-                          <button>Editar</button>
+                        <Link
+                          href={`/cms/editar_producto/[pid]`}
+                          as={`/cms/editar_producto/${prod.id}`}
+                        >
+                          <a>
+                            <Button>Editar</Button>
+                          </a>
                         </Link>
-                        <button
+                        <Button
                           data-pid={prod.id}
-                          onClick={handleDeleteProduct}
+                          handleClick={handleDeleteProduct}
                         >
                           Borrar
-                        </button>
+                        </Button>
                       </td>
                     </tr>
                   );

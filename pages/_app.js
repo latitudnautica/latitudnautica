@@ -2,7 +2,10 @@
 import Head from "next/head";
 import { AuthProvider } from "../context/AuthProvider";
 import { ThemeProvider } from "styled-components";
+import { transitions, positions, Provider as AlertProvider } from "react-alert";
+import AlertTemplate from "../components/AlertTemplate";
 import "../styles/styles.css";
+
 import { GA_TRACKING_ID } from "../lib/gtag";
 const theme = {
   colors: {
@@ -14,7 +17,14 @@ const theme = {
     burntSienna: "#e76f51ff"
   }
 };
-
+const options = {
+  // you can also just use 'bottom center'
+  position: positions.MIDDLE,
+  timeout: 0,
+  offset: "30px",
+  // you can also just use 'scale'
+  transition: transitions.SCALE
+};
 const Noop = ({ children }) => children;
 
 export default function MyApp({ Component, pageProps }) {
@@ -61,11 +71,13 @@ export default function MyApp({ Component, pageProps }) {
         />
       </Head>
       <ThemeProvider theme={theme}>
-        <AuthProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </AuthProvider>
+        <AlertProvider template={AlertTemplate} {...options}>
+          <AuthProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </AuthProvider>
+        </AlertProvider>
       </ThemeProvider>
     </>
   );

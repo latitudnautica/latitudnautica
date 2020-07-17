@@ -4,6 +4,7 @@ import CmsLayout from "../../../components/layouts/CmsLayout";
 import ProductCard from "../../../components/ProductCard";
 import ProductForm from "../../../components/cms/ProductForm";
 import withAuth from "../../../hoc/withAut";
+import Button from "../../../components/Button";
 
 const ProductsContainer = styled.main`
   padding: 20px;
@@ -44,7 +45,7 @@ const Select = styled.select`
 `;
 
 const EditProduct = (props) => {
-  console.log("EditProduct props", props);
+  // console.log("EditProduct props", props);
   const { product, errorCode } = props;
   if (errorCode || product === null) {
     return (
@@ -55,7 +56,8 @@ const EditProduct = (props) => {
     );
   }
 
-  const handleChangeProductVisibility = (value) => {};
+  const handleChangeProductVisibility = (value) => {console.log('ocultar o mostrar producto');
+  };
 
   return (
     <CmsLayout>
@@ -69,6 +71,11 @@ const EditProduct = (props) => {
             <h3>Categoría: {product.Category.name}</h3>
             <h3>Sub Categoría: {product.SubCategory.name}</h3>
             <h3>Producto Visible: {product.visible ? "visible" : "oculto"}</h3>
+            <div>
+              <Button handleClick={handleChangeProductVisibility}>
+                Cambiar Imagen
+              </Button>
+            </div>
           </div>
         </ProdDetails>
         <h2>Editar Info del Producto</h2>
