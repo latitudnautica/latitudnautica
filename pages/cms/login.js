@@ -3,7 +3,42 @@ import Router from "next/router";
 import { Formik, Field } from "formik";
 import axios from "axios";
 import Cookies from "js-cookie";
+import styled from "styled-components";
 import { useAuth } from "../../context/AuthProvider";
+import Button from "../../components/Button";
+
+const LoginStyled = styled.section`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
+const FormContainer = styled.section`
+  max-width: 400px;
+  max-height: 800px;
+  height: 500px;
+  box-shadow: 0 0 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+
+  input {
+    margin: 10px;
+    background-color: white;
+    padding: 10px;
+    font-size: 1.2em;
+    border-radius: 5px;
+  }
+`;
 
 function validateEmail(value) {
   let error;
@@ -32,11 +67,10 @@ const Login = () => {
 
   const handleLogin = (data) => {
     console.log(data);
-   
+
     const getToken = axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/api/user/login`,
       data
-     
     );
 
     getToken
@@ -55,8 +89,7 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
+    <LoginStyled>
       {loginError && <div>Usuario o Password erróneo.</div>}
       <Formik
         initialValues={{
@@ -80,33 +113,38 @@ const Login = () => {
           handleSubmit,
           isValidating
         }) => (
-          <form onSubmit={handleSubmit}>
-            <Field
-              type='email'
-              onChange={handleChange}
-              onBlur={handleBlur}
-              validate={validateEmail}
-              // value={props.values.name}
-              name='email'
-            />
-            {errors.email && touched.email && <div>{errors.email}</div>}
-            <Field
-              type='password'
-              onChange={handleChange}
-              onBlur={handleBlur}
-              validate={validatePassword}
-              // value={values.name}
-              name='password'
-            />
-            {errors.password && touched.password && (
-              <div>{errors.password}</div>
-            )}
-            <button type='submit'>Submit</button>
-            {isValidating}
-          </form>
+          <FormContainer>
+            <h1>INICIA SESIÓN</h1>
+            <Form onSubmit={handleSubmit}>
+              <Field
+                type='email'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                validate={validateEmail}
+                placeholder='email'
+                // value={props.values.name}
+                name='email'
+              />
+              {errors.email && touched.email && <div>{errors.email}</div>}
+              <Field
+                type='password'
+                placeholder='password'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                validate={validatePassword}
+                // value={values.name}
+                name='password'
+              />
+              {errors.password && touched.password && (
+                <div>{errors.password}</div>
+              )}
+              <Button type='submit'>Submit</Button>
+              {isValidating}
+            </Form>
+          </FormContainer>
         )}
       </Formik>
-    </div>
+    </LoginStyled>
   );
 };
 

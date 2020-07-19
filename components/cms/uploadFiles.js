@@ -3,7 +3,6 @@ import axios from "axios";
 import styled from "styled-components";
 import Cookies from "js-cookie";
 
-
 const ProgressBar = styled.div`
   width: ${(props) => props.progress || 0}%;
   height: 1rem;
@@ -36,9 +35,6 @@ export default function UploadFiles(props) {
   const [isError, setIsError] = useState(false);
   const [uploadedFile, setUploadedFile] = useState({ name: "", path: "" });
   const [progress, setProgress] = useState(0); // progress bar
-  console.log(uploadedFile);
-  console.log(progress);
-  console.log(isLoaded);
 
   const handleSelectedFile = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -46,41 +42,47 @@ export default function UploadFiles(props) {
     setIsLoaded(false);
   };
 
-  const handleUploadFile = (e) => {
+  const handleUploadFile =  (e) => {
     e.preventDefault();
+    console.log(selectedFile);
+
     setIsError(false);
     setProgress(0);
     setIsLoaded(false);
-    const data = new FormData();
-    data.append("file", selectedFile);
-    data.append("prod_id", props.prodId);
-    axios
-      .post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/upload/image`,
-        data,
-        {
-          headers: { Authorization: `Bearer ${Cookies.get("token")}` },
-          onUploadProgress: (ProgressEvent) => {
-            let progress = Math.round(
-              (ProgressEvent.loaded / ProgressEvent.total) * 100
-            );
-            setProgress(progress);
-          }
-        }
-      )
-      .then((res) => {
-        // then print response status
-        setIsLoaded(true);
-        setUploadedFile({ name: res.data.name, path: res.data.path });
-      })
-      .catch((err) => {
-        setIsError(err);
-        console.log(err, err.message);
-      });
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.set("prod_id", props.prodId);
+
+     axios({
+       method: "post",
+       url: `${process.env.NEXT_PUBLIC_API_URL}/api/product/upload/image`,
+       data: formData,
+       headers: {
+         Authorization: `Bearer ${Cookies.get("token")}`,
+         "content-type": "multipart/form-data"
+       },
+       onUploadProgress: (ProgressEvent) => {
+         let progress = Math.round(
+           (ProgressEvent.loaded / ProgressEvent.total) * 100
+         );
+         setProgress(progress);
+       }
+     })
+       .then((res) => {
+         // then print response status
+         setIsLoaded(true);
+         // setUploadedFile({ name: res.data.name, path: res.data.path });
+       })
+       .catch((err) => {
+         setIsError(err.response);
+         console.log(err, err.response);
+       });
   };
+
   const handelTryAgain = () => {
     setIsError(false);
-    setSelectedFile(null);
+    // setSelectedFile(null);
     setProgress(0);
     setIsLoaded(false);
   };
@@ -96,12 +98,14 @@ export default function UploadFiles(props) {
 
   return (
     <FormContainer>
-      <div>{!isLoaded ? <h1>Cargar Imagen</h1> : <h1>Imagen Cargada</h1>}</div>
+      <div>
+        {!isLoaded ? <h1>Cambiar Imagen</h1> : <h1>Imagen Cambiada</h1>}
+      </div>
 
-      <form id='uploadForm' encType='multipart/form-data'>
-        <input type='file' name='file' onChange={handleSelectedFile} />
-        <input type='button' value='Cargar' onClick={handleUploadFile} />
-      </form>
+      {/* <form id='uploadForm' method='post' encType='multipart/form-data'> */}
+      <input type='file' name='file' onChange={handleSelectedFile} />
+      <input type='button' value='Cargar' onClick={handleUploadFile} />
+      {/* </form> */}
       <div>
         {progress > 0 && progress < 100 ? (
           <ProgressBar progress={progress}>{progress}%</ProgressBar>

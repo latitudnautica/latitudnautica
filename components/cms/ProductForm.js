@@ -6,6 +6,31 @@ import Cookies from "js-cookie";
 import { positions, useAlert } from "react-alert";
 import Button from "../Button";
 
+const formatProdToEdit = (prod) => {
+  return {
+    SubCategoryId: prod.SubCategoryId || undefined,
+    categoryId: prod.categoryId || undefined,
+    codeArticle: prod.codeArticle || undefined,
+    codePromo: prod.codePromo || undefined,
+    description: prod.description || undefined,
+    descriptionGroup: prod.descriptionGroup || undefined,
+    descriptionSubGroup: prod.descriptionSubGroup || undefined,
+    id: prod.id || undefined,
+    imageUrl: prod.imageUrl || undefined,
+    name: prod.name || undefined,
+    price: prod.price || undefined,
+    priceDolar: prod.priceDolar || undefined,
+    promoActive: prod.promoActive || undefined,
+    serialNumber: prod.serialNumber || undefined,
+    sku: prod.sku || undefined,
+    stock: prod.stock || undefined,
+    subCategoryId: prod.subCategoryId || undefined,
+    tasaIVA: prod.tasaIVA || undefined,
+    upc: prod.upc || undefined,
+    visible: prod.visible || undefined
+  };
+};
+
 const FormContainer = styled.div`
   width: 90%;
   form {
@@ -74,9 +99,9 @@ const Select = styled.select`
   }
 `;
 
-const ProductForm = ({ product }) => {
+const ProductForm = ({ product, isEdit }) => {
   const [isEdited, setIsEdited] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(false);
+  // const [errorMessage, setErrorMessage] = useState(false);
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const alert = useAlert();
@@ -89,8 +114,8 @@ const ProductForm = ({ product }) => {
           return res.data;
         })
         .then((categories) => {
-          const subCat = categories.filter(
-            (cat) => cat.id == product.CategoryId
+          const subCat = categories.filter((cat) =>
+            cat.id == product ? product.CategoryId : 1
           );
           setSubCategories(subCat[0].SubCategories);
         })
@@ -100,63 +125,73 @@ const ProductForm = ({ product }) => {
     fetchData();
   }, [isEdited]);
 
-  const handleSubmit = (values) => {
-    const data = values;
-    // data.visible = data.visible ? 1 : 0; //workaround FixThis
-    data.id = product.id;
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/product/`;
-    axios
-      .put(apiUrl, values, {
-        headers: { Authorization: `Bearer ${Cookies.get("token")}` }
-      })
-      .then((data) => {
-        setIsEdited(true);
-        alert.success(`${data.data.productData.name} modificado con éxito.`);
-      })
-      .catch((err) => {
-        if (err.response) {
-          const errMessage = {
-            status: err.response.status,
-            data: err.response.data
-          };
-          setErrorMessage(errMessage);
-        }
-
-        console.log(err);
-      });
-  };
-
   const handleCategorySelector = (e) => {
     const id = e.target.value;
     const subCat = categories.filter((c) => c.id == id);
     setSubCategories(subCat[0].SubCategories);
   };
 
-  console.error("error message:", errorMessage);
-  if (errorMessage.status == 406) {
-    alert.error(
-      `Ya existe un producto con ese nombre. Modifica el Nombre del producto e intenta de nuevo. [ ${errorMessage.data.message} ]`
-    );
-  }
-  if (errorMessage.status == 401) {
-    alert.error(
-      `Debes Iniciar sesión nuevamente refresca la pagina presionando F5`
-    );
-  }
+  const handleSubmit = (values) => {
+    console.log(isEdit);
 
-  if (isEdited) {
-    return <div>Producto Editado Exitosamente.</div>;
-  }
+    try {
+      const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/product/`;
+
+      const request = async () => {
+        console.log(values);
+        if (!isEdit) {
+          return await axios.post(apiUrl, values, {
+            headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+          });
+        } else {
+          const data = values;
+          data.id = product.id;
+
+          return await axios.put(apiUrl, data, {
+            headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+          });
+        }
+      };
+
+      request()
+        .then((data) => {
+          setIsEdited(true);
+          alert.success(
+            `${data.data.productData.name} ${
+              isEdit ? "editado" : "creado"
+            } con éxito.`
+          );
+        })
+        .catch((err) => {
+          if (err.response) {
+            const errMessage = {
+              status: err.response.status,
+              data: err.response.data
+            };
+
+            if (errMessage.status == 406) {
+              alert.error(
+                `Algo no funciono como se esperaba... [ ${errMessage.data.message} ]`
+              );
+            }
+            if (errMessage.status == 401) {
+              alert.error(
+                `Debes Iniciar sesión nuevamente, recarga la pagina presionando F5`
+              );
+            }
+          }
+          console.log(err);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Formik
       validateOnChange
       // validationSchema={createProductSchema}
-      initialValues={{
-        categoryId: Number(product.categoryId),
-        subCategoryId: Number(product.subCategoryId),
-        name: product.name,
-        visible: product.visible == 1 ? true : false
-      }}
+      initialValues={isEdit ? formatProdToEdit(product) : {}}
       onSubmit={(values, { setSubmitting }) => {
         handleSubmit(values);
       }}
@@ -361,7 +396,8 @@ const ProductForm = ({ product }) => {
               <FieldGroup>
                 <p>
                   Después de cargar el producto podrás cargar la imagen del
-                  producto.
+                  producto en editar producto. Si no cargas una imagen se
+                  mostrara una imagen base.
                 </p>
                 <Button type='submit'>Enviar</Button>
                 <Button type='reset' disabled={isSubmitting}>

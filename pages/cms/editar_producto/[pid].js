@@ -1,8 +1,10 @@
+import { useState } from "react";
 import Error from "next/error";
 import styled from "styled-components";
 import CmsLayout from "../../../components/layouts/CmsLayout";
 import ProductCard from "../../../components/ProductCard";
 import ProductForm from "../../../components/cms/ProductForm";
+import UploadFiles from "../../../components/cms/uploadFiles";
 import withAuth from "../../../hoc/withAut";
 import Button from "../../../components/Button";
 
@@ -31,6 +33,14 @@ const InfoDetails = styled.div`
   padding: 15px;
   background-color: white;
 `;
+const ImageDetail = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-space-around;
+  padding: 15px;
+  background-color: white;
+`;
+
 const Select = styled.select`
   border: none;
   height: 35px;
@@ -46,7 +56,10 @@ const Select = styled.select`
 
 const EditProduct = (props) => {
   // console.log("EditProduct props", props);
+  const [showImageModal, setShowImageModal] = useState(false);
+
   const { product, errorCode } = props;
+
   if (errorCode || product === null) {
     return (
       <Error
@@ -56,7 +69,8 @@ const EditProduct = (props) => {
     );
   }
 
-  const handleChangeProductVisibility = (value) => {console.log('ocultar o mostrar producto');
+  const handleChangeImage = (value) => {
+    setShowImageModal(true);
   };
 
   return (
@@ -72,16 +86,20 @@ const EditProduct = (props) => {
             <h3>Sub Categoría: {product.SubCategory.name}</h3>
             <h3>Producto Visible: {product.visible ? "visible" : "oculto"}</h3>
             <div>
-              <Button handleClick={handleChangeProductVisibility}>
-                Cambiar Imagen
-              </Button>
+              <Button handleClick={handleChangeImage}>Cambiar Imagen</Button>
             </div>
           </div>
         </ProdDetails>
         <h2>Editar Info del Producto</h2>
         <InfoDetails>
-          <ProductForm product={product} />
+          <ProductForm product={product} isEdit />
         </InfoDetails>
+        <ImageDetail>
+          <img
+            src={product.imageUrl ? product.imageUrl : "/images/logo_test.jpg"}
+          />
+          <UploadFiles prodId={product.id} />
+        </ImageDetail>
       </ProductsContainer>
     </CmsLayout>
   );
