@@ -2,31 +2,32 @@ import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import Cookies from "js-cookie";
+import Button from "../Button";
+import Router from "next/router";
 
+const FileUploadStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  max-width: 300px;
+`;
+
+const FormContainer = styled.form`
+  input {
+    max-width: 250px;
+  }
+`;
+const ProgressBarWrapper = styled.div`
+  width: 100%;
+  border: 1px solid red;
+`;
 const ProgressBar = styled.div`
   width: ${(props) => props.progress || 0}%;
-  height: 1rem;
   background-color: rgb(68, 212, 231);
   color: white;
+  text-align: center;
   padding: 2px;
-`;
-
-const IMG = styled.img`
-  width: 50%;
-  transition: 1s;
-  opacity: ${(props) => (props.isLoaded ? 1 : 0)};
-`;
-
-const FormContainer = styled.div`
-  width: 90%;
-  form {
-    display: flex;
-    flex-direction: column;
-
-    input {
-      margin: 20px;
-    }
-  }
 `;
 
 export default function UploadFiles(props) {
@@ -37,14 +38,28 @@ export default function UploadFiles(props) {
   const [progress, setProgress] = useState(0); // progress bar
 
   const handleSelectedFile = (e) => {
-    setSelectedFile(e.target.files[0]);
-    setProgress(0);
-    setIsLoaded(false);
+    const file = e.target.files[0];
+    console.log(file);
+
+    try {
+      if (file.size < 2097152) {
+        //2mb max file size
+        setSelectedFile(file);
+        setProgress(0);
+        setIsLoaded(false);
+      } else {
+        setIsError({
+          message: "La imagen seleccionada es muy pesada. Max 2mb",
+          status: 413
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleUploadFile =  (e) => {
+  const handleUploadFile = (e) => {
     e.preventDefault();
-    console.log(selectedFile);
 
     setIsError(false);
     setProgress(0);
@@ -52,32 +67,32 @@ export default function UploadFiles(props) {
 
     const formData = new FormData();
     formData.append("file", selectedFile);
-    formData.set("prod_id", props.prodId);
+    formData.set("prod_id", props.product.id);
 
-     axios({
-       method: "post",
-       url: `${process.env.NEXT_PUBLIC_API_URL}/api/product/upload/image`,
-       data: formData,
-       headers: {
-         Authorization: `Bearer ${Cookies.get("token")}`,
-         "content-type": "multipart/form-data"
-       },
-       onUploadProgress: (ProgressEvent) => {
-         let progress = Math.round(
-           (ProgressEvent.loaded / ProgressEvent.total) * 100
-         );
-         setProgress(progress);
-       }
-     })
-       .then((res) => {
-         // then print response status
-         setIsLoaded(true);
-         // setUploadedFile({ name: res.data.name, path: res.data.path });
-       })
-       .catch((err) => {
-         setIsError(err.response);
-         console.log(err, err.response);
-       });
+    axios({
+      method: "post",
+      url: `${process.env.NEXT_PUBLIC_API_URL}/api/product/upload/image`,
+      data: formData,
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+        "content-type": "multipart/form-data"
+      },
+      onUploadProgress: (ProgressEvent) => {
+        let progress = Math.round(
+          (ProgressEvent.loaded / ProgressEvent.total) * 100
+        );
+        setProgress(progress);
+      }
+    })
+      .then((res) => {
+        // then print response status
+        setIsLoaded(true);
+        // setUploadedFile({ name: res.data.name, path: res.data.path });
+      })
+      .catch((err) => {
+        setIsError(err.response);
+        console.log(err, err.response);
+      });
   };
 
   const handelTryAgain = () => {
@@ -89,36 +104,38 @@ export default function UploadFiles(props) {
 
   if (isError)
     return (
-      <div>
-        <h2>Cargar Imagen</h2>
+      <FileUploadStyled>
         <h3>error al subir la imagen</h3>
-        <button onClick={handelTryAgain}>Intentar de nuevo</button>
-      </div>
+        <p>{isError.message}</p>
+        <Button onClick={handelTryAgain}>Intentar de nuevo</Button>
+      </FileUploadStyled>
     );
 
   return (
-    <FormContainer>
+    <FileUploadStyled>
       <div>
-        {!isLoaded ? <h1>Cambiar Imagen</h1> : <h1>Imagen Cambiada</h1>}
-      </div>
-
-      {/* <form id='uploadForm' method='post' encType='multipart/form-data'> */}
-      <input type='file' name='file' onChange={handleSelectedFile} />
-      <input type='button' value='Cargar' onClick={handleUploadFile} />
-      {/* </form> */}
-      <div>
-        {progress > 0 && progress < 100 ? (
-          <ProgressBar progress={progress}>{progress}%</ProgressBar>
+        {selectedFile ? (
+          <img src={URL.createObjectURL(selectedFile)} height='250px' />
         ) : (
-          uploadedFile && (
-            <IMG
-              isLoaded={isLoaded}
-              src={`${uploadedFile.path}`}
-              alt={uploadedFile.name}
-            />
-          )
+          <p>Selecciona una imagen para cambiar la que tine el producto</p>
         )}
       </div>
-    </FormContainer>
+      <FormContainer>
+        <input type='file' name='file' onChange={handleSelectedFile} />
+
+        {selectedFile == null ? (
+          false
+        ) : (
+          <Button type='button' value='Cargar' onClick={handleUploadFile}>
+            Cargar Imagen
+          </Button>
+        )}
+        <ProgressBarWrapper>
+          {(progress > 0 || selectedFile) && (
+            <ProgressBar progress={progress}>{progress}%</ProgressBar>
+          )}
+        </ProgressBarWrapper>
+      </FormContainer>
+    </FileUploadStyled>
   );
 }

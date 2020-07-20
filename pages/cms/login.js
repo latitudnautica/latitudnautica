@@ -15,7 +15,7 @@ const LoginStyled = styled.section`
 `;
 
 const FormContainer = styled.section`
-  max-width: 400px;
+  max-width: 500px;
   max-height: 800px;
   height: 500px;
   box-shadow: 0 0 10px;
@@ -24,6 +24,7 @@ const FormContainer = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 15em;
 `;
 
 const Form = styled.form`

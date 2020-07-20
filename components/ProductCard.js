@@ -27,7 +27,14 @@ export default function ProductCard(props) {
 
   return (
     <ProductCardStyled key={item.id}>
-      <img src={item.imageUrl ? item.imageUrl : "/images/logo_test.jpg"} />
+      {item.imagePath ? (
+        <img
+          src={`${process.env.NEXT_PUBLIC_API_URL}/${item.imagePath}`}
+          alt={`Imagen < ${item.name} >`}
+        />
+      ) : (
+        <img src='/images/logo_test.jpg' alt={`Imagen < ${item.name} >`} />
+      )}
       <div>
         <b>{item.name}</b>
       </div>

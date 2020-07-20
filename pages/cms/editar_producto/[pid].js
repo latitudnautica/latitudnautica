@@ -10,6 +10,7 @@ import Button from "../../../components/Button";
 
 const ProductsContainer = styled.main`
   padding: 20px;
+  height: 100%;
   h1,
   h2,
   h3,
@@ -19,26 +20,23 @@ const ProductsContainer = styled.main`
   }
 `;
 
-const ProdDetails = styled.div`
+const ProdSection = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   padding: 15px;
   background-color: white;
+  
+div {
+    flex-shrink: 0;
+  }
 `;
-const InfoDetails = styled.div`
+const InfoSection = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: none;
   justify-content: space-evenly;
   padding: 15px;
-  background-color: white;
-`;
-const ImageDetail = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-space-around;
-  padding: 15px;
-  background-color: white;
 `;
 
 const Select = styled.select`
@@ -79,33 +77,24 @@ const EditProduct = (props) => {
         <h2>
           Editando el Producto: <b>{product.name}</b>
         </h2>
-        <ProdDetails>
-          <ProductCard item={product} />
+        <ProdSection>
           <div>
             <h3>Categoría: {product.Category.name}</h3>
             <h3>Sub Categoría: {product.SubCategory.name}</h3>
             <h3>Producto Visible: {product.visible ? "visible" : "oculto"}</h3>
-            <div>
-              <Button handleClick={handleChangeImage}>Cambiar Imagen</Button>
-            </div>
           </div>
-        </ProdDetails>
+          <ProductCard item={product} />
+
+          <UploadFiles product={product} />
+        </ProdSection>
         <h2>Editar Info del Producto</h2>
-        <InfoDetails>
+        <InfoSection>
           <ProductForm product={product} isEdit />
-        </InfoDetails>
-        <ImageDetail>
-          <img
-            src={product.imageUrl ? product.imageUrl : "/images/logo_test.jpg"}
-          />
-          <UploadFiles prodId={product.id} />
-        </ImageDetail>
+        </InfoSection>
       </ProductsContainer>
     </CmsLayout>
   );
 };
-
-EditProduct.Layout = CmsLayout;
 
 export default withAuth(EditProduct);
 
