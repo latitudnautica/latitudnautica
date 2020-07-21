@@ -1,6 +1,5 @@
 import MainLayout from "../components/layouts/MainLayout";
 
-
 const QuienesSomos = () => {
   return (
     <div>

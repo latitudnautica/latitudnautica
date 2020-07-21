@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Headroom from "react-headroom";
 import Header from "../Header";
+import CategoriesNavbar from "../CategoriesNavbar";
 
 const Container = styled.div`
   /* max-width: 1300px; */
@@ -25,6 +26,7 @@ export default function MainLayout(props) {
         <Header />
       </Headroom>
       <Container>
+        <CategoriesNavbar />
         <main>{children}</main>
         <Footer>FOOTER</Footer>
       </Container>

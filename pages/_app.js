@@ -1,6 +1,7 @@
 // /pages/_app.tsx
 import Head from "next/head";
 import { AuthProvider } from "../context/AuthProvider";
+import { CategoriesProvider } from "../context/CategoriesProvider";
 import { ThemeProvider } from "styled-components";
 import { transitions, positions, Provider as AlertProvider } from "react-alert";
 import AlertTemplate from "../components/AlertTemplate";
@@ -9,6 +10,7 @@ import "../styles/styles.css";
 import { GA_TRACKING_ID } from "../lib/gtag";
 const theme = {
   colors: {
+    backgroundColor: "#f4a261ff",
     primary: "#4888ca",
     charcoal: "#264653ff",
     persianGreen: "#2a9d8fff",
@@ -71,13 +73,15 @@ export default function MyApp({ Component, pageProps }) {
         />
       </Head>
       <ThemeProvider theme={theme}>
-        <AlertProvider template={AlertTemplate} {...options}>
-          <AuthProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </AuthProvider>
-        </AlertProvider>
+        <CategoriesProvider>
+          <AlertProvider template={AlertTemplate} {...options}>
+            <AuthProvider>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </AuthProvider>
+          </AlertProvider>
+        </CategoriesProvider>
       </ThemeProvider>
     </>
   );
