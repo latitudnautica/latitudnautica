@@ -1,36 +1,40 @@
-import { useState, useEffect } from "react";
 import styled from "styled-components";
-import axios from "axios";
 
 const SideBarMenuStyled = styled.div`
   display: flex;
   flex-direction: column;
-  min-width: 300px;
+  min-width: 200px;
   min-height: 50vh;
   border: 1px solid red;
 `;
 
-const SubCategoryLink = styled.button`
-  text-align: center;
-  margin: 5px;
+const Button = styled.button`
+  box-sizing: border-box;
+  cursor: pointer;
+  background-color: #08a0b9;
+  text-transform: uppercase;
+  color: white;
+  padding: 10px;
+  border: 1px solid #08a0b9;
+  transition: all 200ms ease-in;
+  margin: 3px 5px;
+  border-radius: 2.5px;
+
+  :hover {
+    background-color: white;
+    color: #08a0b9;
+    border: 1px solid #08a0b9;
+  }
 `;
 
 const SideBarMenu = (props) => {
-  const { subCategories, catHandler } = props;
+  const { categorySelected } = props;
 
   return (
     <SideBarMenuStyled>
-      {subCategories && subCategories.length > 0 ? (
-        subCategories.map((subCat) => {
-          return (
-            <SubCategoryLink
-              key={subCat.id}
-              onClick={catHandler}
-              data-cid={subCat.id}
-            >
-              {subCat.id}-{subCat.name}
-            </SubCategoryLink>
-          );
+      {categorySelected && categorySelected.SubCategories.length > 0 ? (
+        categorySelected.SubCategories.map((subCat) => {
+          return <Button key={subCat.id}>{subCat.name}</Button>;
         })
       ) : (
         <div>No hay sub categorías</div>

@@ -10,22 +10,25 @@ const CategoriesNavbarStyled = styled.nav`
 const NavbarWrapper = styled.div`
   border: 1px solid red;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   font-size: 1.2em;
   text-transform: uppercase;
+  cursor: initial;
+`;
 
-  a {
-    margin: 10px;
-    :hover {
-      font-weight: bold;
-    }
+const NavbarItem = styled.a`
+  margin: 10px;
+  cursor: pointer;
+  :hover {
+    font-weight: bold;
   }
 `;
 
 const DropdownWrapper = styled.div`
   display: flex;
-  visibility: ${(props) => (props.show ? "visible" : "hidden")};
-  flex-direction: row;
+  flex-direction: column;
+  flex-wrap: wrap;
   background-color: ${({ theme }) => theme.colors.backgroundColor};
   justify-content: center;
   font-size: 1.2em;
@@ -35,24 +38,36 @@ const DropdownWrapper = styled.div`
   width: 80vw;
   margin: 0 10vw 0 10vw;
   opacity: ${(props) => (props.show ? 1 : 0)};
+  visibility: ${(props) => (props.show ? "visible" : "hidden")};
   transition: visibility 0.2s, opacity 0.2s ease;
 `;
 
-const DropdownItem = styled.div`
+const DropdownItemsWrapper = styled.div`
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+`;
+const DropdownItem = styled(NavbarItem)`
+  color: green;
+`;
+const DropdownFooter = styled.div`
   margin: 1em;
 `;
 
 const CategoriesNavbar = () => {
   const {
     categories,
-    subCategories,
-    populateSubCategories,
+    categorySelected,
+    handleSelectCategory,
     isLoading
   } = useCategories();
+
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleHover = (e) => {
-    populateSubCategories(e.target.dataset.cid);
+    handleSelectCategory(e.target.dataset.cid);
     setShowDropdown(true);
   };
 
@@ -67,22 +82,36 @@ const CategoriesNavbar = () => {
               key={cat.id}
               href={`/lista/[category]/[cid]/productos`}
               as={`/lista/${cat.name}/${cat.id}/productos`}
+              replace={true}
             >
-              <a onMouseOver={handleHover} data-cid={cat.id}>
+              <NavbarItem>
                 {cat.name}
-              </a>
+                <span onMouseOver={handleHover} data-cid={cat.id}>
+                  **
+                </span>
+              </NavbarItem>
             </Link>
           ))}
       </NavbarWrapper>
-      {subCategories && (
+      {categorySelected && (
         <DropdownWrapper show={showDropdown}>
-          {subCategories.length > 0 ? (
-            subCategories.map((sCat) => (
-              <DropdownItem key={sCat.id}>{sCat.name}</DropdownItem>
-            ))
-          ) : (
-            <p>sin subcategories</p>
-          )}
+          <DropdownItemsWrapper>
+            {categorySelected.SubCategories.length > 0 ? (
+              categorySelected.SubCategories.map((sCat) => (
+                <Link
+                  href={`/lista/[category]/[cid]/productos?sc=${sCat.id}&scname=${sCat.name}`}
+                  as={`/lista/${categorySelected.name}/${categorySelected.id}/productos?sc=${sCat.id}&scname=${sCat.name}`}
+                >
+                  <DropdownItem key={sCat.id}>{sCat.name}</DropdownItem>
+                </Link>
+              ))
+            ) : (
+              <p>Sin sub categorías</p>
+            )}
+          </DropdownItemsWrapper>
+          <DropdownFooter>
+            <h1>{categorySelected.name}</h1>
+          </DropdownFooter>
         </DropdownWrapper>
       )}
     </CategoriesNavbarStyled>

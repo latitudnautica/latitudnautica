@@ -9,6 +9,7 @@ const ProductCardStyled = styled.div`
   border: solid thin #ccc;
   /* box-shadow: 0px 0px 14px -5px gray; */
   transition: all 0.2s ease;
+  max-height: 310px;
 
   img {
     width: 100%;

@@ -20,39 +20,20 @@ const NoProductsContactForm = styled.div`
   text-align: center;
 `;
 
-const fetcher = (...args) =>
-  axios(...args)
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => console.log(err));
 
 export default function ListProducts(props) {
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-  const { cid, category } = router.query;
-  const { catSelected } = props;
 
-  const urlMainCategory = `${process.env.NEXT_PUBLIC_API_URL}/api/category/cat/${cid}`;
-  const urlSubCategory = `${process.env.NEXT_PUBLIC_API_URL}/api/category/sub_cat/${category}/${catSelected}`;
+  const { products } = props;
 
-  const url = catSelected == 0 ? urlMainCategory : urlSubCategory;
-  const { data, error } = useSWR(url, fetcher);
-
-  // console.log("data", data);
-  // console.log("Error", error);
-
-  if (error) return <div>failed to load</div>;
-  if (!data)
+  if (!products)
     return (
       <Loading>
         <GridLoader size={50} color='green' />
       </Loading>
     );
 
-  if (data.data) {
-    const products = data.data[0] ? data.data[0].Products : [];
-    console.log(data);
+  if (products) {
+    // console.log(data);
     if (products.length !== 0) {
       return (
         <ListProductsStyled>
@@ -64,8 +45,8 @@ export default function ListProducts(props) {
     } else {
       return (
         <NoProductsContactForm>
-          <h2>No hay productos en la Categoría Seleccionada</h2> <h4>envianos un mensaje consultándonos lo que
-          estas buscando.</h4>
+          <h2>No hay productos en la Categoría Seleccionada</h2>{" "}
+          <h4>envianos un mensaje consultándonos lo que estas buscando.</h4>
         </NoProductsContactForm>
       );
     }

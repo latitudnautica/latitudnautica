@@ -9,7 +9,7 @@ const CategoriesContext = createContext({
 
 export const CategoriesProvider = ({ children }) => {
   const [categories, setCategories] = useState({});
-  const [subCategories, setSubCategories] = useState(false);
+  const [categorySelected, setCategorySelected] = useState(false);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,17 +24,17 @@ export const CategoriesProvider = ({ children }) => {
     fetchData();
   }, []);
 
-  const populateSubCategories = (cid) => {//needs category id selected
-    const subCats = categories.find((cat) => cat.id == cid).SubCategories;
-    setSubCategories(subCats);
+  const handleSelectCategory = (cid) => {//needs category id selected
+    const category = categories.find((cat) => cat.id == cid);
+    setCategorySelected(category);
   };
 
   return (
     <CategoriesContext.Provider
       value={{
         categories,
-        populateSubCategories,
-        subCategories,
+        handleSelectCategory,
+        categorySelected,
         isLoading
       }}
     >
