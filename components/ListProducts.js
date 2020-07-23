@@ -20,10 +20,9 @@ const NoProductsContactForm = styled.div`
   text-align: center;
 `;
 
-
 export default function ListProducts(props) {
-
   const { products } = props;
+  // console.log("Products", products);
 
   if (!products)
     return (

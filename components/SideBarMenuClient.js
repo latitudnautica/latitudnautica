@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Link from "next/link";
 
 const SideBarMenuStyled = styled.div`
   display: flex;
@@ -29,12 +30,18 @@ const Button = styled.button`
 
 const SideBarMenu = (props) => {
   const { categorySelected } = props;
-
   return (
     <SideBarMenuStyled>
       {categorySelected && categorySelected.SubCategories.length > 0 ? (
-        categorySelected.SubCategories.map((subCat) => {
-          return <Button key={subCat.id}>{subCat.name}</Button>;
+        categorySelected.SubCategories.map((sCat) => {
+          return (
+            <Link
+              href={`/productos/[category]?cid=${categorySelected.id}&scid=${sCat.id}&scname=${sCat.name}`}
+              as={`/productos/${categorySelected.name}?cid=${categorySelected.id}&productos?scid=${sCat.id}&scname=${sCat.name}`}
+            >
+              <Button key={sCat.id}>{sCat.name}</Button>
+            </Link>
+          );
         })
       ) : (
         <div>No hay sub categorías</div>

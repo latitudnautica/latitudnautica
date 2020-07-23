@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const CategoriesContext = createContext({
   categories: {},
@@ -10,31 +11,43 @@ const CategoriesContext = createContext({
 export const CategoriesProvider = ({ children }) => {
   const [categories, setCategories] = useState({});
   const [categorySelected, setCategorySelected] = useState(false);
-  const [isLoading, setLoading] = useState(true);
+  const [categoryHover, setCategoryHover] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const Router = useRouter();
 
   useEffect(() => {
+    console.log(Router.query);
     const fetchData = async () => {
       await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/category/all`)
         .then((res) => {
           setCategories(res.data);
-          setLoading(false);
+          const category = res.data.find((cat) => cat.id == Router.query.cid);
+          setCategorySelected(category);
+          setIsLoading(false);
         })
         .catch((err) => console.log(err));
     };
     fetchData();
   }, []);
 
-  const handleSelectCategory = (cid) => {//needs category id selected
+  const handleClickCategory = (cid) => {
     const category = categories.find((cat) => cat.id == cid);
     setCategorySelected(category);
+  };
+
+  const handleHoverCategory = (cid) => {
+    const category = categories.find((cat) => cat.id == cid);
+    setCategoryHover(category);
   };
 
   return (
     <CategoriesContext.Provider
       value={{
         categories,
-        handleSelectCategory,
+        handleClickCategory,
+        handleHoverCategory,
         categorySelected,
+        categoryHover,
         isLoading
       }}
     >

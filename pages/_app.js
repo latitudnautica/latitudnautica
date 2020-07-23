@@ -1,11 +1,21 @@
 // /pages/_app.tsx
 import Head from "next/head";
+import Router from "next/router";
+import NProgress from "nprogress";
 import { AuthProvider } from "../context/AuthProvider";
 import { CategoriesProvider } from "../context/CategoriesProvider";
 import { ThemeProvider } from "styled-components";
 import { transitions, positions, Provider as AlertProvider } from "react-alert";
 import AlertTemplate from "../components/AlertTemplate";
 import "../styles/styles.css";
+import "../styles/nprogress.css";
+
+Router.events.on("routeChangeStart", (url) => {
+  console.log(`Loading: ${url}`);
+  NProgress.start();
+});
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
 
 import { GA_TRACKING_ID } from "../lib/gtag";
 const theme = {

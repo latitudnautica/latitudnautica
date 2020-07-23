@@ -146,7 +146,6 @@ const MediaIcons = styled.div`
 
 export default function Header() {
   const [openModalSearch, setOpenModalSearch] = useState(false);
-  console.log("showModal>>", openModalSearch);
 
   return (
     <HeaderStyled>

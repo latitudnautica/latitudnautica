@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MainLayout from "../components/layouts/MainLayout";
+import MainLayout from "../../components/layouts/MainLayout";
 import axios from "axios";
 import styled from "styled-components";
 import Link from "next/link";
@@ -42,8 +42,13 @@ const ProductosMain = (props) => {
 
     fetchData();
   }, []);
-console.log(categories);
-if(categories.length == 0)return(<CategoriesContainer><GridLoader/></CategoriesContainer>)
+  console.log(categories);
+  if (categories.length == 0)
+    return (
+      <CategoriesContainer>
+        <GridLoader />
+      </CategoriesContainer>
+    );
   return (
     <CategoriesContainer>
       {categories.map((cat) => {

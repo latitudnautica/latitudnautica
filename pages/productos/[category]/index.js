@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useCategories } from "../../../../context/CategoriesProvider";
+import { useCategories } from "../../../context/CategoriesProvider";
 import axios from "axios";
 import styled from "styled-components";
 
-import MainLayout from "../../../../components/layouts/MainLayout";
-import SideBarMenuClient from "../../../../components/SideBarMenuClient";
-import ListProducts from "../../../../components/ListProducts";
+import MainLayout from "../../../components/layouts/MainLayout";
+import SideBarMenuClient from "../../../components/SideBarMenuClient";
+import ListProducts from "../../../components/ListProducts";
 
 const fetcher = (...args) =>
   axios(...args)

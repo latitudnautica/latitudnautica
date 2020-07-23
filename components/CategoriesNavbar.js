@@ -60,15 +60,24 @@ const CategoriesNavbar = () => {
   const {
     categories,
     categorySelected,
-    handleSelectCategory,
+    categoryHover,
+    handleHoverCategory,
+    handleClickCategory,
     isLoading
   } = useCategories();
 
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleHover = (e) => {
-    handleSelectCategory(e.target.dataset.cid);
+    const cid = e.target.dataset.cid;
+
+    handleHoverCategory(cid);
     setShowDropdown(true);
+  };
+
+  const handleClick = (e) => {
+    handleClickCategory(e.target.dataset.cid);
+    setShowDropdown(false);
   };
 
   if (isLoading) return <NavbarWrapper>Cargando Categorías</NavbarWrapper>;
@@ -80,27 +89,28 @@ const CategoriesNavbar = () => {
           categories.map((cat) => (
             <Link
               key={cat.id}
-              href={`/lista/[category]/[cid]/productos`}
-              as={`/lista/${cat.name}/${cat.id}/productos`}
-              replace={true}
+              href={`/productos/[category]?cid=${cat.id}`}
+              as={`/productos/${cat.name}?cid=${cat.id}`}
+              shallow={true}
             >
-              <NavbarItem>
+              <NavbarItem
+                onMouseOver={handleHover}
+                onClick={handleClick}
+                data-cid={cat.id}
+              >
                 {cat.name}
-                <span onMouseOver={handleHover} data-cid={cat.id}>
-                  **
-                </span>
               </NavbarItem>
             </Link>
           ))}
       </NavbarWrapper>
-      {categorySelected && (
+      {categoryHover && (
         <DropdownWrapper show={showDropdown}>
           <DropdownItemsWrapper>
-            {categorySelected.SubCategories.length > 0 ? (
-              categorySelected.SubCategories.map((sCat) => (
+            {categoryHover.SubCategories.length > 0 ? (
+              categoryHover.SubCategories.map((sCat) => (
                 <Link
-                  href={`/lista/[category]/[cid]/productos?sc=${sCat.id}&scname=${sCat.name}`}
-                  as={`/lista/${categorySelected.name}/${categorySelected.id}/productos?sc=${sCat.id}&scname=${sCat.name}`}
+                  href={`/productos/[category]?cid=${categoryHover.id}&scid=${sCat.id}&scname=${sCat.name}`}
+                  as={`/productos/${categoryHover.name}?cid=${categoryHover.id}&productos?scid=${sCat.id}&scname=${sCat.name}`}
                 >
                   <DropdownItem key={sCat.id}>{sCat.name}</DropdownItem>
                 </Link>
@@ -110,7 +120,7 @@ const CategoriesNavbar = () => {
             )}
           </DropdownItemsWrapper>
           <DropdownFooter>
-            <h1>{categorySelected.name}</h1>
+            <h1>{categoryHover.name}</h1>
           </DropdownFooter>
         </DropdownWrapper>
       )}
