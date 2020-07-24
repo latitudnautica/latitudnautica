@@ -6,23 +6,24 @@ import styled from "styled-components";
 import MainLayout from "../../../components/layouts/MainLayout";
 import SideBarMenuClient from "../../../components/SideBarMenuClient";
 import ListProducts from "../../../components/ListProducts";
+import { route } from "next/dist/next-server/server/router";
 
 const ListSection = styled.section`
   display: flex;
 `;
 
-const ProductsWrapper = () => {
+const ProductsPageWrapper = () => {
   const [products, setProducts] = useState(false);
+  const [filter, setFilter] = useState(false);
   const { categorySelected } = useCategories();
   const Router = useRouter();
   const query = Router.query;
 
 
   const getProducts = async () => {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/product/category/${query.cid}`;
 
-    const urlProductsByCategory = `${process.env.NEXT_PUBLIC_API_URL}/api/product/category/${query.cid}`;
-
-    await axios(urlProductsByCategory)
+    await axios(url)
       .then((res) => {
         setProducts(res.data);
       })
@@ -31,11 +32,30 @@ const ProductsWrapper = () => {
     return;
   };
 
+  const getProductsFiltered = async () => {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/product/filtered/${query.cid}/${query.scid}`;
+
+    await axios(url)
+      .then((res) => {
+        setProducts(res.data);
+      })
+
+      .catch((err) => console.log(err));
+
+    return;
+  };
+
   useEffect(() => {
-    getProducts();
- 
+    if (Router.query.scid) {
+      setFilter(Router.query.scid);
+      getProductsFiltered();
+    } else {
+      setFilter(false);
+      getProducts();
+    }
   }, [query]);
 
+  console.log("Filtering by", filter);
   return (
     <div>
       <ListSection>
@@ -46,6 +66,6 @@ const ProductsWrapper = () => {
   );
 };
 
-ProductsWrapper.Layout = MainLayout;
+ProductsPageWrapper.Layout = MainLayout;
 
-export default ProductsWrapper;
+export default ProductsPageWrapper;
