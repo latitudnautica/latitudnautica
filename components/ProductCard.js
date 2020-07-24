@@ -27,7 +27,7 @@ export default function ProductCard(props) {
   const { item } = props;
 
   return (
-    <ProductCardStyled key={item.id}>
+    <ProductCardStyled key={item.id} title={item.id}>
       {item.imagePath ? (
         <img
           src={`${process.env.NEXT_PUBLIC_API_URL}/${item.imagePath}`}
@@ -36,10 +36,10 @@ export default function ProductCard(props) {
       ) : (
         <img src='/images/logo_test.jpg' alt={`Imagen < ${item.name} >`} />
       )}
+      <div>{item.brand}</div>
       <div>
         <b>{item.name}</b>
       </div>
-      <div>id:{item.id}</div>
       <div>$ {item.price}</div>
       <hr />
       <div>catId:{item.categoryId}</div>

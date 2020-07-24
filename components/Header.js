@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import Menu from "../components/Menu";
+import SearchBar from "./SearchBar";
 import {
   RiWhatsappLine,
   RiFacebookCircleLine,
   RiInstagramLine,
   RiPhoneLine,
-  RiMailSendLine,
-  RiSearchEyeLine
+  RiMailSendLine
 } from "react-icons/ri";
 import { useState } from "react";
 
@@ -55,66 +55,6 @@ const HeaderLogo = styled.div`
   } */
 `;
 
-const HeaderSearch = styled.div`
-  /* border: 1px solid red; */
-  flex: 2;
-  margin: 15px;
-  position: relative;
-  display: flex;
-  align-items: normal;
-
-  span {
-    position: relative;
-    left: 45px;
-    font-size: 2.5em;
-    color: ${({ theme }) => theme.colors.orangeYellowCrayola};
-  }
-  input {
-    font-family: "Roboto", sans-serif;
-    width: 90%;
-    height: 35px;
-    border-radius: 25px;
-    border: 1px solid gray;
-    padding: 20px 50px;
-    background-color: ${({ theme }) => theme.colors.charcoal};
-    color: ${({ theme }) => theme.colors.orangeYellowCrayola};
-    font-size: 1.2em;
-    letter-spacing: 2px;
-    font-weight: 200;
-
-    :focus {
-      border-radius: 25px;
-      border: 1px solid gray;
-    }
-  }
-
-  @media (max-width: 768px) {
-    font-size: 0.9em;
-    text-align: center;
-  }
-
-  @media (max-width: 470px) {
-    display: none;
-  }
-`;
-
-const SearchButton = styled.div`
-  display: none;
-  margin-right: 10px;
-
-  span {
-    position: relative;
-    left: 45px;
-    font-size: 2.5em;
-    color: ${({ theme }) => theme.colors.charcoal};
-  }
-
-  @media (max-width: 470px) {
-    display: block;
-    flex: 1;
-  }
-`;
-
 const HeaderContactDetails = styled.div`
   /* border: 1px solid green; */
   display: flex;
@@ -156,17 +96,7 @@ export default function Header() {
         <HeaderLogo>
           <img src='/images/logo_full.png' />
         </HeaderLogo>
-        <HeaderSearch>
-          <span>
-            <RiSearchEyeLine />
-          </span>
-          <input type='text' placeholder='Buscar...' />
-        </HeaderSearch>
-        <SearchButton onClick={() => setOpenModalSearch(!openModalSearch)}>
-          <span>
-            <RiSearchEyeLine />
-          </span>
-        </SearchButton>
+        <SearchBar />
         <HeaderContactDetails>
           <div>
             <RiPhoneLine /> +54 6545-1321

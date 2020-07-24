@@ -14,7 +14,7 @@ const formatProdToEdit = (prod) => {
     codePromo: prod.codePromo || undefined,
     description: prod.description || undefined,
     descriptionGroup: prod.descriptionGroup || undefined,
-    descriptionSubGroup: prod.descriptionSubGroup || undefined,
+    brand: prod.brand || undefined,
     id: prod.id || undefined,
     imageUrl: prod.imageUrl || undefined,
     name: prod.name || undefined,
@@ -260,6 +260,17 @@ const ProductForm = ({ product, isEdit }) => {
                 {errors.name && touched.name ? (
                   <FieldError>{errors.name}</FieldError>
                 ) : null}
+              </FieldGroup>
+              <FieldGroup>
+                <label>Marca</label>
+                <Field
+                  type='text'
+                  name='brand'
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.brand}
+                />
+                {errors.price && touched.price && errors.price}
               </FieldGroup>
               <FieldGroup>
                 <label>Precio</label>

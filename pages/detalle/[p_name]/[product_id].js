@@ -67,7 +67,7 @@ Producto.Layout = MainLayout;
 
 export async function getServerSideProps({ params }) {
   const pid = params.product_id;
-  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/product/${pid}/`;
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/product/detail/${pid}/`;
   const data = await fetch(apiUrl).then((res) => res.json());
   const product = JSON.parse(JSON.stringify(data));
 
