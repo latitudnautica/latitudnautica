@@ -9,7 +9,7 @@ const CategoriesContext = createContext({
 });
 
 export const CategoriesProvider = ({ children }) => {
-  const [categories, setCategories] = useState({});
+  const [categories, setCategories] = useState([]);
   const [categorySelected, setCategorySelected] = useState(false);
   const [categoryHover, setCategoryHover] = useState(false);
   const [isLoading, setIsLoading] = useState(true);

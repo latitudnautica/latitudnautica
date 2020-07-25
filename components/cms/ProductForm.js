@@ -4,6 +4,7 @@ import styled from "styled-components";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { positions, useAlert } from "react-alert";
+import { useCategories } from "../../context/CategoriesProvider";
 import Button from "../Button";
 
 const formatProdToEdit = (prod) => {
@@ -101,38 +102,35 @@ const Select = styled.select`
 
 const ProductForm = ({ product, isEdit }) => {
   const [isEdited, setIsEdited] = useState(false);
-  // const [errorMessage, setErrorMessage] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const {
+    categories,
+    handleClickCategory,
+    handleHoverCategory,
+    categorySelected,
+    categoryHover,
+    isLoading
+  } = useCategories();
+
   const [subCategories, setSubCategories] = useState([]);
   const alert = useAlert();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/category/all`)
-        .then((res) => {
-          setCategories(res.data);
-          return res.data;
-        })
-        .then((categories) => {
-          const subCat = categories.filter((cat) =>
-            cat.id == product ? product.CategoryId : 1
-          );
-          setSubCategories(subCat[0].SubCategories);
-        })
-        .catch((err) => console.log(err));
-    };
+  // useEffect(() => {
 
-    fetchData();
-  }, [isEdited]);
+  // }, [categories]);
 
   const handleCategorySelector = (e) => {
     const id = e.target.value;
-    const subCat = categories.filter((c) => c.id == id);
-    setSubCategories(subCat[0].SubCategories);
+    console.log(id);
+    if (id != 0) {
+      const subCat = categories.filter((c) => c.id == id);
+      setSubCategories(subCat[0].SubCategories);
+    } else {
+      return;
+    }
   };
 
   const handleSubmit = (values) => {
-    console.log(isEdit);
+    console.log("isEdit>>", isEdit);
 
     try {
       const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/product/`;
@@ -219,6 +217,7 @@ const ProductForm = ({ product, isEdit }) => {
                   value={values.categoryId}
                   required
                 >
+                  <option value={0}>------------</option>
                   {categories.map((cat) => (
                     <option key={cat.id} value={Number(cat.id)}>
                       {cat.name}
@@ -237,11 +236,13 @@ const ProductForm = ({ product, isEdit }) => {
                   value={values.subCategoryId}
                   required
                 >
-                  {subCategories.map((scat) => (
-                    <option key={scat.id} value={Number(scat.id)}>
-                      {scat.name}
-                    </option>
-                  ))}
+                  <option value={false}>------------</option>
+                  {subCategories.length > 0 &&
+                    subCategories.map((scat) => (
+                      <option key={scat.id} value={Number(scat.id)}>
+                        {scat.name}
+                      </option>
+                    ))}
                 </Select>
 
                 {errors.subCategoryId &&
