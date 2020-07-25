@@ -96,7 +96,7 @@ const EditProduct = (props) => {
   );
 };
 
-export default withAuth(EditProduct);
+export default EditProduct;
 
 export async function getServerSideProps({ params }) {
   const pid = params.pid;

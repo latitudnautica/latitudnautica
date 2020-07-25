@@ -67,8 +67,6 @@ const Login = () => {
   const { setAuthenticated } = useAuth();
 
   const handleLogin = (data) => {
-    console.log(data);
-
     const getToken = axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/api/user/login`,
       data
@@ -76,7 +74,7 @@ const Login = () => {
 
     getToken
       .then((user) => {
-        Cookies.set("token", user.data.token);
+        Cookies.set("token", user.data.token, { expires: 7, secure: true });
       })
       .then((r) => {
         setAuthenticated(true);

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import withAuth from "../../hoc/withAut";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -20,30 +21,32 @@ const Header = styled.header`
   }
 `;
 
-export default function CmsLayout({ children }) {
+const CmsLayout = ({ children }) => {
   return (
     <Container>
       <Header>
-        <Link href='/' shallow={false}>
+        <Link href='/'>
           <a>Home Page</a>
         </Link>
-        <Link href='/cms/main' shallow={false}>
+        <Link href='/cms/main'>
           <a>Dashboard</a>
         </Link>
-        <Link href='/cms/cargar_producto' shallow={false}>
+        <Link href='/cms/cargar_producto'>
           <a>Cargar Producto</a>
         </Link>
-        <Link href='/cms/editar' shallow={false}>
+        <Link href='/cms/editar'>
           <a>Editar Producto</a>
         </Link>
-        <Link href='/cms/categorias' shallow={false}>
+        <Link href='/cms/categorias'>
           <a>Categorías</a>
         </Link>
-        <Link href='/cms/banners' shallow={false}>
+        <Link href='/cms/banners'>
           <a>Banners</a>
         </Link>
       </Header>
       {children}
     </Container>
   );
-}
+};
+
+export default withAuth(CmsLayout);

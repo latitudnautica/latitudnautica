@@ -16,7 +16,6 @@ export const CategoriesProvider = ({ children }) => {
   const Router = useRouter();
 
   useEffect(() => {
-    console.log("catProvider", Router.query);
     const fetchData = async () => {
       await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/category/all`)
         .then((res) => {
@@ -28,7 +27,7 @@ export const CategoriesProvider = ({ children }) => {
         .catch((err) => console.log(err));
     };
     fetchData();
-  }, [Router.query]);
+  }, [Router]);
 
   const handleClickCategory = (cid) => {
     const category = categories.find((cat) => cat.id == cid);

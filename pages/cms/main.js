@@ -13,6 +13,6 @@ const Main = () => {
   );
 };
 
-export default withAuth(Main);
+export default Main;
 
 

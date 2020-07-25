@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   React.useEffect(() => {
     const initializeAuth = async () => {
       const response = await fetch("/api/checkAuth");
-      // console.info("checkAuth Response", response);
+      console.info("checkAuth Response", response);
 
       setAuthenticated(response.status === 200);
       setLoading(false);

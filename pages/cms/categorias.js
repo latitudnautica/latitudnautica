@@ -287,7 +287,7 @@ const Categories = (props) => {
   );
 };
 
-Categories.Layout = withAuth(CmsLayout);
+Categories.Layout = CmsLayout;
 
 export default Categories;
 

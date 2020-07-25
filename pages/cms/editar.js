@@ -196,7 +196,7 @@ const Editar = ({ categories }) => {
   );
 };
 
-export default withAuth(Editar);
+export default Editar;
 
 export async function getServerSideProps(context) {
   const fetchCategories = await axios(

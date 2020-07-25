@@ -16,4 +16,4 @@ const cargarProducto = ({ loggedIn }) => {
   );
 };
 
-export default withAuth(cargarProducto);
+export default cargarProducto;

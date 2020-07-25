@@ -55,7 +55,6 @@ const ProductsPageWrapper = () => {
     }
   }, [query]);
 
-  console.log("Filtering by", filter);
   return (
     <div>
       <ListSection>
