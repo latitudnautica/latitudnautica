@@ -36,6 +36,7 @@ const SideBarMenu = (props) => {
         categorySelected.SubCategories.map((sCat) => {
           return (
             <Link
+              key={sCat.id}
               href={`/productos/[category]?cid=${categorySelected.id}&scid=${sCat.id}&scname=${sCat.name}`}
               as={`/productos/${categorySelected.name}?cid=${categorySelected.id}&productos?scid=${sCat.id}&scname=${sCat.name}`}
             >
