@@ -1,9 +1,8 @@
 import CmsLayout from "../../components/layouts/CmsLayout";
 import MainContainer from "../../components/cms/MainContainer";
-import withAuth from "../../hoc/withAut";
 
 
-const Main = () => {
+const CmsDashboard = () => {
   return (
     <div>
       <CmsLayout>
@@ -13,6 +12,6 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default CmsDashboard;
 
 

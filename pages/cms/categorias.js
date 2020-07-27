@@ -3,10 +3,12 @@ import { useCategories } from "../../context/CategoriesProvider";
 import styled from "styled-components";
 import axios from "axios";
 import Cookies from "js-cookie";
+import useSWR from "swr";
 
 import BarLoader from "react-spinners/BarLoader";
 import CmsLayout from "../../components/layouts/CmsLayout";
 import CategoryTableItems from "../../components/cms/CategoryTableItems";
+import axiosBase from "../../lib/axiosBase";
 
 const CategoriesStyled = styled.section`
   display: flex;
@@ -52,25 +54,74 @@ const Select = styled.select`
   height: 25px;
 `;
 
+const fetcher = (url) => axiosBase.get(url).then((res) => res);
+
 const Categories = (props) => {
   const [lastDataAdded, setLastDataAdded] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [categoryId, setCategoryId] = useState(null);
+  const [categorySelected, setCategorySelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { categories, handleClickCategory, categorySelected } = useCategories();
+  const { data, error } = useSWR("/category/all", fetcher, {
+    // refreshInterval: 500
+  });
+
+  useEffect(() => {
+    if (data) {
+      setCategories(data.data);
+    }
+  }, [data, categoryId, lastDataAdded]);
+
+  useEffect(() => {
+    if (categoryId && categories.length > 0) {
+      const cat = categories.filter((c) => c.id == categoryId)[0];
+      setCategorySelected(cat);
+    } else {
+      setCategorySelected(false);
+    }
+  }, [categoryId, categories]);
+
+  const handleCategorySelector = (e) => {
+    const cid = e.target.value;
+    if (cid != 0) {
+      setCategoryId(cid);
+    } else {
+      setCategoryId(null);
+    }
+  };
+
+  const handleUpdateSubCategory = (e) => {
+    const subCatId = e.target.dataset.id;
+    const newName = enterName("Ingresa el nuevo nombre ");
+
+    axiosBase
+      .put(
+        `/category/subcat/${subCatId}`,
+        { name: newName },
+        { headers: { Authorization: `Bearer ${Cookies.get("token")}` } }
+      )
+      .then((res) => {
+        console.log(res);
+        setLastDataAdded(res);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const sendData = (data, type) => {
     setIsLoading(true);
     const url =
-      type == "cat"
-        ? `${process.env.NEXT_PUBLIC_API_URL}/api/category/cat`
-        : type == "subCat" &&
-          `${process.env.NEXT_PUBLIC_API_URL}/api/category/subcat/`;
-    axios
+      type == "cat" ? `/category/cat` : type == "subCat" && `/category/subcat/`;
+    axiosBase
       .post(url, data, {
         headers: { Authorization: `Bearer ${Cookies.get("token")}` }
       })
       .then((res) => {
         setLastDataAdded(res);
+        setIsLoading(false);
       })
       .catch((err) => console.log(err));
   };
@@ -94,34 +145,6 @@ const Categories = (props) => {
       }
     }
   };
-
-  const handleCategorySelector = (e) => {
-    const cid = e.target.value;
-    if (cid != 0) {
-      const cat = categories.filter((c) => c.id == cid);
-      handleClickCategory(cid);
-    }
-  };
-
-  const handleUpdateSubCategory = (e) => {
-    const subCatId = e.target.dataset.id;
-    const newName = enterName("Ingresa el nuevo nombre ");
-
-    axios
-      .put(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/category/subcat/${subCatId}`,
-        { name: newName },
-        { headers: { Authorization: `Bearer ${Cookies.get("token")}` } }
-      )
-      .then((res) => {
-        console.log(res);
-        setLastDataAdded(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   const handleAddCat = (e) => {
     const newCategory = enterName("Ingresa una nueva Categoría");
     if (newCategory == null) return;
@@ -148,13 +171,15 @@ const Categories = (props) => {
       })
       .then((res) => {
         console.log(res);
-        setLastDataAdded(res);
+        setLastDataAdded(null);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
+  if (!data) return <div> Error al cargar las categorías </div>;
+  if (error) return <div> Error al cargar las categorías </div>;
   return (
     <CategoriesStyled>
       <ListContainer>
