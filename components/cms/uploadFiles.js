@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axiosBase from "../../lib/axiosBase";
 import styled from "styled-components";
 import Cookies from "js-cookie";
 import Button from "../Button";
@@ -71,7 +71,7 @@ export default function UploadFiles(props) {
 
     axios({
       method: "post",
-      url: `${process.env.NEXT_PUBLIC_API_URL}/api/product/upload/image`,
+      url: `/product/upload/image`,
       data: formData,
       headers: {
         Authorization: `Bearer ${Cookies.get("token")}`,
