@@ -1,12 +1,6 @@
 import styled from "styled-components";
+import Button from "../Button";
 
-const ListHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  img {
-    width: 20%;
-  }
-`;
 const Table = styled.table`
   width: 100%;
   text-align: center;
@@ -37,42 +31,32 @@ const Table = styled.table`
     }
   }
 `;
+
 const CategoryTableItems = ({ itemsList, action }) => {
   return (
-    <div>
-      {/* <ListHeader>
-        <h3>
-          {itemsList.name.toUpperCase()}
-          <br /> <small> / Sub Categorías</small>
-        </h3>
-        <img
-          src={itemsList.imageUrl ? itemsList.imageUrl : "/images/test.png"}
-        />
-      </ListHeader> */}
-      <Table>
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Nombre</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {itemsList &&
-            itemsList.map((subCat) => (
-              <tr data-id={subCat.id} key={subCat.id}>
-                <td>{subCat.id}</td>
-                <td> {subCat.name}</td>
-                <td>
-                  <button data-id={subCat.id} onClick={action}>
-                    Editar
-                  </button>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </Table>
-    </div>
+    <Table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Nombre</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {itemsList &&
+          itemsList.map((subCat) => (
+            <tr data-id={subCat.id} key={subCat.id}>
+              <td>{subCat.id}</td>
+              <td> {subCat.name}</td>
+              <td>
+                <Button data-id={subCat.id} onClick={action}>
+                  Editar
+                </Button>
+              </td>
+            </tr>
+          ))}
+      </tbody>
+    </Table>
   );
 };
 

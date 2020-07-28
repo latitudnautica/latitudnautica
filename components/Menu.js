@@ -94,7 +94,7 @@ const LeftMenu = ({ open, setOpen }) => {
           Contacto
         </a>
       </Link>
-      <Link href='/cms/main'>
+      <Link href='/cms'>
         <a onClick={() => setOpen(!open)}>
           <span role='img' aria-label='panel de administración'>
             <RiAdminLine />

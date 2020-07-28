@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
-import { useCategories } from "../../context/CategoriesProvider";
 import styled from "styled-components";
-import axios from "axios";
+import axiosBase from "../../lib/axiosBase";
 import Cookies from "js-cookie";
-import useSWR from "swr";
+import useSWR, { trigger } from "swr";
 
 import BarLoader from "react-spinners/BarLoader";
 import CmsLayout from "../../components/layouts/CmsLayout";
 import CategoryTableItems from "../../components/cms/CategoryTableItems";
-import axiosBase from "../../lib/axiosBase";
+import Button from "../../components/Button";
 
 const CategoriesStyled = styled.section`
   display: flex;
@@ -21,12 +20,21 @@ const ListContainer = styled.div`
   padding: 20px;
   background-color: white;
   box-shadow: inset 0px 0px 6px 0px grey;
-
-  div:hover {
-    font-weight: bold;
-  }
 `;
 
+const ListItems = styled.div`
+  display: flex;
+  flex-direction: column;
+  div {
+    cursor: pointer;
+    text-transform: uppercase;
+    margin: 0.5em;
+
+    :hover {
+      font-weight: bold;
+    }
+  }
+`;
 const AddItem = styled.div`
   text-align: center;
   margin-top: 20px;
@@ -48,14 +56,6 @@ const AddItem = styled.div`
   }
 `;
 
-const Select = styled.select`
-  width: 100%;
-  margin: 10px;
-  height: 25px;
-`;
-
-const fetcher = (url) => axiosBase.get(url).then((res) => res);
-
 const Categories = (props) => {
   const [lastDataAdded, setLastDataAdded] = useState(null);
   const [categories, setCategories] = useState([]);
@@ -63,9 +63,8 @@ const Categories = (props) => {
   const [categorySelected, setCategorySelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { data, error } = useSWR("/category/all", fetcher, {
-    // refreshInterval: 500
-  });
+  const { data, error } = useSWR("/category/all");
+  console.log(error);
 
   useEffect(() => {
     if (data) {
@@ -83,7 +82,7 @@ const Categories = (props) => {
   }, [categoryId, categories]);
 
   const handleCategorySelector = (e) => {
-    const cid = e.target.value;
+    const cid = e.target.dataset.cid;
     if (cid != 0) {
       setCategoryId(cid);
     } else {
@@ -150,6 +149,7 @@ const Categories = (props) => {
     if (newCategory == null) return;
     const payload = { name: newCategory };
     sendData(payload, "cat");
+    trigger("/category/all");
   };
 
   const handleAddSubCat = (e) => {
@@ -162,60 +162,40 @@ const Categories = (props) => {
     sendData(payload, "subCat");
   };
 
-  const handleDeleteCategory = (e) => {
-    const cid = e.target.dataset.id;
+  // const handleDeleteCategory = (e) => {
+  //   const cid = e.target.dataset.id;
 
-    axios
-      .delete(`${process.env.NEXT_PUBLIC_API_URL}/api/category/cat/${cid}`, {
-        headers: { Authorization: `Bearer ${Cookies.get("token")}` }
-      })
-      .then((res) => {
-        console.log(res);
-        setLastDataAdded(null);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  //   axios
+  //     .delete(`${process.env.NEXT_PUBLIC_API_URL}/api/category/cat/${cid}`, {
+  //       headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+  //     })
+  //     .then((res) => {
+  //       console.log(res);
+  //       setLastDataAdded(null);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   if (!data) return <div> Error al cargar las categorías </div>;
   if (error) return <div> Error al cargar las categorías </div>;
   return (
     <CategoriesStyled>
       <ListContainer>
-        <h2>Categoría</h2>
-        <Select
-          as='select'
-          name='categoryId'
-          onChange={handleCategorySelector}
-          // onClick={handleCategorySelector}
-          required
-        >
-          <option value={0}>------------</option>
+        <h2>Categorías</h2>
+        <small>click en una categoría para ver detalles</small>
+        <ListItems>
           {categories.map((cat) => (
-            <option key={cat.id} value={Number(cat.id)}>
+            <div
+              key={cat.id}
+              data-cid={Number(cat.id)}
+              onClick={handleCategorySelector}
+            >
               {cat.name}
-            </option>
-          ))}
-        </Select>
-        {categorySelected && (
-          <div>
-            <h4>
-              <small>Nombre: </small>
-              {categorySelected.name}
-            </h4>
-            <div>Descripción: {categorySelected.description}</div>
-            <div>Imagen: {categorySelected.imageUrl}</div>
-            <div>
-              <button
-                onClick={handleDeleteCategory}
-                data-id={categorySelected.id}
-              >
-                Eliminar
-              </button>
             </div>
-          </div>
-        )}
+          ))}
+        </ListItems>
         <AddItem>
           {isLoading ? (
             <BarLoader height={10} width={"100%"} />
@@ -230,6 +210,24 @@ const Categories = (props) => {
       </ListContainer>
 
       <ListContainer>
+        {categorySelected && (
+          <div>
+            <h4>
+              <small>Categoría: </small>
+              {categorySelected.name}
+            </h4>
+            <div>Descripción: {categorySelected.description}</div>
+            <div>Imagen: <img src={`${process.env.NEXT_PUBLIC_API_URL}/${categorySelected.imageUrl}`}/></div>
+            {/* <div>
+              <button
+                onClick={handleDeleteCategory}
+                data-id={categorySelected.id}
+              >
+                Eliminar
+              </button>
+            </div> */}
+          </div>
+        )}
         {categorySelected ? (
           <>
             <CategoryTableItems

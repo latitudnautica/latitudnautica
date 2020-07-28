@@ -2,6 +2,8 @@
 import Head from "next/head";
 import Router from "next/router";
 import NProgress from "nprogress";
+import { SWRConfig } from "swr";
+import axiosBase from "../lib/axiosBase";
 import { AuthProvider } from "../context/AuthProvider";
 import { CategoriesProvider } from "../context/CategoriesProvider";
 import { ThemeProvider } from "styled-components";
@@ -83,17 +85,23 @@ export default function MyApp({ Component, pageProps }) {
           href='/images/favicon/favicon-16x16.png'
         />
       </Head>
-      <ThemeProvider theme={theme}>
-        <CategoriesProvider>
-          <AlertProvider template={AlertTemplate} {...options}>
-            <AuthProvider>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </AuthProvider>
-          </AlertProvider>
-        </CategoriesProvider>
-      </ThemeProvider>
+      <SWRConfig
+        value={{
+          fetcher: (...args) => axiosBase.get(...args).then((res) => res)
+        }}
+      >
+        <ThemeProvider theme={theme}>
+          <CategoriesProvider>
+            <AlertProvider template={AlertTemplate} {...options}>
+              <AuthProvider>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </AuthProvider>
+            </AlertProvider>
+          </CategoriesProvider>
+        </ThemeProvider>
+      </SWRConfig>
     </>
   );
 }

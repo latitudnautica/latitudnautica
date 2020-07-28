@@ -4,7 +4,7 @@ import axios from "axios";
 import styled from "styled-components";
 import Link from "next/link";
 import GridLoader from "react-spinners/GridLoader";
-
+import { useCategories } from "../../context/CategoriesProvider";
 const CategoriesContainer = styled.main`
   display: flex;
   justify-content: center;
@@ -12,8 +12,12 @@ const CategoriesContainer = styled.main`
 `;
 
 const CategoryCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   margin: 15px;
-  width: 250px;
+  max-width: 200px;
+  max-height: 200px;
   text-align: center;
   box-shadow: 0px 0px 14px -5px gray;
   transition: 200ms;
@@ -24,45 +28,45 @@ const CategoryCard = styled.div`
   }
 `;
 const CardImage = styled.img`
+  /* max-height: 150px;
+  max-width: 150px; */
   width: 100%;
+`;
+const CardContent = styled.div`
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
 `;
 
 const ProductosMain = (props) => {
-  const [categories, setCategories] = useState([]);
+  const { categories } = useCategories();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/category/all`)
-        .then((res) => {
-          setCategories(res.data);
-          return res.data;
-        })
-        .catch((err) => console.log(err));
-    };
-
-    fetchData();
-  }, []);
-  console.log(categories);
   if (categories.length == 0)
     return (
       <CategoriesContainer>
         <GridLoader />
       </CategoriesContainer>
     );
+
   return (
     <CategoriesContainer>
       {categories.map((cat) => {
         return (
           <Link
             key={cat.id}
-            href={`/lista/[category]/[cid]/productos`}
-            as={`/lista/${cat.name}/${cat.id}/productos`}
+            href={`/productos/[category]?cid=${cat.id}`}
+            as={`/productos/${cat.name}?cid=${cat.id}`}
           >
             <CategoryCard key={cat.id}>
               <CardImage
-                src={cat.imageUrl ? cat.imageUrl : "/images/logo_test.jpg"}
+                src={
+                  cat.imageUrl
+                    ? process.env.NEXT_PUBLIC_API_URL + cat.imageUrl
+                    : "/images/logo_test.jpg"
+                }
               />
-              <a>{cat.name.toUpperCase()}</a>
+              <CardContent>
+                <a>{cat.name.toUpperCase()}</a>
+              </CardContent>
             </CategoryCard>
           </Link>
         );
@@ -74,15 +78,3 @@ const ProductosMain = (props) => {
 ProductosMain.Layout = MainLayout;
 
 export default ProductosMain;
-
-// export async function getServerSideProps({ params }) {
-//   const cat = await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/category/all`)
-//     .then((res) => {
-//       return res;
-//     })
-//     .catch((err) => console.log(err));
-
-//   const categories = cat.data;
-
-//   return { props: { categories } };
-// }
