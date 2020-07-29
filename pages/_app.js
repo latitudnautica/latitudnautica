@@ -3,7 +3,7 @@ import Head from "next/head";
 import Router from "next/router";
 import NProgress from "nprogress";
 import { SWRConfig } from "swr";
-import axiosBase from "../lib/axiosBase";
+import axiosBase from "../utils/axiosBase";
 import { AuthProvider } from "../context/AuthProvider";
 import { CategoriesProvider } from "../context/CategoriesProvider";
 import { ThemeProvider } from "styled-components";
@@ -19,7 +19,7 @@ Router.events.on("routeChangeStart", (url) => {
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
-import { GA_TRACKING_ID } from "../lib/gtag";
+import { GA_TRACKING_ID } from "../utils/gtag";
 const theme = {
   colors: {
     backgroundColor: "#f4a261ff",

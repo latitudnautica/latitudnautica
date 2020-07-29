@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import axiosBase from "../../lib/axiosBase";
+import axiosBase from "../../utils/axiosBase";
 import Cookies from "js-cookie";
 import useSWR, { trigger } from "swr";
 

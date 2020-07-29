@@ -7,6 +7,7 @@ const Container = styled.div`
   /* max-width: 1300px; */
   width: 100%;
   margin: auto;
+  position: relative;
 `;
 
 const Footer = styled.footer`

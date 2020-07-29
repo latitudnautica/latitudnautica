@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import ItemsCarousel from "react-items-carousel";
 import styled from "styled-components";
-
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
+import useSWR from "swr";
+import useWindowSize from "../hooks/useWindowSize";
 
 const HomeCarrouselStyled = styled.div`
   text-align: center;
   margin-top: 10px;
   padding: 0 40px;
+  z-index: 1;
 
   @media (max-width: 768px) {
     padding: 0;
@@ -27,39 +29,56 @@ const SlideArrow = styled.div`
 
 const ItemCarrousel = styled.img`
   width: 100%;
+  z-index: 1;
+`;
+const BannerPlaceholder = styled.div`
+  height: 250px;
+  background: #eee;
 `;
 
 export default function HomeCarrousel() {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
-  const noOfItems = 6; //value dynamic from items in db
-  const noOfCards = 2; //how many card on screen
+  const [images, setImages] = useState(false);
+  const [isDataFetching, setIsDataFetching] = useState(true);
+  const [noOfCards, setNoOfCards] = useState(2);
+  const noOfItems = images.length || 3; //value dynamic from items in db
   const autoPlayDelay = 3000;
+  const windowSize = useWindowSize();
+  const { data, error } = useSWR("/utils/banners");
+  error && console.log(error);
 
   useEffect(() => {
-    const interval = setInterval(tick, autoPlayDelay);
+    if (data) {
+      setImages(data.data);
+      setIsDataFetching(false);
+      const interval = setInterval(tick, autoPlayDelay);
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [activeItemIndex]);
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [data, activeItemIndex]);
+
+  useEffect(() => {
+    windowSize.width > 1000 ? setNoOfCards(2) : setNoOfCards(1);
+  }, [windowSize]);
 
   const tick = () =>
     setActiveItemIndex((activeItemIndex) => {
       return (activeItemIndex + 1) % (noOfItems - noOfCards + 1);
     });
 
-
   return (
     <HomeCarrouselStyled>
       <ItemsCarousel
-        placeholderItem={<div style={{ height: 200, background: "#EEE" }} />}
+        placeholderItem={<BannerPlaceholder />}
         enablePlaceholder={true}
         numberOfPlaceholderItems={3}
         requestToChangeActive={setActiveItemIndex}
         activeItemIndex={activeItemIndex}
         numberOfCards={noOfCards}
         showSlither={false}
-        gutter={20}
+        gutter={10}
         leftChevron={
           <SlideArrow>
             <RiArrowLeftSLine />
@@ -73,12 +92,14 @@ export default function HomeCarrousel() {
         outsideChevron={false}
         // chevronWidth={chevronWidth}
       >
-        <ItemCarrousel src='/images/carrousel/banner_productos_destacados.jpg' />
-        <ItemCarrousel src='/images/carrousel/banner2_ES.jpg' />
-        <ItemCarrousel src='/images/carrousel/banner4_ES.jpg' />
-        <ItemCarrousel src='/images/carrousel/banner5_ES.jpg' />
-        <ItemCarrousel src='/images/carrousel/banner7_ES.jpg' />
-        <ItemCarrousel src='/images/carrousel/banner8_ES.jpg' />
+        {isDataFetching
+          ? []
+          : images.map((i) => (
+              <ItemCarrousel
+                key={i}
+                src={process.env.NEXT_PUBLIC_API_URL + i.imagePath}
+              />
+            ))}
       </ItemsCarousel>
     </HomeCarrouselStyled>
   );

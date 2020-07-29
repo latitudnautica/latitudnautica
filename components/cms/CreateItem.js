@@ -7,7 +7,7 @@ import ProductCard from "../ProductCard";
 import createProductSchema from "../../schemas/crateProd.schema";
 import Link from "next/link";
 import Cookies from "js-cookie";
-import getCategories from "../../lib/getCategories";
+import getCategories from "../../utils/getCategories";
 
 const CreateItemStyled = styled.div`
   font-family: "Roboto", sans-serif;

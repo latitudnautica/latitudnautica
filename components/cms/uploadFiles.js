@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axiosBase from "../../lib/axiosBase";
+import axiosBase from "../../utils/axiosBase";
 import styled from "styled-components";
 import Cookies from "js-cookie";
 import Button from "../Button";

@@ -5,21 +5,27 @@ import Link from "next/link";
 
 const CategoriesNavbarStyled = styled.nav`
   text-align: center;
+  position: inherit;
+  box-shadow: 0 0 10px -5px #403722;
+  margin: 16px 0;
+  z-index: 99998;
 `;
 
 const NavbarWrapper = styled.div`
-  border: 1px solid red;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   font-size: 1.2em;
   text-transform: uppercase;
   cursor: initial;
+  z-index: 999;
 `;
 
 const NavbarItem = styled.a`
   margin: 10px;
   cursor: pointer;
+  z-index: 999;
+
   :hover {
     font-weight: bold;
   }
@@ -29,17 +35,18 @@ const DropdownWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  background-color: ${({ theme }) => theme.colors.backgroundColor};
-  justify-content: center;
+  background-color: #fff;
+  box-shadow: 0 1px 1px #eee;
+  /* justify-content: center; */
   font-size: 1.2em;
-  height: 20em;
+  height: 15em;
   text-transform: uppercase;
   position: absolute;
-  width: 80vw;
-  margin: 0 10vw 0 10vw;
+  width: 100vw;
   opacity: ${(props) => (props.show ? 1 : 0)};
   visibility: ${(props) => (props.show ? "visible" : "hidden")};
   transition: visibility 0.2s, opacity 0.2s ease;
+  z-index: 999;
 `;
 
 const DropdownItemsWrapper = styled.div`
@@ -48,18 +55,30 @@ const DropdownItemsWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100px;
+  z-index: 999;
 `;
+
 const DropdownItem = styled(NavbarItem)`
   color: green;
 `;
+
 const DropdownFooter = styled.div`
   margin: 1em;
+`;
+
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(130, 130, 130, 0.5);
+  z-index: 1;
 `;
 
 const CategoriesNavbar = () => {
   const {
     categories,
-    categorySelected,
     categoryHover,
     handleHoverCategory,
     handleClickCategory,
@@ -69,9 +88,7 @@ const CategoriesNavbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleHover = (e) => {
-    const cid = e.target.dataset.cid;
-
-    handleHoverCategory(cid);
+    handleHoverCategory(e.target.dataset.cid);
     setShowDropdown(true);
   };
 
@@ -124,6 +141,7 @@ const CategoriesNavbar = () => {
           </DropdownFooter>
         </DropdownWrapper>
       )}
+      {showDropdown && <Overlay onClick={() => setShowDropdown(false)} />}
     </CategoriesNavbarStyled>
   );
 };

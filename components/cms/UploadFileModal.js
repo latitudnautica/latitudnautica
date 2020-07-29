@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import styled from "styled-components";
 
 import Button from "../Button";
-import axiosBase from "../../lib/axiosBase";
+import axiosBase from "../../utils/axiosBase";
 ReactModal.setAppElement("#__next");
 
 const ModalStyled = styled.div`
