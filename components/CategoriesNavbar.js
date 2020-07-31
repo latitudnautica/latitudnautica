@@ -6,28 +6,36 @@ import Link from "next/link";
 const CategoriesNavbarStyled = styled.nav`
   text-align: center;
   position: inherit;
-  box-shadow: 0 0 10px -5px #403722;
+  box-shadow: ${({ theme }) => theme.details.boxShadow};
   margin: 16px 0;
-  z-index: 99998;
+  z-index: 99;
 `;
 
 const NavbarWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  font-size: 1.2em;
   text-transform: uppercase;
   cursor: initial;
-  z-index: 999;
+  position: relative;
+  background: whiteSmoke;
+  z-index: 99;
 `;
 
 const NavbarItem = styled.a`
-  margin: 10px;
   cursor: pointer;
-  z-index: 999;
+  padding: 5px;
+  transition: all 0.2s;
+  font-size: 1.1em;
+  box-sizing: border-box;
+  /* border: 1px solid gray; */
+  margin: 5px 5px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0);
+  border-bottom: ${(props) => `3px solid ${props.borderColor}`};
 
   :hover {
     font-weight: bold;
+    border-bottom: 3px solid yellow;
   }
 `;
 
@@ -38,7 +46,6 @@ const DropdownWrapper = styled.div`
   background-color: #fff;
   box-shadow: 0 1px 1px #eee;
   /* justify-content: center; */
-  font-size: 1.2em;
   height: 15em;
   text-transform: uppercase;
   position: absolute;
@@ -46,7 +53,8 @@ const DropdownWrapper = styled.div`
   opacity: ${(props) => (props.show ? 1 : 0)};
   visibility: ${(props) => (props.show ? "visible" : "hidden")};
   transition: visibility 0.2s, opacity 0.2s ease;
-  z-index: 999;
+  box-shadow: ${({ theme }) => theme.details.boxShadowBottom};
+  z-index: 99;
 `;
 
 const DropdownItemsWrapper = styled.div`
@@ -55,15 +63,17 @@ const DropdownItemsWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100px;
-  z-index: 999;
+  z-index: 1;
 `;
 
 const DropdownItem = styled(NavbarItem)`
+  font-size: 1.1em;
   color: green;
 `;
 
 const DropdownFooter = styled.div`
-  margin: 1em;
+  color: gray;
+  margin: 1.2em;
 `;
 
 const Overlay = styled.div`
@@ -72,8 +82,8 @@ const Overlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(130, 130, 130, 0.5);
-  z-index: 1;
+  background: rgba(130, 130, 130, 0.2);
+  /* z-index: 1; */
 `;
 
 const CategoriesNavbar = () => {
@@ -82,18 +92,21 @@ const CategoriesNavbar = () => {
     categoryHover,
     handleHoverCategory,
     handleClickCategory,
+    categorySelected,
     isLoading
   } = useCategories();
 
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleHover = (e) => {
-    handleHoverCategory(e.target.dataset.cid);
+    const cid = e.target.dataset.cid;
+    handleHoverCategory(cid);
     setShowDropdown(true);
   };
 
   const handleClick = (e) => {
-    handleClickCategory(e.target.dataset.cid);
+    const cid = e.target.dataset.cid;
+    handleClickCategory(cid);
     setShowDropdown(false);
   };
 
@@ -114,6 +127,11 @@ const CategoriesNavbar = () => {
                 onMouseOver={handleHover}
                 onClick={handleClick}
                 data-cid={cat.id}
+                borderColor={
+                  categorySelected && cat.id == categorySelected.id
+                    ? "red"
+                    : "transparent"
+                }
               >
                 {cat.name}
               </NavbarItem>
@@ -121,15 +139,21 @@ const CategoriesNavbar = () => {
           ))}
       </NavbarWrapper>
       {categoryHover && (
-        <DropdownWrapper show={showDropdown}>
+        <DropdownWrapper
+          show={showDropdown}
+          onMouseLeave={() => setShowDropdown(false)}
+        >
           <DropdownItemsWrapper>
             {categoryHover.SubCategories.length > 0 ? (
               categoryHover.SubCategories.map((sCat) => (
                 <Link
+                  key={sCat.id}
                   href={`/productos/[category]?cid=${categoryHover.id}&scid=${sCat.id}&scname=${sCat.name}`}
                   as={`/productos/${categoryHover.name}?cid=${categoryHover.id}&productos?scid=${sCat.id}&scname=${sCat.name}`}
                 >
-                  <DropdownItem key={sCat.id}>{sCat.name}</DropdownItem>
+                  <DropdownItem onClick={() => setShowDropdown(false)}>
+                    {sCat.name}
+                  </DropdownItem>
                 </Link>
               ))
             ) : (

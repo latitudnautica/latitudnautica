@@ -4,7 +4,7 @@ import { useCategories } from "../../../context/CategoriesProvider";
 import axios from "axios";
 import styled from "styled-components";
 import MainLayout from "../../../components/layouts/MainLayout";
-import SideBarMenuClient from "../../../components/SideBarMenuClient";
+import SidebarMenuProducts from "../../../components/SidebarMenuProducts";
 import ListProducts from "../../../components/ListProducts";
 import { route } from "next/dist/next-server/server/router";
 
@@ -58,7 +58,7 @@ const ProductsPageWrapper = () => {
   return (
     <div>
       <ListSection>
-        <SideBarMenuClient categorySelected={categorySelected} />
+        <SidebarMenuProducts categorySelected={categorySelected} />
         <ListProducts products={products} />
       </ListSection>
     </div>

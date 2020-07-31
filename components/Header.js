@@ -11,10 +11,10 @@ import {
 import { useState } from "react";
 
 const HeaderStyled = styled.header`
-  /* display: flex;
+  display: flex;
   align-items: center;
   justify-content: space-between;
-  text-align: center; */
+  text-align: center;
 
   /* @media (max-width: 470px) {
     justify-content: space-between;
@@ -56,7 +56,6 @@ const HeaderLogo = styled.div`
 `;
 
 const HeaderContactDetails = styled.div`
-  /* border: 1px solid green; */
   display: flex;
   flex-direction: column;
   text-align: left;

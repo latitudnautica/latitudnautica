@@ -1,37 +1,26 @@
 import styled from "styled-components";
 import Link from "next/link";
+import Button from "./Button";
 
-const SideBarMenuStyled = styled.div`
+const SidebarMenuProductsStyled = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 200px;
   min-height: 50vh;
-  border: 1px solid red;
-`;
-
-const Button = styled.button`
-  box-sizing: border-box;
-  cursor: pointer;
-  background-color: #08a0b9;
-  text-transform: uppercase;
-  color: white;
   padding: 10px;
-  border: 1px solid #08a0b9;
-  transition: all 200ms ease-in;
-  margin: 3px 5px;
-  border-radius: 2.5px;
-
-  :hover {
-    background-color: white;
-    color: #08a0b9;
-    border: 1px solid #08a0b9;
-  }
+  margin-left: 5px;
+  background-color: ${({ theme }) => theme.colors.lightBlack};
+  box-shadow: ${({ theme }) => theme.details.boxShadow};
 `;
 
-const SideBarMenu = (props) => {
+const ButtonExtended = styled(Button)`
+  margin: 2px 0;
+`;
+
+const SidebarMenuProducts = (props) => {
   const { categorySelected } = props;
   return (
-    <SideBarMenuStyled>
+    <SidebarMenuProductsStyled>
       {categorySelected && categorySelected.SubCategories.length > 0 ? (
         categorySelected.SubCategories.map((sCat) => {
           return (
@@ -39,16 +28,17 @@ const SideBarMenu = (props) => {
               key={sCat.id}
               href={`/productos/[category]?cid=${categorySelected.id}&scid=${sCat.id}&scname=${sCat.name}`}
               as={`/productos/${categorySelected.name}?cid=${categorySelected.id}&productos?scid=${sCat.id}&scname=${sCat.name}`}
+              passHref
             >
-              <Button key={sCat.id}>{sCat.name}</Button>
+              <ButtonExtended as='a'>{sCat.name}</ButtonExtended>
             </Link>
           );
         })
       ) : (
         <div>No hay sub categorías</div>
       )}
-    </SideBarMenuStyled>
+    </SidebarMenuProductsStyled>
   );
 };
 
-export default SideBarMenu;
+export default SidebarMenuProducts;
