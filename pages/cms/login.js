@@ -74,7 +74,7 @@ const Login = () => {
 
     getToken
       .then((user) => {
-        Cookies.set("token", user.data.token, { expires: 7, secure: true });
+        Cookies.set("token", user.data.token, { expires: 7  });
       })
       .then((r) => {
         setAuthenticated(true);

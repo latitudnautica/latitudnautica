@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 export default (req, res) => {
 
   if (req.headers.cookie && req.headers.cookie.includes("token")) {
-    jwt.verify(req.cookies.token, process.env.NEXT_JWT_KEY, function (
+    jwt.verify(req.cookies.token, process.env.SECRET, function (
       err,
       decoded
     ) {
