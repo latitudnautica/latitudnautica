@@ -29,7 +29,6 @@ const Banners = () => {
     console.log(banners);
   }, [data]);
 
- 
   return (
     <div>
       <h1>BANNERS</h1>
@@ -38,7 +37,7 @@ const Banners = () => {
         {banners &&
           banners.map((e) => {
             return (
-              <BannersList>
+              <BannersList key={e.id}>
                 <BannersListItem>
                   <img
                     src={
