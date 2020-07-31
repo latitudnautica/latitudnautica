@@ -4,7 +4,6 @@ import { useCategories } from "../context/CategoriesProvider";
 import axios from "axios";
 import styled from "styled-components";
 import MainLayout from "../components/layouts/MainLayout";
-import SideBarMenuClient from "../components/SideBarMenuClient";
 import ListProducts from "../components/ListProducts";
 
 const ListSection = styled.section`
@@ -39,7 +38,6 @@ const ProductsPageWrapper = () => {
   return (
     <div>
       <ListSection>
-        {/* <SideBarMenuClient categorySelected={categorySelected} /> */}
         {products.length > 0 ? (
           <ListProducts products={products} />
         ) : (

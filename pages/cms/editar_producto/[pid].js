@@ -26,8 +26,8 @@ const ProdSection = styled.div`
   justify-content: space-evenly;
   padding: 15px;
   background-color: white;
-  
-div {
+
+  div {
     flex-shrink: 0;
   }
 `;
@@ -57,7 +57,7 @@ const EditProduct = (props) => {
   const [showImageModal, setShowImageModal] = useState(false);
 
   const { product, errorCode } = props;
-
+  console.log(product);
   if (errorCode || product === null) {
     return (
       <Error
