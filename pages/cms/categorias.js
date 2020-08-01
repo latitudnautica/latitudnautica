@@ -3,7 +3,7 @@ import styled from "styled-components";
 import axiosBase from "../../utils/axiosBase";
 import Cookies from "js-cookie";
 import useSWR, { trigger } from "swr";
-
+import { positions, useAlert } from "react-alert";
 import BarLoader from "react-spinners/BarLoader";
 import CmsLayout from "../../components/layouts/CmsLayout";
 import CategoryTableItems from "../../components/cms/CategoryTableItems";
@@ -57,20 +57,20 @@ const AddItem = styled.div`
 `;
 
 const Categories = (props) => {
-  const [lastDataAdded, setLastDataAdded] = useState(null);
+  // const [lastDataAdded, setLastDataAdded] = useState(null);
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState(null);
   const [categorySelected, setCategorySelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const alert = useAlert();
   const { data, error } = useSWR("/category/all");
-  console.log(error);
+  if (error) console.log(error);
 
   useEffect(() => {
     if (data) {
       setCategories(data.data);
     }
-  }, [data, categoryId, lastDataAdded]);
+  }, [data]);
 
   useEffect(() => {
     if (categoryId && categories.length > 0) {
@@ -102,27 +102,40 @@ const Categories = (props) => {
       )
       .then((res) => {
         console.log(res);
-        setLastDataAdded(res);
+        // setLastDataAdded(res);
         setIsLoading(false);
+        trigger("/category/all");
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
+        setIsLoading(false);
+        alert.error(
+          `Algo no funciono como se esperaba... [ ${err.response.data.message} ]`
+        );
       });
   };
 
   const sendData = (data, type) => {
     setIsLoading(true);
     const url =
-      type == "cat" ? `/category/cat` : type == "subCat" && `/category/subcat/`;
+      type == "cat"
+        ? `/category/category`
+        : type == "subCat" && `/category/subcategory`;
     axiosBase
       .post(url, data, {
         headers: { Authorization: `Bearer ${Cookies.get("token")}` }
       })
       .then((res) => {
-        setLastDataAdded(res);
         setIsLoading(false);
+        trigger("/category/all");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err.response);
+        setIsLoading(false);
+        alert.error(
+          `Algo no funciono como se esperaba... [ ${err.response.data.message} ]`
+        );
+      });
   };
 
   const enterName = (text) => {
@@ -217,7 +230,12 @@ const Categories = (props) => {
               {categorySelected.name}
             </h4>
             <div>Descripción: {categorySelected.description}</div>
-            <div>Imagen: <img src={`${process.env.NEXT_PUBLIC_API_URL}/${categorySelected.imageUrl}`}/></div>
+            <div>
+              Imagen:{" "}
+              <img
+                src={`${process.env.NEXT_PUBLIC_API_URL}/${categorySelected.imageUrl}`}
+              />
+            </div>
             {/* <div>
               <button
                 onClick={handleDeleteCategory}

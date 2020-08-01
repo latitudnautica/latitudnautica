@@ -19,6 +19,8 @@ const ModalStyled = styled.div`
   }
 `;
 
+
+
 const customStyles = {
   content: {
     top: "50%",
@@ -66,7 +68,7 @@ const UploadFileModal = () => {
 
     axiosBase({
       method: "post",
-      url: `/utils/upload/banner`,
+      url: `/utils/banner`,
       data: formData,
       headers: {
         "content-type": "multipart/form-data"
@@ -80,10 +82,8 @@ const UploadFileModal = () => {
     })
       .then((res) => {
         setIsOpen(false);
-        console.log(res);
       })
       .catch((err) => {
-        alert(err);
         console.log(err, err.response);
       });
   };

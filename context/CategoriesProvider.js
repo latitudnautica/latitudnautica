@@ -39,7 +39,6 @@ export const CategoriesProvider = ({ children }) => {
     setCategoryHover(category);
   };
 
-  console.info("categorySelected>>>>>>>>>>>>>>>>", categorySelected);
   return (
     <CategoriesContext.Provider
       value={{
