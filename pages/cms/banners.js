@@ -4,7 +4,7 @@ import useSWR, { trigger } from "swr";
 import axiosBase from "../../utils/axiosBase";
 import CmsLayout from "../../components/layouts/CmsLayout";
 import Button from "../../components/Button";
-import UploadFileModal from "../../components/cms/UploadFileModal";
+import { useAlert } from "react-alert";
 
 const BannersList = styled.div`
   display: flex;
@@ -31,6 +31,7 @@ const Banners = () => {
   const [progress, setProgress] = useState(0); // progress bar
   const inputTitle = useRef();
   const { data } = useSWR("/utils/banners");
+  const alert = useAlert();
 
   useEffect(() => {
     if (data) {
@@ -43,6 +44,7 @@ const Banners = () => {
       .delete(`/utils/banner/${bid}`)
       .then((res) => {
         console.log(res);
+        alert.success(`Banner eliminado `);
         trigger("/utils/banners");
       })
       .catch((err) => console.log(err.response));
@@ -76,6 +78,8 @@ const Banners = () => {
       }
     })
       .then((res) => {
+        console.log(res);
+        alert.success("Banner Cargado");
         trigger("/utils/banners");
       })
       .catch((err) => {

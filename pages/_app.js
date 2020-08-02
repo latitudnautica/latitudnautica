@@ -21,10 +21,10 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 import { GA_TRACKING_ID } from "../utils/gtag";
 
-const options = {
+const alertOptions = {
   // you can also just use 'bottom center'
   position: positions.MIDDLE,
-  timeout: 0,
+  timeout: 5,
   offset: "30px",
   // you can also just use 'scale'
   transition: transitions.SCALE
@@ -82,7 +82,7 @@ export default function MyApp({ Component, pageProps }) {
       >
         <ThemeProvider theme={theme}>
           <CategoriesProvider>
-            <AlertProvider template={AlertTemplate} {...options}>
+            <AlertProvider template={AlertTemplate} {...alertOptions}>
               <AuthProvider>
                 <Layout>
                   <Component {...pageProps} />
