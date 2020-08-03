@@ -1,5 +1,6 @@
 import Axios from "axios";
 import Cookies from "js-cookie";
+
 let urls = {
   test: `http://localhost:5000`,
   development: "http://localhost:5000/api",
@@ -10,8 +11,7 @@ const axiosBase = Axios.create({
   baseURL: urls[process.env.NODE_ENV],
   headers: {
     Accept: "application/json",
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${Cookies.get("token")}`
+    "Content-Type": "application/json"    
   }
 });
 

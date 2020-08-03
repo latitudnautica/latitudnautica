@@ -64,7 +64,7 @@ function validatePassword(value) {
 const Login = () => {
   const [loginError, setLoginError] = useState(null);
 
-  const { setAuthenticated } = useAuth();
+  const { setIsAuthenticated } = useAuth();
 
   const handleLogin = (data) => {
     const getToken = axios.post(
@@ -77,7 +77,7 @@ const Login = () => {
         Cookies.set("token", user.data.token, { expires: 7  });
       })
       .then((r) => {
-        setAuthenticated(true);
+        setIsAuthenticated(true);
         Router.back();
       })
       .catch((err) => {

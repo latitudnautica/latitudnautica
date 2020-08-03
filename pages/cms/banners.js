@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import useSWR, { trigger } from "swr";
 import axiosBase from "../../utils/axiosBase";
+import Cookies from "js-cookie";
 import CmsLayout from "../../components/layouts/CmsLayout";
 import Button from "../../components/Button";
 import { useAlert } from "react-alert";
@@ -41,7 +42,9 @@ const Banners = () => {
 
   const handleDeleteBanner = (bid) => {
     axiosBase
-      .delete(`/utils/banner/${bid}`)
+      .delete(`/utils/banner/${bid}`, {
+        headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+      })
       .then((res) => {
         console.log(res);
         alert.success(`Banner eliminado `);
@@ -68,7 +71,8 @@ const Banners = () => {
       url: `/utils/banner`,
       data: formData,
       headers: {
-        "content-type": "multipart/form-data"
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${Cookies.get("token")}`
       },
       onUploadProgress: (ProgressEvent) => {
         let progress = Math.round(

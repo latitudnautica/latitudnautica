@@ -1,31 +1,60 @@
-import React from "react";
+import { useState, useEffect, useContext, createContext } from "react";
+import { useRouter } from "next/router";
+import axiosBase from "../utils/axiosBase";
+import Cookies from "js-cookie";
 
-const AuthContext = React.createContext({
+const AuthContext = createContext({
   isAuthenticated: false,
   isLoading: true,
-  setAuthenticated: () => {}
+  setIsAuthenticated: () => {}
 });
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setAuthenticated] = React.useState(false);
-  const [isLoading, setLoading] = React.useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const Router = useRouter();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const initializeAuth = async () => {
-      const response = await fetch("/api/checkAuth");
-      // console.info("checkAuth Response", response);
+      // await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/check-auth`, {
+      //   method: "POST",
+      //   headers: {
+      //     Authorization: `Bearer ${Cookies.get("tokenss")}`
+      //   }
+      // });
 
-      setAuthenticated(response.status === 200);
-      setLoading(false);
+      await axiosBase
+        .post("user/check-auth", null, {
+          headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+        })
+        .then((response) => {
+          if (response.data.user) {
+            console.log(response.data.user);
+            setIsAuthenticated(true);
+            setIsLoading(false);
+            setUser(response.data.user);
+          } else {
+            setIsAuthenticated(false);
+            setIsLoading(false);
+          }
+        })
+        .catch((err) => {
+          setIsAuthenticated(false);
+          setIsLoading(false);
+          console.log(err.response);
+        });
     };
     initializeAuth();
   }, []);
+
   return (
     <AuthContext.Provider
       value={{
         isAuthenticated,
         isLoading,
-        setAuthenticated
+        user,
+        setIsAuthenticated
       }}
     >
       {children}
@@ -34,7 +63,7 @@ export const AuthProvider = ({ children }) => {
 };
 
 export function useAuth() {
-  const context = React.useContext(AuthContext);
+  const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
