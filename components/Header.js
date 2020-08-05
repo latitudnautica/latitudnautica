@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import Menu from "../components/Menu";
 import SearchBar from "./SearchBar";
@@ -6,45 +7,42 @@ import {
   RiFacebookCircleLine,
   RiInstagramLine,
   RiPhoneLine,
-  RiMailSendLine
+  RiMailSendLine,
 } from "react-icons/ri";
-import { useState } from "react";
 
 const HeaderStyled = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  text-align: center;
 
-  /* @media (max-width: 470px) {
-    justify-content: space-between;
-  } */
+box-shadow: 0 0 13px -2px #acb1b3;
+    border-radius: 0 0 30px 30px;
 `;
-const HeaderContent = styled.div`
+
+const ContentWrapper = styled.div`
+  /* border: 1px solid blue; */
   margin-left: 100px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  text-align: center;
+  /* width: 100%; */
 `;
+
 const HeaderLogo = styled.div`
-  /* border: 1px solid green; */
-  flex: 1;
-  margin: 10px 0 10px 0;
-  /* height: 120px; */
-  display: flex;
+  /* border: 2px solid green; */
+  padding: 10px 0;
+  text-align: center;
+
   img {
     width: 100%;
   }
 
-  /* @media (max-width: 768px) {
-    height: 100px;
-  }*/
+  @media (max-width: 768px) {
+    flex: 1;
+    img {
+      width: 100%;
+    }
+  }
 
   @media (max-width: 470px) {
-    flex: 1;
-
     img {
       width: 100%;
     }
@@ -55,31 +53,54 @@ const HeaderLogo = styled.div`
   } */
 `;
 
-const HeaderContactDetails = styled.div`
+const ResponsiveWrapper = styled.div`
+  /* border: 2px solid yellow; */
   display: flex;
-  flex-direction: column;
-  text-align: left;
-  margin-right: 25px;
-  align-items: flex-end;
-  flex: 1;
-  color: ${({ theme }) => theme.colors.primary};
-
-  div {
-    margin: 2px 0;
-    display: flex;
-    align-items: center;
-  }
+  flex-direction: row;
+  width: 75%;
+  transition: all 0.2s;
 
   @media (max-width: 768px) {
-    display: none;
+    flex-direction: column-reverse;
   }
 `;
 
-const MediaIcons = styled.div`
+const ContactDetailsWrapper = styled.div`
+  /* border: 1px solid blue; */
+  color: ${({ theme }) => theme.colors.primary};
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  @media (max-width: 768px) {
+    align-items: center;
+  }
+`;
+
+const ContactDetail = styled.div`
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    margin: 2px;
+  }
+`;
+
+const MediaIcons = styled(ContactDetail)`
   font-size: 1.5em;
   a {
     margin: 0 15px;
     color: ${({ theme }) => theme.colors.primary};
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    position: absolute;
+    right: 0;
+    margin-top: 10px;
   }
 `;
 
@@ -88,34 +109,37 @@ export default function Header() {
 
   return (
     <HeaderStyled>
-      <div>
+      <ContentWrapper>
+        {/* <div> */}
         <Menu />
-      </div>
-      <HeaderContent>
+        {/* </div> */}
         <HeaderLogo>
-          <img src='/images/logo_full.png' />
+          <img src="/images/logo_full.png" />
         </HeaderLogo>
-        <SearchBar />
-        <HeaderContactDetails>
-          <div>
-            <RiPhoneLine /> +54 6545-1321
-          </div>
-          <div>
-            <RiMailSendLine /> info@latitudnautica.com.ar
-          </div>
-          <MediaIcons>
-            <a href='/'>
-              <RiWhatsappLine />
-            </a>
-            <a href='/'>
-              <RiInstagramLine />
-            </a>
-            <a href='https://www.facebook.com/profile.php?id=100004283867132'>
-              <RiFacebookCircleLine />
-            </a>
-          </MediaIcons>
-        </HeaderContactDetails>
-      </HeaderContent>
+        <ResponsiveWrapper>
+          <SearchBar />
+
+          <ContactDetailsWrapper>
+            <ContactDetail>
+              <RiPhoneLine /> +54 6545-1321
+            </ContactDetail>
+            <ContactDetail>
+              <RiMailSendLine /> info@latitudnautica.com.ar
+            </ContactDetail>
+            <MediaIcons>
+              <a href="/">
+                <RiWhatsappLine />
+              </a>
+              <a href="/">
+                <RiInstagramLine />
+              </a>
+              <a href="https://www.facebook.com/profile.php?id=100004283867132">
+                <RiFacebookCircleLine />
+              </a>
+            </MediaIcons>
+          </ContactDetailsWrapper>
+        </ResponsiveWrapper>
+      </ContentWrapper>
     </HeaderStyled>
   );
 }

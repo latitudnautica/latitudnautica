@@ -4,12 +4,11 @@ import { useRouter } from "next/router";
 import { RiSearchEyeLine } from "react-icons/ri";
 
 const SearchBarStyled = styled.div`
-  /* border: 1px solid red; */
-  flex: 2;
+  flex: 1;
   margin: 15px;
   position: relative;
   display: flex;
-  align-items: normal;
+  align-items: center;
 
   span {
     position: relative;
@@ -81,15 +80,15 @@ const SearchBar = () => {
 
   return (
     <SearchBarStyled>
-      <span>
-        <RiSearchEyeLine />
-      </span>
       <input
         type='text'
         placeholder='Buscar...'
         onChange={handleSearchValue}
         onKeyPress={handleSearch}
-      />
+        />
+        {/* <span>
+          <RiSearchEyeLine />
+        </span> */}
       {/* <SearchButton onClick={() => setOpenModalSearch(!openModalSearch)}>
         <span>
           <RiSearchEyeLine />

@@ -69,7 +69,7 @@ export default function UploadFiles(props) {
     formData.append("file", selectedFile);
     formData.set("prod_id", props.product.id);
 
-    axios({
+    axiosBase({
       method: "post",
       url: `/product/upload/image`,
       data: formData,

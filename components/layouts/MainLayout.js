@@ -22,9 +22,7 @@ export default function MainLayout(props) {
 
   return (
     <>
-      <Headroom wrapperStyle={{ marginBottom: "10px" }}>
-        <Header />
-      </Headroom>
+      <Header />
       <Container>
         <CategoriesNavbar />
         <main>{children}</main>

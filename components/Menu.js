@@ -7,7 +7,7 @@ import {
   RiSailboatLine,
   RiShoppingBasketLine,
   RiContactsLine,
-  RiAdminLine
+  RiAdminLine,
 } from "react-icons/ri";
 
 const MenuStyled = styled.nav`
@@ -23,6 +23,7 @@ const MenuStyled = styled.nav`
   top: 0;
   left: 0;
   transition: transform 0.3s ease-in-out;
+  z-index: 9;
 
   @media (max-width: 576px) {
     width: 100%;
@@ -37,7 +38,6 @@ const MenuStyled = styled.nav`
     color: #0d0c1d;
     text-decoration: none;
     transition: color 0.3s linear;
-    
 
     span {
       margin: 0 5px 0 0;
@@ -61,42 +61,42 @@ const MenuLogo = styled.img`
 const LeftMenu = ({ open, setOpen }) => {
   return (
     <MenuStyled open={open}>
-      <MenuLogo src='/images/logo.png' />
-      <Link href='/'>
+      {/* <MenuLogo src='/images/logo.png' /> */}
+      <Link href="/">
         <a onClick={() => setOpen(!open)}>
-          <span role='img' aria-label='home'>
+          <span role="img" aria-label="home">
             <RiHome2Line />
           </span>
           Home
         </a>
       </Link>
-      <Link href='/quienes_somos'>
+      <Link href="/quienes_somos">
         <a onClick={() => setOpen(!open)}>
-          <span role='img' aria-label='quienes somos'>
+          <span role="img" aria-label="quienes somos">
             <RiSailboatLine />
           </span>
           Quienes Somos
         </a>
       </Link>
-      <Link href='/productos'>
+      <Link href="/productos">
         <a onClick={() => setOpen(!open)}>
-          <span role='img' aria-label='productos'>
+          <span role="img" aria-label="productos">
             <RiShoppingBasketLine />
           </span>
           Productos
         </a>
       </Link>
-      <Link href='/contacto'>
+      <Link href="/contacto">
         <a onClick={() => setOpen(!open)}>
-          <span role='img' aria-label='contacto'>
+          <span role="img" aria-label="contacto">
             <RiContactsLine />
           </span>
           Contacto
         </a>
       </Link>
-      <Link href='/cms'>
+      <Link href="/cms">
         <a onClick={() => setOpen(!open)}>
-          <span role='img' aria-label='panel de administración'>
+          <span role="img" aria-label="panel de administración">
             <RiAdminLine />
           </span>
           cms
