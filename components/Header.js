@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import Link from "next/link";
 import Menu from "../components/Menu";
 import SearchBar from "./SearchBar";
 import {
@@ -11,9 +12,8 @@ import {
 } from "react-icons/ri";
 
 const HeaderStyled = styled.header`
-
-box-shadow: 0 0 13px -2px #acb1b3;
-    border-radius: 0 0 30px 30px;
+  box-shadow: 0 0 13px -2px #acb1b3;
+  border-radius: 0 0 30px 30px;
 `;
 
 const ContentWrapper = styled.div`
@@ -114,7 +114,11 @@ export default function Header() {
         <Menu />
         {/* </div> */}
         <HeaderLogo>
-          <img src="/images/logo_full.png" />
+          <Link href={"/"}>
+            <a>
+              <img src="/images/logo_full.png" />
+            </a>
+          </Link>
         </HeaderLogo>
         <ResponsiveWrapper>
           <SearchBar />

@@ -1,4 +1,3 @@
-
 import styled from "styled-components";
 import MainLayout from "../components/layouts/MainLayout";
 import HomeCarrousel from "../components/HomeCarrousel";
@@ -25,13 +24,32 @@ const BannerFullWidth = styled.div`
 const Index = () => {
   return (
     <>
-      <BannerFullWidth>
-        Hace tus pedidos por whatsapp, estamos enviando a domicilio
-      </BannerFullWidth>
+      <BannerFullWidth>Hace tus consultas por Whatsapp</BannerFullWidth>
       <HomeCarrousel />
-      <h1>
-        Latitud Náutica <small>Productos y servicios Náuticos</small>
-      </h1>
+      <section>
+        <h1>
+          Latitud Náutica <small>Productos y servicios Náuticos</small>
+        </h1>
+      </section>
+      <section>
+        <h2>Productos Destacados</h2>
+      </section>
+      <section>
+        <h2>Productos Promociones</h2>
+      </section><section>
+        <h2>Productos Promociones</h2>
+      </section><section>
+        <h2>Productos Promociones</h2>
+      </section><section>
+        <h2>Productos Promociones</h2>
+      </section><section>
+        <h2>Productos Promociones</h2>
+      </section><section>
+        <h2>Productos Promociones</h2>
+      </section><section>
+        <h2>Productos Promociones</h2>
+      </section>
+
     </>
   );
 };

@@ -8,8 +8,10 @@ import useWindowSize from "../hooks/useWindowSize";
 const HomeCarrouselStyled = styled.div`
   text-align: center;
   margin-top: 10px;
-  padding: 0 40px;
+  padding: 20px 5px;
   z-index: 1;
+  background-color: ${({ theme }) => theme.colors.background};
+  box-shadow: ${({ theme }) => theme.details.boxShadow};
 
   @media (max-width: 768px) {
     padding: 0;

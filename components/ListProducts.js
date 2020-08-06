@@ -1,7 +1,3 @@
-import { useState } from "react";
-import { useRouter } from "next/router";
-import useSWR from "swr";
-import axios from "axios";
 import styled from "styled-components";
 import ProductCard from "../components/ProductCard";
 import GridLoader from "react-spinners/GridLoader";

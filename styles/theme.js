@@ -1,5 +1,5 @@
 const colors = {
-  backgroundColor: "#f4a261ff",
+  background: "#98C1D9",
   primary: "#4888ca",
   paleCerulean: "#98C1D9",
   blueSapphire: "#326273",
@@ -10,8 +10,8 @@ const colors = {
 };
 
 const button = {
-  primary: colors.blueSapphire,
-  hover: colors.paleCerulean
+  primary: colors.lightBlack,
+  hover: colors.raisinBlack
 };
 
 const details = {

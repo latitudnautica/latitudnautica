@@ -18,7 +18,7 @@ const NavbarWrapper = styled.div`
   text-transform: uppercase;
   cursor: initial;
   position: relative;
-  background: whiteSmoke;
+  background: ${({ theme }) => theme.colors.background};;
   z-index: 99;
 `;
 
@@ -43,10 +43,10 @@ const DropdownWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.colors.lightBlack};
   box-shadow: 0 1px 1px #eee;
   /* justify-content: center; */
-  height: 15em;
+  height: 4em;
   text-transform: uppercase;
   position: absolute;
   width: 100vw;
@@ -62,7 +62,7 @@ const DropdownItemsWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100px;
+  height: 3em;
   z-index: 1;
 `;
 
@@ -160,9 +160,9 @@ const CategoriesNavbar = () => {
               <p>Sin sub categorías</p>
             )}
           </DropdownItemsWrapper>
-          <DropdownFooter>
+          {/* <DropdownFooter>
             <h1>{categoryHover.name}</h1>
-          </DropdownFooter>
+          </DropdownFooter> */}
         </DropdownWrapper>
       )}
       {showDropdown && <Overlay onClick={() => setShowDropdown(false)} />}
