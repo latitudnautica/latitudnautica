@@ -6,7 +6,7 @@ const ListProductsStyled = styled.main`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: start;
 `;
 const Loading = styled.div`
   margin: auto;

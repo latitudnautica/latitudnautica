@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import withAuth from "../../hoc/withAut";
-import axios from "axios";
+import axiosbase from "../../utils/axiosBase";
+import useSWR, { trigger } from "swr";
 import styled from "styled-components";
 import Link from "next/link";
 import Cookies from "js-cookie";
@@ -68,44 +68,43 @@ const CategoryInfoItem = styled.div`
 
 const Editar = ({ categories }) => {
   const [catSelected, setCatSelected] = useState(1);
-  const [catData, setCatData] = useState(false);
+  const [categoryList, setCategoryList] = useState(false);
   const Alert = useAlert();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await axios(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/category/${catSelected}`
-      )
-        .then((res) => {
-          setCatData(res.data[0]);
-        })
-        .catch((err) => console.log(err));
+  const { data, error } = useSWR(`/category/${catSelected}`);
+  console.log(data);
+  if (data == "undefined") return <div>Cargando</div>;
+  if (error) return <div>algo salio mal</div>;
 
-      return;
-    };
-    fetchData();
-  }, [catSelected]);
+  useEffect(() => {
+    if (data) {
+      setCategoryList(data.data[0]);
+    }
+  }, [data]);
 
   const handleCategorySelector = (e) => {
     const id = e.target.value;
     setCatSelected(id);
+    trigger(`/category/${catSelected}`);
   };
 
   const handleDeleteProduct = (e) => {
+    console.log("delete product clicked");
     const pid = e.target.dataset.pid;
-    axios
-      .delete(`${process.env.NEXT_PUBLIC_API_URL}/api/product/${pid}`, {
-        headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+    axiosbase
+      .delete(`/product/${pid}`, {
+        headers: { Authorization: `Bearer ${Cookies.get("token")}` },
       })
       .then((res) => {
         console.log("deleted", res);
+        trigger(`/category/${catSelected}`);
         Alert.success(" Producto Eliminado");
       })
       .catch((err) => {
         console.log(err.response);
       });
   };
-
+  console.log(categoryList);
   return (
     <CmsLayout>
       <h1>EDITAR</h1>
@@ -120,34 +119,37 @@ const Editar = ({ categories }) => {
             ))}
           </Select>
         </h3>
-        {catData && (
+        {categoryList && (
           <CategoryInfoContainer>
-            <CategoryInfoItem>
-              <div>{catData.Products.length}</div>
+            {/* <CategoryInfoItem>
+              <div>{categoryList.Products.length}</div>
               <div>productos</div>
-            </CategoryInfoItem>
-            <CategoryInfoItem>
-              <div>{catData.SubCategories.length}</div>
+            </CategoryInfoItem> */}
+            {/* <CategoryInfoItem>
+              <div>{categoryList.SubCategories.length}</div>
               <div>sub categorías</div>
-            </CategoryInfoItem>
-            <CategoryInfoItem>
+            </CategoryInfoItem> */}
+            {/* <CategoryInfoItem>
               <div>
-                {catData.Products.filter((prod) => prod.visible == 0).length}
+                {
+                  categoryList.Products.filter((prod) => prod.visible == 0)
+                    .length
+                }
               </div>
               <div>Productos Ocultos</div>
-            </CategoryInfoItem>
-            <CategoryInfoItem>
-              {catData.SubCategories.length > 0 &&
-                catData.SubCategories.map((scat) => (
+            </CategoryInfoItem> */}
+            {/* <CategoryInfoItem>
+              {categoryList.SubCategory.length > 0 &&
+                categoryList.SubCategories((scat) => (
                   <button key={scat.id}>{scat.name}</button>
                 ))}
-            </CategoryInfoItem>
+            </CategoryInfoItem> */}
           </CategoryInfoContainer>
         )}
       </div>
       <div>
         <h4>Lista De Productos</h4>
-        {catData && (
+        {categoryList && (
           <Table>
             <thead>
               <tr>
@@ -160,13 +162,13 @@ const Editar = ({ categories }) => {
               </tr>
             </thead>
             <tbody>
-              {catData.Products.length > 0 &&
-                catData.Products.map((prod) => {
+              {categoryList.Products.length > 0 &&
+                categoryList.Products.map((prod) => {
                   return (
                     <tr key={prod.id}>
                       <td>{prod.id}</td>
                       <td>{prod.name}</td>
-                      <td>{catData.name}</td>
+                      <td>{categoryList.name}</td>
                       <td>{prod.SubCategoryId}</td>
                       <td>{prod.visible}</td>
                       <td>
@@ -180,7 +182,7 @@ const Editar = ({ categories }) => {
                         </Link>
                         <Button
                           data-pid={prod.id}
-                          handleClick={handleDeleteProduct}
+                          onClick={handleDeleteProduct}
                         >
                           Borrar
                         </Button>
@@ -199,14 +201,12 @@ const Editar = ({ categories }) => {
 export default Editar;
 
 export async function getServerSideProps(context) {
-  const fetchCategories = await axios(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/category/all`
-  )
+  const fetchCategories = await axiosbase(`/category/all`)
     .then((res) => res)
     .catch((err) => console.log(err));
 
   const categories = fetchCategories.data;
   return {
-    props: { categories } // will be passed to the page component as props
+    props: { categories }, // will be passed to the page component as props
   };
 }

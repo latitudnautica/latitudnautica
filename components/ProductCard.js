@@ -6,8 +6,13 @@ const ImageWrapper = styled.div`
   padding: 10px;
   transition: transform 0.3s ease-out;
   transform: scale(0.95);
+  border-bottom: 2px solid #f7f7f7;
+  min-height: 200px;
   img {
+  height: 200px;
+    /* max-height: 200px; */
     width: 100%;
+    object-fit: contain;
   }
 `;
 
@@ -25,7 +30,7 @@ const ProductCardStyled = styled.div`
 `;
 
 const InfoWrapper = styled.div`
-  border: 1px solid red;
+  /* border: 1px solid red; */
   text-align: center;
 `;
 
@@ -43,9 +48,14 @@ const Brand = styled.div`
   font-size: 1.1em;
 `;
 
-const DetailButton = styled.button`
+const Code = styled.div`
+  font-size: 0.7em;
+  margin: 0 5px 0 0;
+  text-align: right;
+  color: gray;
+`;
 
-`
+const DetailButton = styled.button``;
 export default function ProductCard(props) {
   const { item } = props;
 
@@ -62,9 +72,10 @@ export default function ProductCard(props) {
         )}
       </ImageWrapper>
       <InfoWrapper>
+        <Code>cod:{item.id}</Code>
         <ProductName>{item.name}</ProductName>
         <Price>$ {item.price}</Price>
-        <Brand> {item.brand}</Brand>
+        <Brand> {item.brand ? item.brand : "-"}</Brand>
         <Link
           href={`/detalle/[p_name]/[product_id]`}
           as={`/detalle/${item.name}/${item.id}`}
@@ -73,7 +84,6 @@ export default function ProductCard(props) {
             <DetailButton>ver detalles</DetailButton>
           </a>
         </Link>
-        <div>producto id: {item.Id}</div>
       </InfoWrapper>
     </ProductCardStyled>
   );
