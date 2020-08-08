@@ -1,0 +1,29 @@
+{
+    "cSpell.language": "es,en",
+    "cSpell.enableFiletypes": [
+        "!c",
+        "!csharp",
+        "!go",
+        "!handlebars",
+        "!haskell",
+        "!java",
+        "!latex",
+        "!pug",
+        "!python",
+        "!rust",
+        "!scala",
+        "!yaml",
+        "!yml",
+        "log",
+        "properties",
+        "source.css.styled"
+    ],
+    "cSpell.words": [
+        "Page",
+        "Selected",
+        "Sidebar",
+        "axiosbase",
+        "filtered",
+        "scid"
+    ]
+}

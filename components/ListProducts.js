@@ -32,7 +32,6 @@ export default function ListProducts(props) {
         <GridLoader size={50} color="green" />
       </Loading>
     );
-
   if (products) {
     // console.log(data);
     if (products.length !== 0) {

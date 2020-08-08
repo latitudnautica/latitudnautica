@@ -23,7 +23,7 @@ const MenuStyled = styled.nav`
   top: 0;
   left: 0;
   transition: transform 0.3s ease-in-out;
-  z-index: 9;
+  z-index: 998;
 
   @media (max-width: 576px) {
     width: 100%;

@@ -11,7 +11,7 @@ const Container = styled.div`
 `;
 
 const Footer = styled.footer`
-  position: absolute;
+  position: relative;
   background-color: ${({ theme }) => theme.colors.background};
   display: flex;
   bottom: 0px;
@@ -32,8 +32,8 @@ export default function MainLayout(props) {
       <Container>
         <CategoriesNavbar />
         <section>{children}</section>
-        <Footer>FOOTER</Footer>
       </Container>
+        <Footer>FOOTER</Footer>
     </>
   );
 }
