@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Headroom from "react-headroom";
 import Header from "../Header";
 import CategoriesNavbar from "../CategoriesNavbar";
 
