@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axiosBase from "../../utils/axiosBase";
 import styled from "styled-components";
 import Cookies from "js-cookie";
-import Button from "../Button";
+import { Button } from "../Button";
 import Router from "next/router";
 
 const FileUploadStyled = styled.div`
@@ -50,7 +50,7 @@ export default function UploadFiles(props) {
       } else {
         setIsError({
           message: "La imagen seleccionada es muy pesada. Max 2mb",
-          status: 413
+          status: 413,
         });
       }
     } catch (error) {
@@ -75,14 +75,14 @@ export default function UploadFiles(props) {
       data: formData,
       headers: {
         Authorization: `Bearer ${Cookies.get("token")}`,
-        "content-type": "multipart/form-data"
+        "content-type": "multipart/form-data",
       },
       onUploadProgress: (ProgressEvent) => {
         let progress = Math.round(
           (ProgressEvent.loaded / ProgressEvent.total) * 100
         );
         setProgress(progress);
-      }
+      },
     })
       .then((res) => {
         // then print response status
@@ -115,18 +115,18 @@ export default function UploadFiles(props) {
     <FileUploadStyled>
       <div>
         {selectedFile ? (
-          <img src={URL.createObjectURL(selectedFile)} height='250px' />
+          <img src={URL.createObjectURL(selectedFile)} height="250px" />
         ) : (
           <p>Selecciona una imagen para cambiar la que tine el producto</p>
         )}
       </div>
       <FormContainer>
-        <input type='file' name='file' onChange={handleSelectedFile} />
+        <input type="file" name="file" onChange={handleSelectedFile} />
 
         {selectedFile == null ? (
           false
         ) : (
-          <Button type='button' value='Cargar' onClick={handleUploadFile}>
+          <Button type="button" value="Cargar" onClick={handleUploadFile}>
             Cargar Imagen
           </Button>
         )}

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import { ButtonProductCard } from "../components/Button";
 
 const ImageWrapper = styled.div`
   padding: 10px;
@@ -8,9 +9,10 @@ const ImageWrapper = styled.div`
   transform: scale(0.95);
   border-bottom: 2px solid #f7f7f7;
   min-height: 200px;
+
   img {
-  height: 200px;
-    /* max-height: 200px; */
+    max-height: 200px;
+    height: 200px;
     width: 100%;
     object-fit: contain;
   }
@@ -18,7 +20,7 @@ const ImageWrapper = styled.div`
 
 const ProductCardStyled = styled.div`
   width: 220px;
-  margin: 10px;
+  margin: 8px;
   border: solid thin #ccc;
   /* box-shadow: 0px 0px 14px -5px gray; */
   transition: all 0.2s ease;
@@ -35,7 +37,7 @@ const InfoWrapper = styled.div`
 `;
 
 const ProductName = styled.div`
-  font-size: 1.5em;
+  font-size: 1.2em;
   font-weight: 700;
 `;
 
@@ -81,7 +83,7 @@ export default function ProductCard(props) {
           as={`/detalle/${item.name}/${item.id}`}
         >
           <a>
-            <DetailButton>ver detalles</DetailButton>
+            <ButtonProductCard>ver detalles</ButtonProductCard>
           </a>
         </Link>
       </InfoWrapper>

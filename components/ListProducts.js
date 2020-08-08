@@ -7,10 +7,16 @@ const ListProductsStyled = styled.main`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: start;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
 `;
+
 const Loading = styled.div`
   margin: auto;
 `;
+
 const NoProductsContactForm = styled.div`
   margin: auto;
   text-align: center;
@@ -23,7 +29,7 @@ export default function ListProducts(props) {
   if (!products)
     return (
       <Loading>
-        <GridLoader size={50} color='green' />
+        <GridLoader size={50} color="green" />
       </Loading>
     );
 

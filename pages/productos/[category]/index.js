@@ -1,15 +1,20 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useCategories } from "../../../context/CategoriesProvider";
-import axios from "axios";
+import axiosbase from "../../../utils/axiosBase";
 import styled from "styled-components";
 import MainLayout from "../../../components/layouts/MainLayout";
 import SidebarMenuProducts from "../../../components/SidebarMenuProducts";
 import ListProducts from "../../../components/ListProducts";
-import { route } from "next/dist/next-server/server/router";
 
 const ListSection = styled.section`
   display: flex;
+  flex-direction: row;
+
+  @media (max-width: 768px) {
+    display: block;
+    /* flex-direction: column; */
+  }
 `;
 
 const ProductsPageWrapper = () => {
@@ -19,11 +24,8 @@ const ProductsPageWrapper = () => {
   const Router = useRouter();
   const query = Router.query;
 
-
   const getProducts = async () => {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/product/category/${query.cid}`;
-
-    await axios(url)
+    await axiosbase(`/product/category/${query.cid}`)
       .then((res) => {
         setProducts(res.data);
       })
@@ -33,9 +35,7 @@ const ProductsPageWrapper = () => {
   };
 
   const getProductsFiltered = async () => {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/product/filtered/${query.cid}/${query.scid}`;
-
-    await axios(url)
+    await axiosbase(`/product/filtered/${query.cid}/${query.scid}`)
       .then((res) => {
         setProducts(res.data);
       })

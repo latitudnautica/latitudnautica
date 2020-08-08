@@ -6,7 +6,7 @@ import ProductCard from "../../../components/ProductCard";
 import ProductForm from "../../../components/cms/ProductForm";
 import UploadFiles from "../../../components/cms/uploadFiles";
 import withAuth from "../../../hoc/withAut";
-import Button from "../../../components/Button";
+import { Button } from "../../../components/Button";
 
 const ProductsContainer = styled.main`
   padding: 20px;
@@ -62,7 +62,7 @@ const EditProduct = (props) => {
     return (
       <Error
         statusCode={errorCode}
-        title='No se encuentra el producto seleccionado'
+        title="No se encuentra el producto seleccionado"
       />
     );
   }
@@ -106,6 +106,6 @@ export async function getServerSideProps({ params }) {
   const product = await res.json();
 
   return {
-    props: { errorCode, product } // will be passed to the page component as props
+    props: { errorCode, product }, // will be passed to the page component as props
   };
 }

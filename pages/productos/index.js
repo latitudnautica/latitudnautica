@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import GridLoader from "react-spinners/GridLoader";
 import { useCategories } from "../../context/CategoriesProvider";
+
 const CategoriesContainer = styled.main`
   display: flex;
   justify-content: center;

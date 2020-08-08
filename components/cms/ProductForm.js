@@ -5,7 +5,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useAlert } from "react-alert";
 import { useCategories } from "../../context/CategoriesProvider";
-import Button from "../Button";
+import { Button } from "../Button";
 
 const formatProdToEdit = (prod) => {
   return {
@@ -28,7 +28,7 @@ const formatProdToEdit = (prod) => {
     subCategoryId: prod.subCategoryId || undefined,
     tasaIVA: prod.tasaIVA || undefined,
     upc: prod.upc || undefined,
-    visible: prod.visible || undefined
+    visible: prod.visible || undefined,
   };
 };
 
@@ -108,7 +108,7 @@ const ProductForm = ({ product, isEdit }) => {
     handleHoverCategory,
     categorySelected,
     categoryHover,
-    isLoading
+    isLoading,
   } = useCategories();
 
   const [subCategories, setSubCategories] = useState([]);
@@ -139,14 +139,14 @@ const ProductForm = ({ product, isEdit }) => {
         console.log(values);
         if (!isEdit) {
           return await axios.post(apiUrl, values, {
-            headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+            headers: { Authorization: `Bearer ${Cookies.get("token")}` },
           });
         } else {
           const data = values;
           data.id = product.id;
 
           return await axios.put(apiUrl, data, {
-            headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+            headers: { Authorization: `Bearer ${Cookies.get("token")}` },
           });
         }
       };
@@ -164,7 +164,7 @@ const ProductForm = ({ product, isEdit }) => {
           if (err.response) {
             const errMessage = {
               status: err.response.status,
-              data: err.response.data
+              data: err.response.data,
             };
 
             if (errMessage.status == 406) {
@@ -201,7 +201,7 @@ const ProductForm = ({ product, isEdit }) => {
         handleChange,
         handleBlur,
         handleSubmit,
-        isSubmitting
+        isSubmitting,
       }) => (
         <FormContainer>
           <Form onSubmit={handleSubmit}>
@@ -209,8 +209,8 @@ const ProductForm = ({ product, isEdit }) => {
               <FieldGroup>
                 <label>Categoría</label>
                 <Select
-                  as='select'
-                  name='categoryId'
+                  as="select"
+                  name="categoryId"
                   onChange={handleChange}
                   onClick={handleCategorySelector}
                   onBlur={handleBlur}
@@ -229,8 +229,8 @@ const ProductForm = ({ product, isEdit }) => {
               <FieldGroup>
                 <label>Sub Categoría</label>
                 <Select
-                  as='select'
-                  name='subCategoryId'
+                  as="select"
+                  name="subCategoryId"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.subCategoryId}
@@ -252,8 +252,8 @@ const ProductForm = ({ product, isEdit }) => {
               <FieldGroup>
                 <label>Nombre</label>
                 <Field
-                  type='text'
-                  name='name'
+                  type="text"
+                  name="name"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.name}
@@ -265,8 +265,8 @@ const ProductForm = ({ product, isEdit }) => {
               <FieldGroup>
                 <label>Marca</label>
                 <Field
-                  type='text'
-                  name='brand'
+                  type="text"
+                  name="brand"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.brand}
@@ -276,8 +276,8 @@ const ProductForm = ({ product, isEdit }) => {
               <FieldGroup>
                 <label>Precio</label>
                 <Field
-                  type='number'
-                  name='price'
+                  type="number"
+                  name="price"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.price}
@@ -287,8 +287,8 @@ const ProductForm = ({ product, isEdit }) => {
               <FieldGroup>
                 <label>Precio Dolares</label>
                 <Field
-                  type='number'
-                  name='priceDolar'
+                  type="number"
+                  name="priceDolar"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.priceDolar}
@@ -298,8 +298,8 @@ const ProductForm = ({ product, isEdit }) => {
               <FieldGroup>
                 <label>IVA</label>
                 <Field
-                  type='number'
-                  name='tasasIVA'
+                  type="number"
+                  name="tasasIVA"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.tasasIVA}
@@ -309,8 +309,8 @@ const ProductForm = ({ product, isEdit }) => {
               <FieldGroup>
                 <label>Stock</label>
                 <Field
-                  type='number'
-                  name='stock'
+                  type="number"
+                  name="stock"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.stock}
@@ -322,8 +322,8 @@ const ProductForm = ({ product, isEdit }) => {
               <FieldGroup>
                 <label>Código</label>
                 <Field
-                  type='text'
-                  name='codeArticle'
+                  type="text"
+                  name="codeArticle"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.codeArticle}
@@ -335,8 +335,8 @@ const ProductForm = ({ product, isEdit }) => {
               <FieldGroup>
                 <label>Promoción</label>
                 <Field
-                  type='text'
-                  name='promoActive'
+                  type="text"
+                  name="promoActive"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.promoActive}
@@ -348,8 +348,8 @@ const ProductForm = ({ product, isEdit }) => {
               <FieldGroup>
                 <label>Código promoción</label>
                 <Field
-                  type='text'
-                  name='codePromo'
+                  type="text"
+                  name="codePromo"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.codePromo}
@@ -359,8 +359,8 @@ const ProductForm = ({ product, isEdit }) => {
               <FieldGroup>
                 <label>Código SKU</label>
                 <Field
-                  type='text'
-                  name='sku'
+                  type="text"
+                  name="sku"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.sku}
@@ -370,8 +370,8 @@ const ProductForm = ({ product, isEdit }) => {
               <FieldGroup>
                 <label>Código UPC</label>
                 <Field
-                  type='text'
-                  name='upc'
+                  type="text"
+                  name="upc"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.upc}
@@ -383,8 +383,8 @@ const ProductForm = ({ product, isEdit }) => {
               <FieldGroup>
                 <label>Descripción</label>
                 <textarea
-                  type='textarea'
-                  name='description'
+                  type="textarea"
+                  name="description"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.description}
@@ -398,7 +398,7 @@ const ProductForm = ({ product, isEdit }) => {
                 <Field name={"visible"}>
                   {({ field }) => (
                     <input
-                      type='checkbox'
+                      type="checkbox"
                       checked={values.visible}
                       {...field}
                     />
@@ -411,8 +411,8 @@ const ProductForm = ({ product, isEdit }) => {
                   producto en editar producto. Si no cargas una imagen se
                   mostrara una imagen base.
                 </p>
-                <Button type='submit'>Enviar</Button>
-                <Button type='reset' disabled={isSubmitting}>
+                <Button type="submit">Enviar</Button>
+                <Button type="reset" disabled={isSubmitting}>
                   Reset
                 </Button>
               </FieldGroup>

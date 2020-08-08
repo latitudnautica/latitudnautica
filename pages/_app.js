@@ -38,6 +38,7 @@ export default function MyApp({ Component, pageProps }) {
     <>
       <Head>
         <title>Latitud Náutica</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         {/* Global Site Tag (gtag.js) - Google Analytics */}
         <script
           async

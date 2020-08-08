@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import ReactModal from "react-modal";
 import styled from "styled-components";
 
-import Button from "../Button";
+import { Button } from "../Button";
 import axiosBase from "../../utils/axiosBase";
 ReactModal.setAppElement("#__next");
 
@@ -19,8 +19,6 @@ const ModalStyled = styled.div`
   }
 `;
 
-
-
 const customStyles = {
   content: {
     top: "50%",
@@ -29,8 +27,8 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    transition: "transform 500ms"
-  }
+    transition: "transform 500ms",
+  },
 };
 
 const UploadFileModal = () => {
@@ -71,14 +69,14 @@ const UploadFileModal = () => {
       url: `/utils/banner`,
       data: formData,
       headers: {
-        "content-type": "multipart/form-data"
+        "content-type": "multipart/form-data",
       },
       onUploadProgress: (ProgressEvent) => {
         let progress = Math.round(
           (ProgressEvent.loaded / ProgressEvent.total) * 100
         );
         setProgress(progress);
-      }
+      },
     })
       .then((res) => {
         setIsOpen(false);
@@ -96,24 +94,24 @@ const UploadFileModal = () => {
         onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={customStyles}
-        contentLabel='Example Modal'
+        contentLabel="Example Modal"
       >
         <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Cargar banner</h2>
         <button onClick={closeModal}>X</button>
         <ModalStyled>
           <form>
             <label>Titulo de la imagen</label>
-            <input ref={inputTitle} type='text' name='title' required />
+            <input ref={inputTitle} type="text" name="title" required />
             <label>Banner</label>
             <input
-              type='file'
-              name='file'
+              type="file"
+              name="file"
               required
               onChange={(e) => {
                 setFile(e.target.files[0]);
               }}
             />
-            <button type='submit' onClick={uploadFile}>
+            <button type="submit" onClick={uploadFile}>
               enviar
             </button>
           </form>

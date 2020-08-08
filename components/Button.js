@@ -1,31 +1,26 @@
 import styled from "styled-components";
 
-const Button = styled.button`
-  box-sizing: border-box;
-  cursor: pointer;
-  background-color: ${({ theme }) => theme.button.primary};
-  text-transform: uppercase;
-  color: ${({ theme }) => theme.button.hover};
-  padding: 10px;
-  border: 1px solid ${({ theme }) => theme.button.primary};
-  transition: all 150ms ease-in;
+export const Button = styled.button`
   margin: 10px;
-  border-radius: 2.5px;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  box-sizing: border-box;
+  /* text-transform: uppercase; */
+  font-weight: 700;
+  color: ${({ theme }) => theme.button.textColor};
+  background-color: ${({ theme }) => theme.button.background};
+  border: none;
+  transition: all 150ms ease-in;
 
   :hover {
     background-color: ${({ theme }) => theme.button.hover};
-    color: ${({ theme }) => theme.button.primary};
-    border: 1px solid #08a0b9;
+    color: ${({ theme }) => theme.button.textColorHover};
   }
 `;
 
-// const Button = (props) => {
-//   const { handleClick, children, type } = props;
-//   return (
-//     <ButtonStyled onClick={handleClick} {...props}>
-//       {children}
-//     </ButtonStyled>
-//   );
-// };
-
-export default Button;
+export const ButtonProductCard = styled(Button)`
+  /* background-color: #4888ca; */
+  color: #06162b;
+  border: none;
+`;

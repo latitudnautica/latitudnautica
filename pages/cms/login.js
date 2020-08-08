@@ -5,7 +5,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import styled from "styled-components";
 import { useAuth } from "../../context/AuthProvider";
-import Button from "../../components/Button";
+import { Button } from "../../components/Button";
 
 const LoginStyled = styled.section`
   display: flex;
@@ -74,7 +74,7 @@ const Login = () => {
 
     getToken
       .then((user) => {
-        Cookies.set("token", user.data.token, { expires: 7  });
+        Cookies.set("token", user.data.token, { expires: 7 });
       })
       .then((r) => {
         setIsAuthenticated(true);
@@ -93,7 +93,7 @@ const Login = () => {
       <Formik
         initialValues={{
           password: "",
-          email: ""
+          email: "",
         }}
         onSubmit={(values, actions) => {
           handleLogin(values);
@@ -110,34 +110,34 @@ const Login = () => {
           handleChange,
           handleBlur,
           handleSubmit,
-          isValidating
+          isValidating,
         }) => (
           <FormContainer>
             <h1>INICIA SESIÓN</h1>
             <Form onSubmit={handleSubmit}>
               <Field
-                type='email'
+                type="email"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 validate={validateEmail}
-                placeholder='email'
+                placeholder="email"
                 // value={props.values.name}
-                name='email'
+                name="email"
               />
               {errors.email && touched.email && <div>{errors.email}</div>}
               <Field
-                type='password'
-                placeholder='password'
+                type="password"
+                placeholder="password"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 validate={validatePassword}
                 // value={values.name}
-                name='password'
+                name="password"
               />
               {errors.password && touched.password && (
                 <div>{errors.password}</div>
               )}
-              <Button type='submit'>Submit</Button>
+              <Button type="submit">Submit</Button>
               {isValidating}
             </Form>
           </FormContainer>

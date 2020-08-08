@@ -4,7 +4,7 @@ import useSWR, { trigger } from "swr";
 import axiosBase from "../../utils/axiosBase";
 import Cookies from "js-cookie";
 import CmsLayout from "../../components/layouts/CmsLayout";
-import Button from "../../components/Button";
+import { Button } from "../../components/Button";
 import { useAlert } from "react-alert";
 
 const BannersList = styled.div`
@@ -43,7 +43,7 @@ const Banners = () => {
   const handleDeleteBanner = (bid) => {
     axiosBase
       .delete(`/utils/banner/${bid}`, {
-        headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+        headers: { Authorization: `Bearer ${Cookies.get("token")}` },
       })
       .then((res) => {
         console.log(res);
@@ -72,14 +72,14 @@ const Banners = () => {
       data: formData,
       headers: {
         "content-type": "multipart/form-data",
-        Authorization: `Bearer ${Cookies.get("token")}`
+        Authorization: `Bearer ${Cookies.get("token")}`,
       },
       onUploadProgress: (ProgressEvent) => {
         let progress = Math.round(
           (ProgressEvent.loaded / ProgressEvent.total) * 100
         );
         setProgress(progress);
-      }
+      },
     })
       .then((res) => {
         console.log(res);
@@ -104,17 +104,17 @@ const Banners = () => {
         </button>
         <form>
           <label>Titulo de la imagen</label>
-          <input ref={inputTitle} type='text' name='title' required />
+          <input ref={inputTitle} type="text" name="title" required />
           <label>Banner</label>
           <input
-            type='file'
-            name='file'
+            type="file"
+            name="file"
             required
             onChange={(e) => {
               setFile(e.target.files[0]);
             }}
           />
-          <button type='submit' onClick={uploadFile}>
+          <button type="submit" onClick={uploadFile}>
             enviar
           </button>
         </form>

@@ -7,7 +7,7 @@ import { positions, useAlert } from "react-alert";
 import BarLoader from "react-spinners/BarLoader";
 import CmsLayout from "../../components/layouts/CmsLayout";
 import CategoryTableItems from "../../components/cms/CategoryTableItems";
-import Button from "../../components/Button";
+import { Button } from "../../components/Button";
 
 const CategoriesStyled = styled.section`
   display: flex;
@@ -123,7 +123,7 @@ const Categories = (props) => {
         : type == "subCat" && `/category/subcategory`;
     axiosBase
       .post(url, data, {
-        headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+        headers: { Authorization: `Bearer ${Cookies.get("token")}` },
       })
       .then((res) => {
         setIsLoading(false);

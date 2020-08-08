@@ -31,7 +31,7 @@ export default function MainLayout(props) {
       <Header />
       <Container>
         <CategoriesNavbar />
-        <main>{children}</main>
+        <section>{children}</section>
         <Footer>FOOTER</Footer>
       </Container>
     </>
