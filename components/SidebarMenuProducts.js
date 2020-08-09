@@ -74,8 +74,9 @@ const SidebarMenuProducts = ({ category }) => {
                   <Link
                     key={sCat.id}
                     scroll={false}
-                    href={`/productos/[category]/${category.id}?scid=${sCat.id}&scname=${sCat.name}`}
+                    href={`/productos/[category]/[cid]?scid=${sCat.id}&scname=${sCat.name}`}
                     as={`/productos/${category.name}/${category.id}?scid=${sCat.id}&scname=${sCat.name}`}
+                    shallow={false}
                     passHref
                   >
                     <ButtonExtended as="a">{sCat.name}</ButtonExtended>

@@ -30,7 +30,7 @@ const ProductsPageWrapper = ({ data }) => {
   const query = Router.query;
 
   const applyFilter = (scid) => {
-    const productsFiltered = products.filter((item) => {
+    const productsFiltered = category.Products.filter((item) => {
       return item.SubCategoryId == scid;
     });
     setProducts(productsFiltered);
