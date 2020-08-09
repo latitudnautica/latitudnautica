@@ -17,6 +17,7 @@ const ProductImage = styled.div`
   width: 75%;
   min-width: 300px;
   max-width: 400px;
+  max-height: 300px;
 
   img {
     width: 100%;
@@ -46,7 +47,11 @@ export default function Producto(props) {
       <ProductWrapper>
         <ProductImage>
           <img
-            src={product.imageUrl ? product.imageUrl : "/images/logo_test.jpg"}
+            src={
+              product.imagePath
+                ? process.env.NEXT_PUBLIC_API_URL + product.imagePath
+                : "/images/logo_test.jpg"
+            }
           />
         </ProductImage>
         <ProductInfo>
@@ -64,7 +69,6 @@ export default function Producto(props) {
 
 Producto.Layout = MainLayout;
 
-
 export async function getServerSideProps({ params }) {
   const pid = params.product_id;
   const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/product/detail/${pid}/`;
@@ -74,6 +78,6 @@ export async function getServerSideProps({ params }) {
   // console.log(product);
 
   return {
-    props: { product } // will be passed to the page component as props
+    props: { product }, // will be passed to the page component as props
   };
 }
