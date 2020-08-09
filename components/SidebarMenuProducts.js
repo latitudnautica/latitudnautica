@@ -12,21 +12,26 @@ const SidebarMenuProductsStyled = styled.div`
   margin-left: 5px;
   background-color: ${({ theme }) => theme.colors.lightBlack};
   box-shadow: ${({ theme }) => theme.details.boxShadow};
-  /* @media (max-width: 768px) {
-    flex-direction: row;
-    flex-wrap: wrap;
-  } */
+  text-align: center;
 `;
+
 const ItemsWrapper = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    background-color: ${({ theme }) => theme.colors.lightBlack};
+  }
 `;
+
 const ButtonExtended = styled(Button)`
   margin: 2px 0;
   text-transform: capitalize;
 `;
 
-const ShowMenuButton = styled(Button)`
+const ShowMenuButton = styled(ButtonExtended)`
+  padding: 10px 20%;
   border: none;
   :focus,
   :selected,
@@ -35,9 +40,8 @@ const ShowMenuButton = styled(Button)`
   }
 `;
 
-const SidebarMenuProducts = (props) => {
-  const { categorySelected } = props;
-  const [showMenu, setShowMenu] = useState(false);
+const SidebarMenuProducts = ({ category }) => {
+  const [showMenu, setShowMenu] = useState(true);
   const { width } = useWindowSize();
 
   useEffect(() => {
@@ -50,13 +54,13 @@ const SidebarMenuProducts = (props) => {
   };
 
   const menuAppear = useSpring({
-    transform: showMenu ? "translate3D(0,0,0)" : "translate3D(0,-40px,0)",
+    transform: showMenu ? "translate3D(0,0,0)" : "translate3D(0,-30px,0)",
     opacity: showMenu ? 1 : 0,
   });
 
   return (
     <SidebarMenuProductsStyled>
-      {width < 760 && (
+      {width <= 768 && (
         <ShowMenuButton onClick={handleShowMenu}>
           {`${showMenu ? "Ocultar" : "Mostrar"} Sub Categorías`}
         </ShowMenuButton>
@@ -64,14 +68,15 @@ const SidebarMenuProducts = (props) => {
       <animated.div style={menuAppear}>
         <ItemsWrapper>
           {showMenu &&
-            (categorySelected && categorySelected.SubCategories.length > 0 ? (
-              categorySelected.SubCategories.map((sCat) => {
+            (category && category.SubCategories.length > 0 ? (
+              category.SubCategories.map((sCat) => {
                 return (
                   <Link
                     key={sCat.id}
                     scroll={false}
-                    href={`/productos/[category]?cid=${categorySelected.id}&scid=${sCat.id}&scname=${sCat.name}`}
-                    as={`/productos/${categorySelected.name}?cid=${categorySelected.id}&productos?scid=${sCat.id}&scname=${sCat.name}`}
+                    href={`/productos/[category]/[cid]?scid=${sCat.id}&scname=${sCat.name}`}
+                    as={`/productos/${category.name}/${category.id}?scid=${sCat.id}&scname=${sCat.name}`}
+                    shallow={false}
                     passHref
                   >
                     <ButtonExtended as="a">{sCat.name}</ButtonExtended>

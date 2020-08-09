@@ -13,7 +13,7 @@ export const CategoriesProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [categorySelected, setCategorySelected] = useState(false);
   const [categoryHover, setCategoryHover] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const Router = useRouter();
   const { data } = useSWR("/category/all");
 
@@ -22,7 +22,7 @@ export const CategoriesProvider = ({ children }) => {
       setCategories(data.data);
       setIsLoading(false);
     }
-  }, [Router, data]);
+  }, [data]);
 
   useEffect(() => {
     const category = categories.find((cat) => cat.id == Router.query.cid);

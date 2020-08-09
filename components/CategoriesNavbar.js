@@ -18,7 +18,7 @@ const NavbarWrapper = styled.div`
   text-transform: uppercase;
   cursor: initial;
   position: relative;
-  background: ${({ theme }) => theme.colors.background};;
+  background: ${({ theme }) => theme.colors.background};
   z-index: 99;
 `;
 
@@ -93,7 +93,7 @@ const CategoriesNavbar = () => {
     handleHoverCategory,
     handleClickCategory,
     categorySelected,
-    isLoading
+    isLoading,
   } = useCategories();
 
   const [showDropdown, setShowDropdown] = useState(false);
@@ -110,7 +110,7 @@ const CategoriesNavbar = () => {
     setShowDropdown(false);
   };
 
-  if (isLoading) return <NavbarWrapper>Cargando Categorías</NavbarWrapper>;
+  // if (isLoading) return <NavbarWrapper>Cargando Categorías</NavbarWrapper>;
 
   return (
     <CategoriesNavbarStyled onMouseLeave={() => setShowDropdown(false)}>
@@ -119,9 +119,9 @@ const CategoriesNavbar = () => {
           categories.map((cat) => (
             <Link
               key={cat.id}
-              href={`/productos/[category]?cid=${cat.id}`}
-              as={`/productos/${cat.name}?cid=${cat.id}`}
-              shallow={true}
+              href={`/productos/[category]/[cid]`}
+              as={`/productos/${cat.name}/${cat.id}`}
+              passHref
             >
               <NavbarItem
                 onMouseOver={handleHover}
@@ -148,12 +148,13 @@ const CategoriesNavbar = () => {
               categoryHover.SubCategories.map((sCat) => (
                 <Link
                   key={sCat.id}
-                  href={`/productos/[category]?cid=${categoryHover.id}&scid=${sCat.id}&scname=${sCat.name}`}
-                  as={`/productos/${categoryHover.name}?cid=${categoryHover.id}&productos?scid=${sCat.id}&scname=${sCat.name}`}
+                  href={`/productos/[category]/[cid]?scid=${sCat.id}&scname=${sCat.name}`}
+                  as={`/productos/${categoryHover.name}/${categoryHover.id}?scid=${sCat.id}&scname=${sCat.name}`}
+                  passHref
                 >
-                  <DropdownItem onClick={() => setShowDropdown(false)}>
-                    {sCat.name}
-                  </DropdownItem>
+                    <DropdownItem onClick={() => setShowDropdown(false)}>
+                      {sCat.name}
+                    </DropdownItem>
                 </Link>
               ))
             ) : (

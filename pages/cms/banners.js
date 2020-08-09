@@ -46,7 +46,7 @@ const Banners = () => {
         headers: { Authorization: `Bearer ${Cookies.get("token")}` },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         alert.success(`Banner eliminado `);
         trigger("/utils/banners");
       })

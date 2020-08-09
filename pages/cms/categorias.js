@@ -101,7 +101,7 @@ const Categories = (props) => {
         { headers: { Authorization: `Bearer ${Cookies.get("token")}` } }
       )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         // setLastDataAdded(res);
         setIsLoading(false);
         trigger("/category/all");

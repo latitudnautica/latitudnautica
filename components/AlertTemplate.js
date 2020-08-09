@@ -9,7 +9,7 @@ const AlertTemplateStyled = styled.div`
   text-transform: none;
   border-radius: 3px;
   border: ${({ alertOptions }) => {
-    console.log(alertOptions.type);
+    // console.log(alertOptions.type);
     if (alertOptions.type == "error") return "3px solid red";
     if (alertOptions.type == "success") return "3px solid green";
     if (alertOptions.type == "info") return "3px solid blue";

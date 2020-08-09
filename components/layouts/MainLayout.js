@@ -2,11 +2,10 @@ import styled from "styled-components";
 import Header from "../Header";
 import CategoriesNavbar from "../CategoriesNavbar";
 
-const Container = styled.div`
+const Container = styled.main`
   position: relative;
-  /* width: 100%; */
   min-height: 100vh;
-  margin: auto;
+  margin: auto 10px;
 `;
 
 const Footer = styled.footer`
@@ -28,11 +27,9 @@ export default function MainLayout(props) {
   return (
     <>
       <Header />
-      <Container>
-        <CategoriesNavbar />
-        <section>{children}</section>
-      </Container>
-        <Footer>FOOTER</Footer>
+      <CategoriesNavbar />
+      <Container>{children}</Container>
+      <Footer>FOOTER</Footer>
     </>
   );
 }

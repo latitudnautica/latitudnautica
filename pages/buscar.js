@@ -16,7 +16,6 @@ const ProductsPageWrapper = () => {
   const { categorySelected } = useCategories();
   const Router = useRouter();
   const query = Router.query;
-  console.log(query);
 
   const searchProducts = async () => {
     const url = `${process.env.NEXT_PUBLIC_API_URL}/api/product/search?q=${query.q}`;
