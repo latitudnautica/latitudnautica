@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Header from "../Header";
 import CategoriesNavbar from "../CategoriesNavbar";
 
-const Container = styled.div`
+const Container = styled.main`
   position: relative;
   min-height: 100vh;
   margin: auto 10px;
@@ -27,10 +27,8 @@ export default function MainLayout(props) {
   return (
     <>
       <Header />
-      <Container>
-        <CategoriesNavbar />
-        <section>{children}</section>
-      </Container>
+      <CategoriesNavbar />
+      <Container>{children}</Container>
       <Footer>FOOTER</Footer>
     </>
   );

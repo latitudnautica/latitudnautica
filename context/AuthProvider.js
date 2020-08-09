@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
         })
         .then((response) => {
           if (response.data.user) {
-            console.log(response.data.user);
+            // console.log(response.data.user);
             setIsAuthenticated(true);
             setIsLoading(false);
             setUser(response.data.user);

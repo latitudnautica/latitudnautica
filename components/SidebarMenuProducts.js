@@ -40,8 +40,7 @@ const ShowMenuButton = styled(ButtonExtended)`
   }
 `;
 
-const SidebarMenuProducts = (props) => {
-  const { categorySelected } = props;
+const SidebarMenuProducts = ({ category }) => {
   const [showMenu, setShowMenu] = useState(true);
   const { width } = useWindowSize();
 
@@ -55,7 +54,7 @@ const SidebarMenuProducts = (props) => {
   };
 
   const menuAppear = useSpring({
-    transform: showMenu ? "translate3D(0,0,0)" : "translate3D(0,-10px,0)",
+    transform: showMenu ? "translate3D(0,0,0)" : "translate3D(0,-30px,0)",
     opacity: showMenu ? 1 : 0,
   });
 
@@ -69,14 +68,14 @@ const SidebarMenuProducts = (props) => {
       <animated.div style={menuAppear}>
         <ItemsWrapper>
           {showMenu &&
-            (categorySelected && categorySelected.SubCategories.length > 0 ? (
-              categorySelected.SubCategories.map((sCat) => {
+            (category && category.SubCategories.length > 0 ? (
+              category.SubCategories.map((sCat) => {
                 return (
                   <Link
                     key={sCat.id}
                     scroll={false}
-                    href={`/productos/[category]?cid=${categorySelected.id}&scid=${sCat.id}&scname=${sCat.name}`}
-                    as={`/productos/${categorySelected.name}?cid=${categorySelected.id}&productos?scid=${sCat.id}&scname=${sCat.name}`}
+                    href={`/productos/[category]/${category.id}?scid=${sCat.id}&scname=${sCat.name}`}
+                    as={`/productos/${category.name}/${category.id}?scid=${sCat.id}&scname=${sCat.name}`}
                     passHref
                   >
                     <ButtonExtended as="a">{sCat.name}</ButtonExtended>
