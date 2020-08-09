@@ -4,9 +4,8 @@ import CategoriesNavbar from "../CategoriesNavbar";
 
 const Container = styled.div`
   position: relative;
-  /* width: 100%; */
   min-height: 100vh;
-  margin: auto;
+  margin: auto 10px;
 `;
 
 const Footer = styled.footer`
@@ -32,7 +31,7 @@ export default function MainLayout(props) {
         <CategoriesNavbar />
         <section>{children}</section>
       </Container>
-        <Footer>FOOTER</Footer>
+      <Footer>FOOTER</Footer>
     </>
   );
 }

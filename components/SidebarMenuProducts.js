@@ -12,21 +12,26 @@ const SidebarMenuProductsStyled = styled.div`
   margin-left: 5px;
   background-color: ${({ theme }) => theme.colors.lightBlack};
   box-shadow: ${({ theme }) => theme.details.boxShadow};
-  /* @media (max-width: 768px) {
-    flex-direction: row;
-    flex-wrap: wrap;
-  } */
+  text-align: center;
 `;
+
 const ItemsWrapper = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    background-color: ${({ theme }) => theme.colors.lightBlack};
+  }
 `;
+
 const ButtonExtended = styled(Button)`
   margin: 2px 0;
   text-transform: capitalize;
 `;
 
-const ShowMenuButton = styled(Button)`
+const ShowMenuButton = styled(ButtonExtended)`
+  padding: 10px 20%;
   border: none;
   :focus,
   :selected,
@@ -37,7 +42,7 @@ const ShowMenuButton = styled(Button)`
 
 const SidebarMenuProducts = (props) => {
   const { categorySelected } = props;
-  const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState(true);
   const { width } = useWindowSize();
 
   useEffect(() => {
@@ -50,13 +55,13 @@ const SidebarMenuProducts = (props) => {
   };
 
   const menuAppear = useSpring({
-    transform: showMenu ? "translate3D(0,0,0)" : "translate3D(0,-40px,0)",
+    transform: showMenu ? "translate3D(0,0,0)" : "translate3D(0,-10px,0)",
     opacity: showMenu ? 1 : 0,
   });
 
   return (
     <SidebarMenuProductsStyled>
-      {width < 760 && (
+      {width <= 768 && (
         <ShowMenuButton onClick={handleShowMenu}>
           {`${showMenu ? "Ocultar" : "Mostrar"} Sub Categorías`}
         </ShowMenuButton>
