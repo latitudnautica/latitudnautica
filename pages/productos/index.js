@@ -1,10 +1,7 @@
-import { useEffect, useState } from "react";
-import MainLayout from "../../components/layouts/MainLayout";
-import axios from "axios";
+import MainLayout from "components/layouts/MainLayout";
+import axiosbase from "utils/axiosBase";
 import styled from "styled-components";
 import Link from "next/link";
-import GridLoader from "react-spinners/GridLoader";
-import { useCategories } from "../../context/CategoriesProvider";
 
 const CategoriesContainer = styled.main`
   display: flex;
@@ -12,7 +9,7 @@ const CategoriesContainer = styled.main`
   flex-wrap: wrap;
 `;
 
-const CategoryCard = styled.div`
+const CategoryCard = styled.a`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -38,15 +35,11 @@ const CardContent = styled.div`
   font-weight: 700;
 `;
 
-const ProductosMain = (props) => {
-  const { categories } = useCategories();
+const ProductosMain = ({ categories }) => {
+  // const { categories } = useCategories();
 
   if (categories.length == 0)
-    return (
-      <CategoriesContainer>
-        <GridLoader />
-      </CategoriesContainer>
-    );
+    return <CategoriesContainer>Cargando..</CategoriesContainer>;
 
   return (
     <CategoriesContainer>
@@ -54,8 +47,9 @@ const ProductosMain = (props) => {
         return (
           <Link
             key={cat.id}
-            href={`/productos/[category]?cid=${cat.id}`}
-            as={`/productos/${cat.name}?cid=${cat.id}`}
+            href={`/productos/[category]/[cid]`}
+            as={`/productos/${cat.name}/${cat.id}`}
+            passHref
           >
             <CategoryCard key={cat.id}>
               <CardImage
@@ -79,3 +73,12 @@ const ProductosMain = (props) => {
 ProductosMain.Layout = MainLayout;
 
 export default ProductosMain;
+
+export async function getStaticProps(context) {
+  const categories = await axiosbase("/category/all").then((res) => res.data);
+  console.log(categories);
+
+  return {
+    props: { categories }, revalidate: 3600, // In seconds // will be passed to the page component as props
+  };
+}

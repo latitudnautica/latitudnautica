@@ -3,12 +3,12 @@ import Head from "next/head";
 import Router from "next/router";
 import NProgress from "nprogress";
 import { SWRConfig } from "swr";
-import axiosBase from "../utils/axiosBase";
-import { AuthProvider } from "../context/AuthProvider";
-import { CategoriesProvider } from "../context/CategoriesProvider";
+import axiosBase from "utils/axiosBase";
+import { AuthProvider } from "context/AuthProvider";
+import { CategoriesProvider } from "context/CategoriesProvider";
 import { ThemeProvider } from "styled-components";
 import { transitions, positions, Provider as AlertProvider } from "react-alert";
-import AlertTemplate from "../components/AlertTemplate";
+import AlertTemplate from "components/AlertTemplate";
 import theme  from "../styles/theme";
 import "../styles/styles.css";
 import "../styles/nprogress.css";
@@ -82,7 +82,7 @@ export default function MyApp({ Component, pageProps }) {
         }}
       >
         <ThemeProvider theme={theme}>
-          <CategoriesProvider>
+          <CategoriesProvider >
             <AlertProvider template={AlertTemplate} {...alertOptions}>
               <AuthProvider>
                 <Layout>
