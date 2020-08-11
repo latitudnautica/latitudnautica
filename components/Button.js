@@ -20,7 +20,13 @@ export const Button = styled.button`
 `;
 
 export const ButtonProductCard = styled(Button)`
-  /* background-color: #4888ca; */
+  border: 1px solid ${({ theme }) => theme.button.background};
+  background-color: white;
+  border-bottom: 2px solid ${({ theme }) => theme.button.background};
   color: #06162b;
-  border: none;
+  box-shadow: ${({ theme }) => theme.details.boxShadow};
+
+  :hover {
+    background-color: ${({ theme }) => theme.button.background};
+  }
 `;

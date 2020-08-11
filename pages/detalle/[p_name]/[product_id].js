@@ -1,45 +1,70 @@
-import { useRouter } from "next/router";
-import MainLayout from "../../../components/layouts/MainLayout";
+import axiosbase from "utils/axiosBase";
 import styled from "styled-components";
+import MainLayout from "../../../components/layouts/MainLayout";
 
-const ProductStyled = styled.main`
-  border: 2px solid blue;
-`;
+const ProductStyled = styled.main``;
 
 const ProductWrapper = styled.div`
+  margin: auto;
   display: flex;
-  flex-wrap: no-wrap;
-  flex-shrink: 1;
+  max-width: 1000px;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+  }
 `;
 
 const ProductImage = styled.div`
-  /* border: 1px solid yellow; */
-  width: 75%;
-  min-width: 300px;
-  max-width: 400px;
-  max-height: 300px;
+  text-align: center;
+  margin: 1em 0;
+  flex-basis: 300px;
+  flex-shrink: 1;
 
   img {
+    /* border: 1px solid red; */
+    /* object-fit: contain; */
     width: 100%;
+
+    @media (max-width: 640px) {
+      margin: 0;
+      border-right: none;
+      width: 40%;
+    }
+  }
+
+  @media (max-width: 640px) {
+    margin: 0;
+    flex-basis: 100px;
   }
 `;
 
 const ProductInfo = styled.div`
-  border: 1px solid green;
-  margin: 20px;
-  prod_title,
-  price,
-  description {
-    display: block;
+  /* border: 2px solid green; */
+  display: flex;
+  flex-direction: column;
+  margin: 0 20px;
+  flex-basis: 700px;
+  flex-shrink: 3;
+
+  div {
+    margin: 1em;
   }
 
-  prod_title {
-    font-size: 1.5em;
+  @media (max-width: 640px) {
+    text-align: center;
   }
 `;
 
+const Title = styled.div`
+  font-size: 1.5em;
+  font-weight: 700;
+`;
+const Price = styled.div``;
+const Description = styled.div``;
+const Code = styled.div``;
+const Iva = styled.div``;
+
 export default function Producto(props) {
-  console.log(props.product);
   const { product } = props;
 
   return (
@@ -55,12 +80,11 @@ export default function Producto(props) {
           />
         </ProductImage>
         <ProductInfo>
-          <div>Id:{product.id}</div>
-          <prod_title>{product.name}</prod_title>
-          <price> Precio: {product.price}</price>
-          <description>{product.description}</description>
-          <div>{product.codeArticle}</div>
-          <div>{product.tasaIVA}</div>
+          <Title>{product.name}</Title>
+          <Price> $ {product.price}</Price>
+          <Description>{product.description}</Description>
+          <Code>Código: {product.codeArticle}</Code>
+          <Iva>{product.tasaIVA}</Iva>
         </ProductInfo>
       </ProductWrapper>
     </ProductStyled>
@@ -71,13 +95,11 @@ Producto.Layout = MainLayout;
 
 export async function getServerSideProps({ params }) {
   const pid = params.product_id;
-  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/product/detail/${pid}/`;
-  const data = await fetch(apiUrl).then((res) => res.json());
-  const product = JSON.parse(JSON.stringify(data));
-
-  // console.log(product);
+  const product = await axiosbase(`/product/detail/${pid}`).then(
+    (res) => res.data
+  );
 
   return {
-    props: { product }, // will be passed to the page component as props
+    props: { product },
   };
 }

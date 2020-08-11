@@ -36,8 +36,6 @@ const CardContent = styled.div`
 `;
 
 const ProductosMain = ({ categories }) => {
-  // const { categories } = useCategories();
-
   if (categories.length == 0)
     return <CategoriesContainer>Cargando..</CategoriesContainer>;
 
@@ -74,11 +72,11 @@ ProductosMain.Layout = MainLayout;
 
 export default ProductosMain;
 
-export async function getStaticProps(context) {
+export async function getStaticProps() {
   const categories = await axiosbase("/category/all").then((res) => res.data);
-  console.log(categories);
 
   return {
-    props: { categories }, revalidate: 3600, // In seconds // will be passed to the page component as props
+    props: { categories },
+    revalidate: 3600,
   };
 }

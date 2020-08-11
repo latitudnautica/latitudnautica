@@ -24,7 +24,7 @@ const BannerFullWidth = styled.div`
 const Index = () => {
   return (
     <>
-      <BannerFullWidth>Hace tus consultas por Whatsapp</BannerFullWidth>
+      <BannerFullWidth>Hace tus consultas por WhatsApp</BannerFullWidth>
       <HomeCarrousel />
       <section>
         <h1>

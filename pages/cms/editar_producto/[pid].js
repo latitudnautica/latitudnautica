@@ -53,11 +53,9 @@ const Select = styled.select`
 `;
 
 const EditProduct = (props) => {
-  // console.log("EditProduct props", props);
   const [showImageModal, setShowImageModal] = useState(false);
 
   const { product, errorCode } = props;
-  console.log(product);
   if (errorCode || product === null) {
     return (
       <Error

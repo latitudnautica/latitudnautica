@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useCategories } from "context/CategoriesProvider";
-import axios from "axios";
+import axiosbase from "utils/axiosBase";
 import styled from "styled-components";
 import MainLayout from "components/layouts/MainLayout";
 import ListProducts from "components/ListProducts";
@@ -18,9 +18,7 @@ const ProductsPageWrapper = () => {
   const query = Router.query;
 
   const searchProducts = async () => {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/product/search?q=${query.q}`;
-
-    await axios(url)
+    await axiosbase(`/product/search?q=${query.q}`)
       .then((res) => {
         setProducts(res.data);
       })
