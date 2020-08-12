@@ -89,7 +89,7 @@ const ContactDetail = styled.div`
   }
 `;
 
-const MediaIcons = styled(ContactDetail)`
+const SocialIcons = styled(ContactDetail)`
   font-size: 1.5em;
   a {
     margin: 0 15px;
@@ -99,8 +99,14 @@ const MediaIcons = styled(ContactDetail)`
   @media (max-width: 768px) {
     flex-direction: column;
     position: absolute;
-    right: 0;
+    right: -10px;
     margin-top: 10px;
+  }
+  @media (max-width: 465px) {
+    flex-direction: column;
+    position: absolute;
+    right: 0;
+    margin-top: 250px;
   }
 `;
 
@@ -130,7 +136,7 @@ export default function Header() {
             <ContactDetail>
               <RiMailSendLine /> info@latitudnautica.com.ar
             </ContactDetail>
-            <MediaIcons>
+            <SocialIcons>
               <a href="/">
                 <RiWhatsappLine />
               </a>
@@ -140,7 +146,7 @@ export default function Header() {
               <a href="https://www.facebook.com/profile.php?id=100004283867132">
                 <RiFacebookCircleLine />
               </a>
-            </MediaIcons>
+            </SocialIcons>
           </ContactDetailsWrapper>
         </ResponsiveWrapper>
       </ContentWrapper>

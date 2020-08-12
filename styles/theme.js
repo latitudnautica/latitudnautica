@@ -1,7 +1,7 @@
 const colors = {
   background: "#f29b0b",
   backgroundHover: "#cd8104",
-  primary: "#f8d395",
+  primary: "#278dcd",
   paleCerulean: "#98C1D9",
   price: "#326273",
   greenPantone: "#4DAA57",

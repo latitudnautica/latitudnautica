@@ -26,9 +26,9 @@ const ProductImage = styled.div`
   flex-shrink: 1;
 
   img {
-    /* border: 1px solid red; */
-    /* object-fit: contain; */
+    object-fit: contain;
     width: 100%;
+    max-height: 300px;
 
     @media (max-width: 640px) {
       margin: 0;
@@ -55,6 +55,7 @@ const ProductInfo = styled.div`
   padding: 2em;
   @media (max-width: 640px) {
     text-align: center;
+    flex-basis: auto;
   }
 `;
 
