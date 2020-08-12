@@ -119,6 +119,7 @@ export async function getServerSideProps({ params }) {
   );
   const errorCode = productData.status === 200 ? false : productData.statusCode;
   const product = productData.data;
+
   return {
     props: { errorCode, product },
   };
