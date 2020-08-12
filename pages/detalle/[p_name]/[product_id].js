@@ -76,8 +76,6 @@ const Code = styled.div``;
 const Iva = styled.div``;
 
 const Producto = ({ errorCode, product }) => {
-  const { product } = props;
-
   if (errorCode) <Error statusCode={errorCode} />;
 
   return (
@@ -116,11 +114,11 @@ export default Producto;
 
 export async function getServerSideProps({ params }) {
   const pid = params.product_id;
-  const product = await axiosbase(`/product/detail/${pid}`).then(
-    (res) => res.data
+  const productData = await axiosbase(`/product/detail/${pid}`).then(
+    (res) => res
   );
-  const errorCode = res.ok ? false : res.statusCode;
-
+  const errorCode = productData.status === 200 ? false : productData.statusCode;
+  const product = productData.data;
   return {
     props: { errorCode, product },
   };
