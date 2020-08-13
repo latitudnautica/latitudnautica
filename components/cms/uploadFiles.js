@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axiosBase from "../../utils/axiosBase";
 import styled from "styled-components";
 import Cookies from "js-cookie";
-import { Button } from "../Button";
+import { Button } from "../layouts/Button";
 import Router from "next/router";
 
 const FileUploadStyled = styled.div`

@@ -5,7 +5,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import styled from "styled-components";
 import { useAuth } from "../../context/AuthProvider";
-import { Button } from "../../components/Button";
+import { Button } from "../../components/layouts/Button";
 
 const LoginStyled = styled.section`
   display: flex;

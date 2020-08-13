@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import ReactModal from "react-modal";
 import styled from "styled-components";
 
-import { Button } from "../Button";
+import { Button } from "../layouts/Button";
 import axiosBase from "../../utils/axiosBase";
 ReactModal.setAppElement("#__next");
 

@@ -5,7 +5,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useAlert } from "react-alert";
 import { useCategories } from "../../context/CategoriesProvider";
-import { Button } from "../Button";
+import { Button } from "../layouts/Button";
 
 const formatProdToEdit = (prod) => {
   return {

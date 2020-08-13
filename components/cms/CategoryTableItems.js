@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button } from "../Button";
+import { Button } from "../layouts/Button";
 
 const Table = styled.table`
   width: 100%;

@@ -6,7 +6,7 @@ import ProductCard from "../../../components/ProductCard";
 import ProductForm from "../../../components/cms/ProductForm";
 import UploadFiles from "../../../components/cms/uploadFiles";
 import withAuth from "../../../hoc/withAut";
-import { Button } from "../../../components/Button";
+import { Button } from "../../../components/layouts/Button";
 
 const ProductsContainer = styled.main`
   padding: 20px;

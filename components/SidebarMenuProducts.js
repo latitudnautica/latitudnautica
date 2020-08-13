@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useSpring, animated } from "react-spring";
 import useWindowSize from "hooks/useWindowSize";
-import { Button } from "./Button";
+import { Button } from "./layouts/Button";
 
 const SidebarMenuProductsStyled = styled.div`
   min-width: 200px;

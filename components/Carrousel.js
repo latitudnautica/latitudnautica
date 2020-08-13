@@ -42,8 +42,8 @@ export default function HomeCarrousel() {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const [images, setImages] = useState(false);
   const [isDataFetching, setIsDataFetching] = useState(true);
-  const [noOfCards, setNoOfCards] = useState(2);
-  const noOfItems = images.length || 3; //value dynamic from items in db
+  const [noOfCards, setNoOfCards] = useState(1);
+  const noOfItems = images.length || 1; //value dynamic from items in db
   const autoPlayDelay = 3000;
   const windowSize = useWindowSize();
   const { data, error } = useSWR("/utils/banners");
@@ -75,7 +75,7 @@ export default function HomeCarrousel() {
       <ItemsCarousel
         placeholderItem={<BannerPlaceholder />}
         enablePlaceholder={true}
-        numberOfPlaceholderItems={3}
+        numberOfPlaceholderItems={1}
         requestToChangeActive={setActiveItemIndex}
         activeItemIndex={activeItemIndex}
         numberOfCards={noOfCards}

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useSpring, animated } from "react-spring";
 
-import { ButtonProductCard } from "../components/Button";
+import { ButtonProductCard } from "./layouts/Button";
 
 const ImageWrapper = styled.div`
   padding: 10px;
@@ -39,8 +39,10 @@ const InfoWrapper = styled.div`
 `;
 
 const ProductName = styled.div`
+  font-family: "Neucha";
+  letter-spacing: 1px;
   color: #4a4c58;
-  font-size: 1.2em;
+  font-size: 1.4em;
   font-weight: 700;
 `;
 

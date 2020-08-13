@@ -7,7 +7,7 @@ import { positions, useAlert } from "react-alert";
 import BarLoader from "react-spinners/BarLoader";
 import CmsLayout from "../../components/layouts/CmsLayout";
 import CategoryTableItems from "../../components/cms/CategoryTableItems";
-import { Button } from "../../components/Button";
+import { Button } from "../../components/layouts/Button";
 
 const CategoriesStyled = styled.section`
   display: flex;

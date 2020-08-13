@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import MainLayout from "../components/layouts/MainLayout";
-import HomeCarrousel from "../components/HomeCarrousel";
+import HomeCarrousel from "../components/Carrousel";
 
 const BannerFullWidth = styled.div`
   background-color: ${({ theme }) => theme.colors.orangeYellowCrayola};

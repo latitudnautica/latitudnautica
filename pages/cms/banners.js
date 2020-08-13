@@ -4,7 +4,7 @@ import useSWR, { trigger } from "swr";
 import axiosBase from "../../utils/axiosBase";
 import Cookies from "js-cookie";
 import CmsLayout from "../../components/layouts/CmsLayout";
-import { Button } from "../../components/Button";
+import { Button } from "../../components/layouts/Button";
 import { useAlert } from "react-alert";
 
 const BannersList = styled.div`

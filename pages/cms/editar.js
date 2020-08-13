@@ -4,7 +4,7 @@ import useSWR, { trigger } from "swr";
 import styled from "styled-components";
 import Link from "next/link";
 import Cookies from "js-cookie";
-import { Button } from "../../components/Button";
+import { Button } from "../../components/layouts/Button";
 import CmsLayout from "../../components/layouts/CmsLayout";
 import { useAlert } from "react-alert";
 
