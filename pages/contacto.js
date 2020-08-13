@@ -14,6 +14,7 @@ import {
   RiMailSendLine,
 } from "react-icons/ri";
 import { Button } from "components/layouts/Button";
+import axiosBase from "@/utils/axiosBase";
 
 const ContactPageWrapper = styled.section`
   margin: 3em 0;
@@ -57,7 +58,7 @@ const FormFieldsWrapper = styled.div`
   input[type="number"] {
     padding: 0.65rem 0.5rem;
     font-size: 1rem;
-    border: 2px solid var(--gray-200);
+    border: 2px solid ${({ theme }) => theme.input.border};
     background-color: var(--gray-100);
     color: var(--gray-800);
     border-radius: 10px;
@@ -70,11 +71,11 @@ const FormFieldsWrapper = styled.div`
     -moz-appearance: none;
     appearance: none;
     font-size: 1rem;
-    border: 2px solid var(--gray-200);
+    border: 2px solid ${({ theme }) => theme.input.border};
     color: var(--gray-700);
     border-radius: 10px;
     resize: vertical;
-    background-color: var(--gray-100);
+    background-color: ${({ theme }) => theme.input.background};
     box-sizing: border-box;
     padding: 0.65rem 0.5rem;
   }
@@ -83,7 +84,7 @@ const FormFieldsWrapper = styled.div`
   select:focus,
   textarea:focus {
     outline: none;
-    border: 2px solid var(--focus-ring-color);
+    border: 2px solid ${({ theme }) => theme.input.borderOnFocus};
   }
 
   input:invalid,
@@ -111,6 +112,11 @@ const SocialIcons = styled(ContactDetail)`
     color: ${({ theme }) => theme.colors.primary};
   }
 `;
+const InputError = styled.span`
+  color: ${({ theme }) => theme.input.error};
+  padding-left: 10px;
+  font-weight: 400;
+`;
 
 const ContactPage = () => {
   const [message, setMessage] = useState({});
@@ -131,16 +137,32 @@ const ContactPage = () => {
             validate={(values) => {
               const errors = {};
               if (!values.email) {
-                errors.email = "Required";
+                errors.email = "Requerido";
               } else if (
                 !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
               ) {
                 errors.email = "Invalid email address";
               }
+              if (!values.name) {
+                errors.name = "Requerido";
+              } else if (!/[A-Z0-9]$/i.test(values.name)) {
+                errors.name = "Invalid email address";
+              }
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
               console.log(values);
+              setSubmitting(true);
+              axiosBase
+                .post("/mailing/send", values)
+                .then((res) => {
+                  console.log(res);
+                  setSubmitting(false);
+                })
+                .catch((err) => {
+                  console.log(err.response);
+                  setSubmitting(false);
+                });
             }}
           >
             {({
@@ -155,7 +177,12 @@ const ContactPage = () => {
             }) => (
               <Form onSubmit={handleSubmit}>
                 <FormFieldsWrapper>
-                  <label htmlFor="name">Nombre</label>
+                  <label htmlFor="name">
+                    Nombre
+                    <InputError>
+                      {errors.name && touched.name && errors.name}
+                    </InputError>
+                  </label>
                   <Field
                     as="input"
                     type="text"
@@ -165,8 +192,13 @@ const ContactPage = () => {
                     onBlur={handleBlur}
                     value={values.name}
                   />
-                  {errors.name && touched.name && errors.name}
-                  <label htmlFor="email"> Email</label>
+
+                  <label htmlFor="email">
+                    Email
+                    <InputError>
+                      {errors.email && touched.email && errors.email}
+                    </InputError>
+                  </label>
                   <Field
                     as="input"
                     type="email"
@@ -176,8 +208,29 @@ const ContactPage = () => {
                     onBlur={handleBlur}
                     value={values.email}
                   />
-                  {errors.email && touched.email && errors.email}
-                  <label htmlFor="phone">Teléfono</label>
+
+                  <label htmlFor="subject">
+                    Asunto
+                    <InputError>
+                      {errors.subject && touched.subject && errors.subject}
+                    </InputError>
+                  </label>
+                  <Field
+                    as="input"
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.subject}
+                  />
+
+                  <label htmlFor="phone">
+                    Teléfono
+                    <InputError>
+                      {errors.phone && touched.phone && errors.phone}
+                    </InputError>
+                  </label>
                   <Field
                     as="input"
                     type="phone"
@@ -187,8 +240,13 @@ const ContactPage = () => {
                     onBlur={handleBlur}
                     value={values.phone}
                   />
-                  {errors.phone && touched.phone && errors.phone}
-                  <label htmlFor="message">Mensaje</label>
+
+                  <label htmlFor="message">
+                    Mensaje
+                    <InputError>
+                      {errors.message && touched.message && errors.message}
+                    </InputError>
+                  </label>
                   <textarea
                     id="message"
                     name="message"
@@ -196,7 +254,6 @@ const ContactPage = () => {
                     onBlur={handleBlur}
                     value={values.message}
                   />
-                  {errors.password && touched.password && errors.password}
                   <Button type="submit" disabled={isSubmitting}>
                     {isSubmitting ? "enviando" : "enviar"}
                   </Button>

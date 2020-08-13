@@ -8,7 +8,14 @@ const colors = {
   celadon: "#3B5DDA4",
   raisinBlack: "#25171A",
   lightBlack: "#F5F5F5",
-  border: "gray",
+  border: "--gray-400",
+};
+
+const input = {
+  background: "#f7fafc",
+  border: "#cbd5e0",
+  borderOnFocus: "#4299e1",
+  error: "#f56565",
 };
 
 const button = {
@@ -23,6 +30,6 @@ const details = {
   boxShadowBottom: "0 10px 18px -10px #25171A",
 };
 
-const theme = { colors, button, details };
+const theme = { colors, button, input, details };
 
 export default theme;
