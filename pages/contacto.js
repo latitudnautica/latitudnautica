@@ -119,13 +119,11 @@ const InputError = styled.span`
 `;
 
 const ContactPage = () => {
-  const [message, setMessage] = useState({});
-
-  const handleInput = (e) => {
-    const value = e.target.value;
-    console.log(value);
-    setMessage();
-  };
+  const [status, setStatus] = useState({
+    message: "",
+    error: false,
+    emailSent: false,
+  });
 
   return (
     <Container>
@@ -158,10 +156,20 @@ const ContactPage = () => {
                 .then((res) => {
                   console.log(res);
                   setSubmitting(false);
+                  setStatus({
+                    message: "Mensaje Enviado",
+                    error: false,
+                    emailSent: true,
+                  });
                 })
                 .catch((err) => {
                   console.log(err.response);
                   setSubmitting(false);
+                  setStatus({
+                    message: "ERROR:  Mensaje No Enviado",
+                    emailSent: true,
+                    error: true,
+                  });
                 });
             }}
           >
@@ -257,6 +265,7 @@ const ContactPage = () => {
                   <Button type="submit" disabled={isSubmitting}>
                     {isSubmitting ? "enviando" : "enviar"}
                   </Button>
+                  {status.emailSent && <div> {status.message}</div>}
                 </FormFieldsWrapper>
               </Form>
             )}
