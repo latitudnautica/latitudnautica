@@ -8,7 +8,7 @@ const colors = {
   celadon: "#3B5DDA4",
   raisinBlack: "#25171A",
   lightBlack: "#F5F5F5",
-  border: "--gray-400",
+  border: "#edf2f7",
 };
 
 const input = {

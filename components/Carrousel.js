@@ -44,7 +44,7 @@ export default function HomeCarrousel() {
   const [isDataFetching, setIsDataFetching] = useState(true);
   const [noOfCards, setNoOfCards] = useState(1);
   const noOfItems = images.length || 1; //value dynamic from items in db
-  const autoPlayDelay = 3000;
+  const autoPlayDelay = 0;
   const windowSize = useWindowSize();
   const { data, error } = useSWR("/utils/banners");
   error && console.log(error);
@@ -69,9 +69,11 @@ export default function HomeCarrousel() {
     setActiveItemIndex((activeItemIndex) => {
       return (activeItemIndex + 1) % (noOfItems - noOfCards + 1);
     });
-
+  const pauseCarrousel = () => {
+    console.log("pause", activeItemIndex);
+  };
   return (
-    <HomeCarrouselStyled>
+    <HomeCarrouselStyled onMouseOver={pauseCarrousel}>
       <ItemsCarousel
         placeholderItem={<BannerPlaceholder />}
         enablePlaceholder={true}

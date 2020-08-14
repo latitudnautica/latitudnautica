@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import MainLayout from "../components/layouts/MainLayout";
 import HomeCarrousel from "../components/Carrousel";
-
+import FeaturedProducts from "components/FeaturedProducts";
 const BannerFullWidth = styled.div`
   background-color: ${({ theme }) => theme.colors.orangeYellowCrayola};
   display: flex;
@@ -31,25 +31,11 @@ const Index = () => {
           Latitud Náutica <small>Productos y servicios Náuticos</small>
         </h1>
       </section>
-      <section>
-        <h2>Productos Destacados</h2>
-      </section>
-      <section>
-        <h2>Productos Promociones</h2>
-      </section><section>
-        <h2>Productos Promociones</h2>
-      </section><section>
-        <h2>Productos Promociones</h2>
-      </section><section>
-        <h2>Productos Promociones</h2>
-      </section><section>
-        <h2>Productos Promociones</h2>
-      </section><section>
-        <h2>Productos Promociones</h2>
-      </section><section>
-        <h2>Productos Promociones</h2>
-      </section>
 
+      <FeaturedProducts />
+      <FeaturedProducts />
+      <FeaturedProducts />
+      <FeaturedProducts />
     </>
   );
 };

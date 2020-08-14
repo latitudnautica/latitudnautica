@@ -1,7 +1,8 @@
 import { useState } from "react";
-import MainLayout from "../components/layouts/MainLayout";
 import styled from "styled-components";
 import { Formik, Field, Form } from "formik";
+import axiosBase from "@/utils/axiosBase";
+import MainLayout from "../components/layouts/MainLayout";
 import {
   Container,
   PageTitleH1,
@@ -14,7 +15,7 @@ import {
   RiMailSendLine,
 } from "react-icons/ri";
 import { Button } from "components/layouts/Button";
-import axiosBase from "@/utils/axiosBase";
+import FeaturedProducts from "components/FeaturedProducts";
 
 const ContactPageWrapper = styled.section`
   margin: 3em 0;
@@ -155,7 +156,7 @@ const ContactPage = () => {
                 status: "enviando",
                 isEmailSent: null,
                 error: null,
-              })
+              });
 
               axiosBase
                 .post("/mailing/send", values)
@@ -294,6 +295,7 @@ const ContactPage = () => {
             </SocialIcons>
           </ContactDetailWrapper>
         </Grid>
+        <FeaturedProducts />
       </ContactPageWrapper>
     </Container>
   );
