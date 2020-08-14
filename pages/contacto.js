@@ -119,10 +119,10 @@ const InputError = styled.span`
 `;
 
 const ContactPage = () => {
-  const [status, setStatus] = useState({
-    message: "",
+  const [messageStatus, setMessageStatus] = useState({
+    status: "Enviar",
     error: false,
-    emailSent: false,
+    isEmailSent: false,
   });
 
   return (
@@ -151,23 +151,28 @@ const ContactPage = () => {
             onSubmit={(values, { setSubmitting }) => {
               console.log(values);
               setSubmitting(true);
+              setMessageStatus({
+                status: "enviando",
+                isEmailSent: null,
+                error: null,
+              })
+
               axiosBase
                 .post("/mailing/send", values)
                 .then((res) => {
                   console.log(res);
-                  setSubmitting(false);
-                  setStatus({
-                    message: "Mensaje Enviado",
+                  setMessageStatus({
+                    status: "Mensaje Enviado",
                     error: false,
-                    emailSent: true,
+                    isEmailSent: true,
                   });
                 })
                 .catch((err) => {
                   console.log(err.response);
                   setSubmitting(false);
-                  setStatus({
-                    message: "ERROR:  Mensaje No Enviado",
-                    emailSent: true,
+                  setMessageStatus({
+                    status: "ERROR:  Mensaje No Enviado",
+                    isEmailSent: true,
                     error: true,
                   });
                 });
@@ -263,9 +268,8 @@ const ContactPage = () => {
                     value={values.message}
                   />
                   <Button type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? "enviando" : "enviar"}
+                    {messageStatus.status}
                   </Button>
-                  {status.emailSent && <div> {status.message}</div>}
                 </FormFieldsWrapper>
               </Form>
             )}
