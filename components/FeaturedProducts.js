@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, createRef } from "react";
 import styled from "styled-components";
 import useSWR from "swr";
+import Link from "next/link";
 import ItemsCarousel from "react-items-carousel";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import useWindowSize from "../hooks/useWindowSize";
@@ -21,6 +22,12 @@ const SlideArrow = styled.div`
   }
 `;
 
+const ImageItemCarrousel = styled.img`
+  width: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease-out;
+`;
+
 const ItemCarrouselWrapper = styled.div`
   border: 2px solid ${({ theme }) => theme.colors.border};
   border-radius: 5px;
@@ -29,11 +36,11 @@ const ItemCarrouselWrapper = styled.div`
   max-width: 200px;
   max-height: 200px;
   min-height: 200px;
-`;
+  cursor: pointer;
 
-const ItemCarrousel = styled.img`
-  width: 100%;
-  object-fit: contain;
+  &:hover ${ImageItemCarrousel} {
+    transform: scale(1.05);
+  }
 `;
 
 const ItemPlaceholder = styled.div`
@@ -44,17 +51,19 @@ const ItemPlaceholder = styled.div`
 const FeaturedProducts = () => {
   const [products, setProducts] = useState(false);
   const [activeItemIndex, setActiveItemIndex] = useState(0);
-  const [isDataFetching, setIsDataFetching] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [noOfCards, setNoOfCards] = useState(5);
-  const noOfItems = products.length || 5; //value dynamic from items in db
+
+  const noOfItems = products.length || 5;
   const autoPlayDelay = 3000;
   const windowSize = useWindowSize();
+  const productosWrapper = createRef();
   const { data, error } = useSWR("/product/featured");
 
   useEffect(() => {
     if (data) {
       setProducts(data.data);
-      setIsDataFetching(false);
+      setIsLoading(false);
       const interval = setInterval(tick, autoPlayDelay);
 
       return () => {
@@ -64,7 +73,11 @@ const FeaturedProducts = () => {
   }, [data, activeItemIndex]);
 
   useEffect(() => {
-    windowSize.width > 1000 ? setNoOfCards(5) : setNoOfCards(2);
+    if (productosWrapper.current) {
+      const parentWidth = productosWrapper.current.offsetWidth;
+      const space = parentWidth / 210;
+      setNoOfCards(Math.round(space));
+    }
   }, [windowSize]);
 
   const tick = () =>
@@ -84,7 +97,10 @@ const FeaturedProducts = () => {
   };
 
   return (
-    <FeaturedProductosWrapper>
+    <FeaturedProductosWrapper
+      className="productosWrapper"
+      ref={productosWrapper}
+    >
       <h4>Productos Destacados</h4>
       <ItemsCarousel
         placeholderItem={<ItemPlaceholder />}
@@ -93,7 +109,7 @@ const FeaturedProducts = () => {
         requestToChangeActive={setActiveItemIndex}
         activeItemIndex={activeItemIndex}
         numberOfCards={noOfCards}
-        showSlither={false}
+        showSlither={true}
         gutter={2}
         leftChevron={
           <SlideArrow>
@@ -108,15 +124,22 @@ const FeaturedProducts = () => {
         outsideChevron={false}
         // chevronWidth={chevronWidth}
       >
-        {isDataFetching
+        {isLoading
           ? []
           : products.map((i) => (
-              <ItemCarrouselWrapper>
-                <ItemCarrousel
-                  onError={onImageError}
-                  key={i}
-                  src={process.env.NEXT_PUBLIC_API_URL + i.imagePath}
-                />
+              <ItemCarrouselWrapper key={i.id}>
+                <Link
+                  href={`/detalle/[name]/[id]`}
+                  as={`/detalle/${i.name}/${i.id}`}
+                >
+                  <ImageItemCarrousel
+                    onError={onImageError}
+                    key={i}
+                    src={process.env.NEXT_PUBLIC_API_URL + i.imagePath}
+                    alt={i.name}
+                    title={i.name}
+                  />
+                </Link>
               </ItemCarrouselWrapper>
             ))}
       </ItemsCarousel>

@@ -20,21 +20,22 @@ const BannerFullWidth = styled.div`
     font-size: 0.8em;
   }
 `;
+const Title = styled.section`
+  text-align: center;
+  margin: 1em 0;
+`;
 
 const Index = () => {
   return (
     <>
       <BannerFullWidth>Hace tus consultas por WhatsApp</BannerFullWidth>
       <HomeCarrousel />
-      <section>
+      <Title>
         <h1>
-          Latitud Náutica <small>Productos y servicios Náuticos</small>
+          Latitud Náutica <small>Productos y Servicios Náuticos</small>
         </h1>
-      </section>
+      </Title>
 
-      <FeaturedProducts />
-      <FeaturedProducts />
-      <FeaturedProducts />
       <FeaturedProducts />
     </>
   );
