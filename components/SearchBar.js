@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { RiSearchEyeLine } from "react-icons/ri";
 
 const SearchBarStyled = styled.div`
-  flex: 1;
+  flex: 2;
   margin: 15px;
   position: relative;
   display: flex;

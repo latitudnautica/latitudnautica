@@ -17,19 +17,17 @@ const HeaderStyled = styled.header`
 `;
 
 const ContentWrapper = styled.div`
-  /* border: 1px solid blue; */
   margin-left: 100px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  /* width: 100%; */
 `;
 
 const HeaderLogo = styled.div`
-  /* border: 2px solid green; */
   padding: 10px 0;
   text-align: center;
+  flex: 1;
 
   img {
     width: 100%;
@@ -43,18 +41,14 @@ const HeaderLogo = styled.div`
   }
 
   @media (max-width: 470px) {
+    flex: 2;
     img {
       width: 100%;
     }
   }
-  /*
-  @media (max-width: 320px) {
-    height: 80px;
-  } */
 `;
 
 const ResponsiveWrapper = styled.div`
-  /* border: 2px solid yellow; */
   display: flex;
   flex-direction: row;
   width: 75%;
@@ -62,23 +56,31 @@ const ResponsiveWrapper = styled.div`
 
   @media (max-width: 768px) {
     flex-direction: column-reverse;
+    flex: 2;
   }
 `;
 
 const ContactDetailsWrapper = styled.div`
-  /* border: 1px solid blue; */
   color: ${({ theme }) => theme.colors.primary};
   display: flex;
+  flex: 1;
   flex-direction: column;
   align-items: flex-end;
+  margin-right: 2em;
 
   @media (max-width: 768px) {
     align-items: center;
+    margin-top: 1em;
+  }
+
+  @media (max-width: 470px) {
+    flex: 1;
+    margin-right: 0px;
   }
 `;
 
 const ContactDetail = styled.div`
-  margin: 5px;
+  margin-top: 5px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -99,20 +101,18 @@ const SocialIcons = styled(ContactDetail)`
   @media (max-width: 768px) {
     flex-direction: column;
     position: absolute;
-    right: -10px;
-    margin-top: 10px;
+    right: -5px;
+    top: 25px;
   }
-  @media (max-width: 465px) {
-    flex-direction: column;
-    position: absolute;
+  @media (max-width: 470px) {
+    flex-direction: row;
+    position: relative;
+    top: 0;
     right: 0;
-    margin-top: 250px;
   }
 `;
 
 export default function Header() {
-  const [openModalSearch, setOpenModalSearch] = useState(false);
-
   return (
     <HeaderStyled>
       <ContentWrapper>

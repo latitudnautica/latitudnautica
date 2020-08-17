@@ -7,7 +7,7 @@ export const Container = styled.div`
 
 export const PageTitleH1 = styled.h1`
   font-family: "Neucha";
-  font-size: 3em;
+  font-size: 2em;
   letter-spacing: 4px;
   border-bottom: 2px solid ${({ theme }) => theme.colors.primary};
   padding-right: 1em;

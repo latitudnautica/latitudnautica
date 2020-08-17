@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Formik, Field, Form } from "formik";
 import axiosBase from "@/utils/axiosBase";
+import { useRouter } from "next/router";
 import MainLayout from "../components/layouts/MainLayout";
 import {
   Container,
@@ -125,6 +126,16 @@ const ContactPage = () => {
     error: false,
     isEmailSent: false,
   });
+  const [preMessage, setPreMessage] = useState("");
+
+  const Router = useRouter();
+
+  useEffect(() => {
+    if (Router.query.searched) {
+      const parsedMessage = `Hola, busque el producto "${Router.query.searched}" y no lo encontré en la pagina. ¿Tenes algo parecido a esto?`;
+      setPreMessage(parsedMessage);
+    }
+  });
 
   return (
     <Container>
@@ -132,7 +143,11 @@ const ContactPage = () => {
         <PageTitleH1>Envianos un Mensaje</PageTitleH1>
         <Grid>
           <Formik
-            initialValues={{ name: "", email: "", phone: "", message: "" }}
+            initialValues={{
+              name: "",
+              email: "",
+              phone: "",
+            }}
             validate={(values) => {
               const errors = {};
               if (!values.email) {
@@ -266,7 +281,7 @@ const ContactPage = () => {
                     name="message"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.message}
+                    value={preMessage}
                   />
                   <Button type="submit" disabled={isSubmitting}>
                     {messageStatus.status}
