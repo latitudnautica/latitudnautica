@@ -3,11 +3,11 @@ import styled from "styled-components";
 import axiosBase from "../../utils/axiosBase";
 import Cookies from "js-cookie";
 import useSWR, { trigger } from "swr";
-import { positions, useAlert } from "react-alert";
 import BarLoader from "react-spinners/BarLoader";
 import CmsLayout from "../../components/layouts/CmsLayout";
 import CategoryTableItems from "../../components/cms/CategoryTableItems";
 import { Button } from "../../components/layouts/Button";
+import { toast } from "react-toastify";
 
 const CategoriesStyled = styled.section`
   display: flex;
@@ -62,7 +62,6 @@ const Categories = (props) => {
   const [categoryId, setCategoryId] = useState(null);
   const [categorySelected, setCategorySelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const alert = useAlert();
   const { data, error } = useSWR("/category/all");
   if (error) console.log(error);
 
@@ -109,7 +108,7 @@ const Categories = (props) => {
       .catch((err) => {
         console.log(err.response);
         setIsLoading(false);
-        alert.error(
+        toast.error(
           `Algo no funciono como se esperaba... [ ${err.response.data.message} ]`
         );
       });
@@ -132,7 +131,7 @@ const Categories = (props) => {
       .catch((err) => {
         console.log(err.response);
         setIsLoading(false);
-        alert.error(
+        toast.error(
           `Algo no funciono como se esperaba... [ ${err.response.data.message} ]`
         );
       });
@@ -151,7 +150,7 @@ const Categories = (props) => {
       } else {
         setIsLoading(false);
 
-        alert(
+        toast(
           `${newName} No esta permitido, Solo se permiten letras, numero y Comas. No se permiten puntos`
         );
       }

@@ -7,7 +7,6 @@ import axiosBase from "utils/axiosBase";
 import { AuthProvider } from "context/AuthProvider";
 import { CategoriesProvider } from "context/CategoriesProvider";
 import { ThemeProvider } from "styled-components";
-import { transitions, positions, Provider as AlertProvider } from "react-alert";
 import { ToastContainer } from "react-toastify";
 import theme from "../styles/theme";
 import "../styles/styles.css";
@@ -22,14 +21,7 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 import { GA_TRACKING_ID } from "../utils/gtag";
 
-const alertOptions = {
-  // you can also just use 'bottom center'
-  position: positions.MIDDLE,
-  timeout: 5,
-  offset: "30px",
-  // you can also just use 'scale'
-  transition: transitions.SCALE,
-};
+
 const Noop = ({ children }) => children;
 
 export default function MyApp({ Component, pageProps }) {

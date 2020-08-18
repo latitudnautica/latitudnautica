@@ -5,7 +5,7 @@ import axiosBase from "../../utils/axiosBase";
 import Cookies from "js-cookie";
 import CmsLayout from "../../components/layouts/CmsLayout";
 import { Button } from "../../components/layouts/Button";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 
 const BannersList = styled.div`
   display: flex;
@@ -47,7 +47,7 @@ const Banners = () => {
       })
       .then((res) => {
         // console.log(res);
-        alert.success(`Banner eliminado `);
+        toast.success(`Banner eliminado `);
         trigger("/utils/banners");
       })
       .catch((err) => console.log(err.response));
