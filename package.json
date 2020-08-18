@@ -10,7 +10,6 @@
     "prod": "NODE_ENV=production node server.js"
   },
   "dependencies": {
-    "styled-components": "^5.1.1",
     "axios": "^0.19.2",
     "formik": "^2.1.5",
     "js-cookie": "^2.2.1",
@@ -18,13 +17,12 @@
     "next": "^9.5.1",
     "nprogress": "^0.2.0",
     "react": "^16.7.0",
-    "react-alert": "^7.0.2",
     "react-dom": "^16.7.0",
     "react-icons": "^3.10.0",
     "react-items-carousel": "^2.8.0",
-    "react-modal": "^3.11.2",
-    "react-spinners": "^0.9.0",
     "react-spring": "^8.0.27",
+    "react-toastify": "^6.0.8",
+    "styled-components": "^5.1.1",
     "swr": "^0.2.3",
     "yup": "^0.29.2"
   },

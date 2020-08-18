@@ -8,10 +8,11 @@ import { AuthProvider } from "context/AuthProvider";
 import { CategoriesProvider } from "context/CategoriesProvider";
 import { ThemeProvider } from "styled-components";
 import { transitions, positions, Provider as AlertProvider } from "react-alert";
-import AlertTemplate from "components/AlertTemplate";
-import theme  from "../styles/theme";
+import { ToastContainer } from "react-toastify";
+import theme from "../styles/theme";
 import "../styles/styles.css";
 import "../styles/nprogress.css";
+import "react-toastify/dist/ReactToastify.css";
 
 Router.events.on("routeChangeStart", (url) => {
   NProgress.start();
@@ -27,7 +28,7 @@ const alertOptions = {
   timeout: 5,
   offset: "30px",
   // you can also just use 'scale'
-  transition: transitions.SCALE
+  transition: transitions.SCALE,
 };
 const Noop = ({ children }) => children;
 
@@ -38,7 +39,10 @@ export default function MyApp({ Component, pageProps }) {
     <>
       <Head>
         <title>Latitud Náutica</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+        ></meta>
         {/* Global Site Tag (gtag.js) - Google Analytics */}
         <script
           async
@@ -54,46 +58,44 @@ export default function MyApp({ Component, pageProps }) {
             gtag('config', '${GA_TRACKING_ID}', {
               page_path: window.location.pathname,
             });
-          `
-            ]
+          `,
+            ],
           }}
         />
         <link
-          rel='apple-touch-icon'
-          sizes='180x180'
-          href='/images/favicon/apple-touch-icon.png'
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/images/favicon/apple-touch-icon.png"
         />
         <link
-          rel='icon'
-          type='image/png'
-          sizes='32x32'
-          href='/images/favicon/favicon-32x32.png'
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/images/favicon/favicon-32x32.png"
         />
         <link
-          rel='icon'
-          type='image/png'
-          sizes='16x16'
-          href='/images/favicon/favicon-16x16.png'
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/images/favicon/favicon-16x16.png"
         />
       </Head>
       <SWRConfig
         value={{
-          fetcher: (...args) => axiosBase.get(...args).then((res) => res)
+          fetcher: (...args) => axiosBase.get(...args).then((res) => res),
         }}
       >
         <ThemeProvider theme={theme}>
-          <CategoriesProvider >
-            <AlertProvider template={AlertTemplate} {...alertOptions}>
+          <CategoriesProvider>
               <AuthProvider>
                 <Layout>
+                  <ToastContainer />
                   <Component {...pageProps} />
                 </Layout>
               </AuthProvider>
-            </AlertProvider>
           </CategoriesProvider>
         </ThemeProvider>
       </SWRConfig>
     </>
   );
 }
-

@@ -6,7 +6,7 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import { Button } from "../../components/layouts/Button";
 import CmsLayout from "../../components/layouts/CmsLayout";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 
 const Select = styled.select`
   border: none;
@@ -69,7 +69,6 @@ const CategoryInfoItem = styled.div`
 const Editar = ({ categories }) => {
   const [catSelected, setCatSelected] = useState(1);
   const [categoryList, setCategoryList] = useState(false);
-  const Alert = useAlert();
 
   const { data, error } = useSWR(`/category/${catSelected}`);
   console.log(data);
@@ -98,7 +97,7 @@ const Editar = ({ categories }) => {
       .then((res) => {
         console.log("deleted", res);
         trigger(`/category/${catSelected}`);
-        Alert.success(" Producto Eliminado");
+        toast.success(" Producto Eliminado");
       })
       .catch((err) => {
         console.log(err.response);

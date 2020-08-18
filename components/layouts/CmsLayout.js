@@ -3,6 +3,9 @@ import { useRouter } from "next/router";
 import withAuth from "../../hoc/withAut";
 import styled from "styled-components";
 import Cookies from "js-cookie";
+
+
+
 const Container = styled.div`
   max-width: 1300px;
   margin: auto;
@@ -29,22 +32,22 @@ const CmsLayout = ({ children }) => {
   return (
     <Container>
       <Header>
-        <Link href='/'>
+        <Link href="/">
           <a>Home Page</a>
         </Link>
-        <Link href='/cms/main'>
+        <Link href="/cms/main">
           <a>Dashboard</a>
         </Link>
-        <Link href='/cms/cargar_producto'>
+        <Link href="/cms/cargar_producto">
           <a>Cargar Producto</a>
         </Link>
-        <Link href='/cms/editar'>
+        <Link href="/cms/editar">
           <a>Editar Producto</a>
         </Link>
-        <Link href='/cms/categorias'>
+        <Link href="/cms/categorias">
           <a>Categorías</a>
         </Link>
-        <Link href='/cms/banners'>
+        <Link href="/cms/banners">
           <a>Banners</a>
         </Link>
         <div onClick={handleLogout}>Logout</div>

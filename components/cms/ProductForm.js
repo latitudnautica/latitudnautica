@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Field, Form } from "formik";
 import styled from "styled-components";
-import axios from "axios";
+import axiosbase from "utils/axiosBase";
 import Cookies from "js-cookie";
-import { useAlert } from "react-alert";
 import { useCategories } from "../../context/CategoriesProvider";
 import { Button } from "../layouts/Button";
+import { toast } from "react-toastify";
 
 const formatProdToEdit = (prod) => {
   return {
@@ -112,11 +112,6 @@ const ProductForm = ({ product, isEdit }) => {
   } = useCategories();
 
   const [subCategories, setSubCategories] = useState([]);
-  const alert = useAlert();
-
-  // useEffect(() => {
-
-  // }, [categories]);
 
   const handleCategorySelector = (e) => {
     const id = e.target.value;
@@ -130,22 +125,19 @@ const ProductForm = ({ product, isEdit }) => {
   };
 
   const handleSubmit = (values) => {
-    console.log("isEdit>>", isEdit);
-
+    toast.info('Cargando Producto');
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/product/`;
-
       const request = async () => {
         console.log(values);
         if (!isEdit) {
-          return await axios.post(apiUrl, values, {
+          return await axiosbase.post("/product", values, {
             headers: { Authorization: `Bearer ${Cookies.get("token")}` },
           });
         } else {
           const data = values;
           data.id = product.id;
 
-          return await axios.put(apiUrl, data, {
+          return await axiosbase.put("/product", data, {
             headers: { Authorization: `Bearer ${Cookies.get("token")}` },
           });
         }
@@ -154,8 +146,8 @@ const ProductForm = ({ product, isEdit }) => {
       request()
         .then((data) => {
           setIsEdited(true);
-          alert.success(
-            `${data.data.productData.name} ${
+          toast.success(
+            `El producto ${data.data.productData.name} ${
               isEdit ? "editado" : "creado"
             } con éxito.`
           );
@@ -168,19 +160,19 @@ const ProductForm = ({ product, isEdit }) => {
             };
 
             if (errMessage.status == 406) {
-              alert.error(
+              toast.error(
                 `Algo no funciono como se esperaba... [ ${errMessage.data.message} ]`
               );
             }
             if (errMessage.status == 401) {
-              alert.error(
+              toast.error(
                 `Debes Iniciar sesión nuevamente, recarga la pagina presionando F5`
               );
             }
-          }
-          console.log(err);
+          }          
         });
     } catch (error) {
+      toast.error(`Algo no funciono como se esperaba...`);
       console.log(error);
     }
   };
@@ -191,7 +183,9 @@ const ProductForm = ({ product, isEdit }) => {
       // validationSchema={createProductSchema}
       initialValues={isEdit ? formatProdToEdit(product) : {}}
       onSubmit={(values, { setSubmitting }) => {
+        
         handleSubmit(values);
+        setSubmitting(true);
       }}
     >
       {({
