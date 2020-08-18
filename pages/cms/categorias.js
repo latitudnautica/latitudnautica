@@ -3,7 +3,6 @@ import styled from "styled-components";
 import axiosBase from "../../utils/axiosBase";
 import Cookies from "js-cookie";
 import useSWR, { trigger } from "swr";
-import BarLoader from "react-spinners/BarLoader";
 import CmsLayout from "../../components/layouts/CmsLayout";
 import CategoryTableItems from "../../components/cms/CategoryTableItems";
 import { Button } from "../../components/layouts/Button";
@@ -210,7 +209,7 @@ const Categories = (props) => {
         </ListItems>
         <AddItem>
           {isLoading ? (
-            <BarLoader height={10} width={"100%"} />
+            "Cargando"
           ) : (
             <button onClick={handleAddCat}>Agregar Categoría</button>
           )}
@@ -253,7 +252,7 @@ const Categories = (props) => {
             />
             <AddItem>
               {isLoading ? (
-                <BarLoader height={10} width={"100%"} />
+                "Cargando"
               ) : (
                 categorySelected && (
                   <button onClick={handleAddSubCat}>Agregar</button>
