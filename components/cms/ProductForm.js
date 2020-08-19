@@ -100,22 +100,14 @@ const Select = styled.select`
   }
 `;
 
-const ProductForm = ({ product, isEdit }) => {
+const ProductForm = ({ product, isEdit, triggerData }) => {
   const [isEdited, setIsEdited] = useState(false);
-  const {
-    categories,
-    handleClickCategory,
-    handleHoverCategory,
-    categorySelected,
-    categoryHover,
-    isLoading,
-  } = useCategories();
+  const { categories } = useCategories();
 
   const [subCategories, setSubCategories] = useState([]);
 
   const handleCategorySelector = (e) => {
     const id = e.target.value;
-    console.log(id);
     if (id != 0) {
       const subCat = categories.filter((c) => c.id == id);
       setSubCategories(subCat[0].SubCategories);
@@ -125,10 +117,9 @@ const ProductForm = ({ product, isEdit }) => {
   };
 
   const handleSubmit = (values) => {
-    toast.info('Cargando Producto');
+    toast.info("Cargando Producto");
     try {
       const request = async () => {
-        console.log(values);
         if (!isEdit) {
           return await axiosbase.post("/product", values, {
             headers: { Authorization: `Bearer ${Cookies.get("token")}` },
@@ -146,6 +137,8 @@ const ProductForm = ({ product, isEdit }) => {
       request()
         .then((data) => {
           setIsEdited(true);
+          triggerData(true);
+
           toast.success(
             `El producto ${data.data.productData.name} ${
               isEdit ? "editado" : "creado"
@@ -169,21 +162,20 @@ const ProductForm = ({ product, isEdit }) => {
                 `Debes Iniciar sesión nuevamente, recarga la pagina presionando F5`
               );
             }
-          }          
+          }
         });
     } catch (error) {
       toast.error(`Algo no funciono como se esperaba...`);
       console.log(error);
     }
   };
-
+  if (isEdited) return <div>Producto Editado</div>;
   return (
     <Formik
       validateOnChange
       // validationSchema={createProductSchema}
       initialValues={isEdit ? formatProdToEdit(product) : {}}
       onSubmit={(values, { setSubmitting }) => {
-        
         handleSubmit(values);
         setSubmitting(true);
       }}
@@ -405,7 +397,9 @@ const ProductForm = ({ product, isEdit }) => {
                   producto en editar producto. Si no cargas una imagen se
                   mostrara una imagen base.
                 </p>
-                <Button type="submit">Enviar</Button>
+                <Button type="submit" disabled={isSubmitting}>
+                  Enviar
+                </Button>
                 <Button type="reset" disabled={isSubmitting}>
                   Reset
                 </Button>

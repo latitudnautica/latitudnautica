@@ -3,7 +3,7 @@ import axiosBase from "../../utils/axiosBase";
 import styled from "styled-components";
 import Cookies from "js-cookie";
 import { Button } from "../layouts/Button";
-import Router from "next/router";
+import { toast } from "react-toastify";
 
 const FileUploadStyled = styled.div`
   display: flex;
@@ -36,10 +36,10 @@ export default function UploadFiles(props) {
   const [isError, setIsError] = useState(false);
   const [uploadedFile, setUploadedFile] = useState({ name: "", path: "" });
   const [progress, setProgress] = useState(0); // progress bar
+  const { product, triggerData } = props;
 
   const handleSelectedFile = (e) => {
     const file = e.target.files[0];
-    console.log(file);
 
     try {
       if (file.size < 2097152) {
@@ -62,12 +62,10 @@ export default function UploadFiles(props) {
     e.preventDefault();
 
     setIsError(false);
-    setProgress(0);
-    setIsLoaded(false);
 
     const formData = new FormData();
     formData.append("file", selectedFile);
-    formData.set("prod_id", props.product.id);
+    formData.set("prod_id", product.id);
 
     axiosBase({
       method: "post",
@@ -87,7 +85,8 @@ export default function UploadFiles(props) {
       .then((res) => {
         // then print response status
         setIsLoaded(true);
-        // setUploadedFile({ name: res.data.name, path: res.data.path });
+        triggerData(true);
+        toast.success("Imagen cargada exitosamente");
       })
       .catch((err) => {
         setIsError(err.response);

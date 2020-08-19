@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Error from "next/error";
 import styled from "styled-components";
+import { useRouter } from "next/router";
+import useSWR, { trigger } from "swr";
 import CmsLayout from "../../../components/layouts/CmsLayout";
 import ProductCard from "../../../components/ProductCard";
 import ProductForm from "../../../components/cms/ProductForm";
 import UploadFiles from "../../../components/cms/uploadFiles";
-import withAuth from "../../../hoc/withAut";
-import { Button } from "../../../components/layouts/Button";
 
 const ProductsContainer = styled.main`
   padding: 20px;
@@ -53,20 +53,18 @@ const Select = styled.select`
 `;
 
 const EditProduct = (props) => {
-  const [showImageModal, setShowImageModal] = useState(false);
+  const Router = useRouter();
+  const { pid } = Router.query;
 
-  const { product, errorCode } = props;
-  if (errorCode || product === null) {
-    return (
-      <Error
-        statusCode={errorCode}
-        title="No se encuentra el producto seleccionado"
-      />
-    );
-  }
+  const { data, error } = useSWR(`product/cms/${pid}`);
 
-  const handleChangeImage = (value) => {
-    setShowImageModal(true);
+  if (!data) return <div>Cargando</div>;
+  if (error) return <div>Error cargando el producto</div>;
+
+  const product = data.data;
+
+  const handleTriggerData = (status) => {
+    trigger(`product/cms/${pid}`);
   };
 
   return (
@@ -83,11 +81,14 @@ const EditProduct = (props) => {
           </div>
           <ProductCard item={product} />
 
-          <UploadFiles product={product} />
+          <UploadFiles
+            product={product}
+            triggerData={handleTriggerData}
+          />
         </ProdSection>
         <h2>Editar Info del Producto</h2>
         <InfoSection>
-          <ProductForm product={product} isEdit />
+          <ProductForm product={product} isEdit triggerData={handleTriggerData} />
         </InfoSection>
       </ProductsContainer>
     </CmsLayout>
@@ -96,14 +97,14 @@ const EditProduct = (props) => {
 
 export default EditProduct;
 
-export async function getServerSideProps({ params }) {
-  const pid = params.pid;
-  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/product/cms/${pid}/`;
-  const res = await fetch(apiUrl);
-  const errorCode = res.ok ? false : res.statusCode;
-  const product = await res.json();
+// export async function getServerSideProps({ params }) {
+//   const pid = params.pid;
+//   const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/product/cms/${pid}/`;
+//   const res = await fetch(apiUrl);
+//   const errorCode = res.ok ? false : res.statusCode;
+//   const product = await res.json();
 
-  return {
-    props: { errorCode, product }, // will be passed to the page component as props
-  };
-}
+//   return {
+//     props: { errorCode, product },
+//   };
+// }
