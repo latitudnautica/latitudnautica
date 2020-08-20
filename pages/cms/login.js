@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Router from "next/router";
 import { Formik, Field } from "formik";
-import axios from "axios";
+import axiosBase from "utils/axiosBase";
 import Cookies from "js-cookie";
 import styled from "styled-components";
 import { useAuth } from "../../context/AuthProvider";
@@ -67,12 +67,8 @@ const Login = () => {
   const { setIsAuthenticated } = useAuth();
 
   const handleLogin = (data) => {
-    const getToken = axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/user/login`,
-      data
-    );
-
-    getToken
+    axiosBase
+      .post("/user/login", data)
       .then((user) => {
         Cookies.set("token", user.data.token, { expires: 7 });
       })

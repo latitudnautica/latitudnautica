@@ -1,5 +1,5 @@
 module.exports = {
   env: {
-    customKey: "my-value"
-  }
+    environment: process.env.NODE_ENV,
+  },
 };

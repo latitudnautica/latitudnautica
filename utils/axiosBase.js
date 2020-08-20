@@ -8,7 +8,7 @@ let urls = {
 };
 
 const axiosBase = Axios.create({
-  baseURL: urls[process.env.NODE_ENV],
+  baseURL: urls[process.env.environment],
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json"    

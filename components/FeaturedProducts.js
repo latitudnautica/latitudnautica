@@ -5,6 +5,7 @@ import Link from "next/link";
 import ItemsCarousel from "react-items-carousel";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import useWindowSize from "../hooks/useWindowSize";
+import ProductsPageWrapper from "pages/buscar";
 
 const FeaturedProductosWrapper = styled.section`
   margin: 2em;
@@ -48,7 +49,7 @@ const ItemPlaceholder = styled.div`
   background: #eee;
 `;
 
-const FeaturedProducts = () => {
+const FeaturedProducts = ({ featuredProducts }) => {
   const [products, setProducts] = useState(false);
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -58,11 +59,15 @@ const FeaturedProducts = () => {
   const autoPlayDelay = 3000;
   const windowSize = useWindowSize();
   const productosWrapper = createRef();
-  const { data, error } = useSWR("/product/featured");
+  // const { data, error } = useSWR("/product/featured", {
+  //   initialData: featuredProducts,
+  // });
+
 
   useEffect(() => {
-    if (data) {
-      setProducts(data.data);
+    if (featuredProducts) {
+
+      setProducts(featuredProducts);
       setIsLoading(false);
       const interval = setInterval(tick, autoPlayDelay);
 
@@ -70,7 +75,7 @@ const FeaturedProducts = () => {
         clearInterval(interval);
       };
     }
-  }, [data, activeItemIndex]);
+  }, [featuredProducts, activeItemIndex]);
 
   useEffect(() => {
     if (productosWrapper.current) {
@@ -84,12 +89,6 @@ const FeaturedProducts = () => {
     setActiveItemIndex((activeItemIndex) => {
       return (activeItemIndex + 1) % (noOfItems - noOfCards + 1);
     });
-
-  if (!data) return <div>Cargando... ... ... ...</div>;
-  if (error) {
-    console.log(error);
-    return <div>error cargando productos</div>;
-  }
 
   const onImageError = (e) => {
     const element = e.target;

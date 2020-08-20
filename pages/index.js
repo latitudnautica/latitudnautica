@@ -2,6 +2,8 @@ import styled from "styled-components";
 import MainLayout from "../components/layouts/MainLayout";
 import HomeCarrousel from "../components/Carrousel";
 import FeaturedProducts from "components/FeaturedProducts";
+import axiosBase from "@/utils/axiosBase";
+
 const BannerFullWidth = styled.div`
   background-color: ${({ theme }) => theme.colors.orangeYellowCrayola};
   display: flex;
@@ -25,18 +27,18 @@ const Title = styled.section`
   margin: 1em 0;
 `;
 
-const Index = () => {
+const Index = ({ featuredProducts, banners }) => {
   return (
     <>
       <BannerFullWidth>Hace tus consultas por WhatsApp</BannerFullWidth>
-      <HomeCarrousel />
+      <HomeCarrousel bannersData={banners} />
       <Title>
         <h1>
           Latitud Náutica <small>Productos y Servicios Náuticos</small>
         </h1>
       </Title>
 
-      <FeaturedProducts />
+      <FeaturedProducts featuredProducts={featuredProducts} />
     </>
   );
 };
@@ -44,3 +46,18 @@ const Index = () => {
 Index.Layout = MainLayout;
 
 export default Index;
+
+export async function getStaticProps() {
+  const featuredProducts = await axiosBase("/product/featured").then(
+    (res) => res.data
+  );
+  const banners = await axiosBase("/utils/banners").then((res) => res.data);
+
+  return {
+    props: {
+      featuredProducts,
+      banners,
+    },
+    revalidate: 300,
+  };
+}

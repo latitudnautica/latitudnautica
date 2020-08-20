@@ -5,8 +5,8 @@ import Cookies from "js-cookie";
 import useSWR, { trigger } from "swr";
 import CmsLayout from "../../components/layouts/CmsLayout";
 import CategoryTableItems from "../../components/cms/CategoryTableItems";
-import { Button } from "../../components/layouts/Button";
 import { toast } from "react-toastify";
+import { Button } from "../../components/layouts/Button";
 
 const CategoriesStyled = styled.section`
   display: flex;
@@ -61,7 +61,7 @@ const Categories = (props) => {
   const [categoryId, setCategoryId] = useState(null);
   const [categorySelected, setCategorySelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { data, error } = useSWR("/category/all");
+  const { data, error } = useSWR("/category/all", { refreshInterval: 1000 });
   if (error) console.log(error);
 
   useEffect(() => {
@@ -99,8 +99,7 @@ const Categories = (props) => {
         { headers: { Authorization: `Bearer ${Cookies.get("token")}` } }
       )
       .then((res) => {
-        // console.log(res);
-        // setLastDataAdded(res);
+        toast.success("categoría Actualizada");
         setIsLoading(false);
         trigger("/category/all");
       })
@@ -125,7 +124,11 @@ const Categories = (props) => {
       })
       .then((res) => {
         setIsLoading(false);
+        toast.success("categoría Creada");
+      })
+      .then((res) => {
         trigger("/category/all");
+        toast.success("recargando ");
       })
       .catch((err) => {
         console.log(err.response);
@@ -155,6 +158,7 @@ const Categories = (props) => {
       }
     }
   };
+
   const handleAddCat = (e) => {
     const newCategory = enterName("Ingresa una nueva Categoría");
     if (newCategory == null) return;
@@ -251,13 +255,11 @@ const Categories = (props) => {
               action={handleUpdateSubCategory}
             />
             <AddItem>
-              {isLoading ? (
-                "Cargando"
-              ) : (
-                categorySelected && (
-                  <button onClick={handleAddSubCat}>Agregar</button>
-                )
-              )}
+              {isLoading
+                ? "Cargando"
+                : categorySelected && (
+                    <button onClick={handleAddSubCat}>Agregar</button>
+                  )}
             </AddItem>
           </>
         ) : (

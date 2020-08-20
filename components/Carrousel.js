@@ -38,7 +38,7 @@ const BannerPlaceholder = styled.div`
   background: #eee;
 `;
 
-export default function HomeCarrousel() {
+const HomeCarrousel = ({ bannersData }) => {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const [images, setImages] = useState(false);
   const [isDataFetching, setIsDataFetching] = useState(true);
@@ -46,12 +46,13 @@ export default function HomeCarrousel() {
   const noOfItems = images.length || 1; //value dynamic from items in db
   const autoPlayDelay = 0;
   const windowSize = useWindowSize();
-  const { data, error } = useSWR("/utils/banners");
-  error && console.log(error);
+  // const { data, error } = useSWR("/utils/banners");
+  // error && console.log(error);
+  console.log(bannersData);
 
   useEffect(() => {
-    if (data) {
-      setImages(data.data);
+    if (bannersData) {
+      setImages(bannersData);
       setIsDataFetching(false);
       const interval = setInterval(tick, autoPlayDelay);
 
@@ -59,7 +60,7 @@ export default function HomeCarrousel() {
         clearInterval(interval);
       };
     }
-  }, [data, activeItemIndex]);
+  }, [activeItemIndex]);
 
   useEffect(() => {
     windowSize.width > 1000 ? setNoOfCards(2) : setNoOfCards(1);
@@ -72,6 +73,7 @@ export default function HomeCarrousel() {
   const pauseCarrousel = () => {
     console.log("pause", activeItemIndex);
   };
+  
   return (
     <HomeCarrouselStyled onMouseOver={pauseCarrousel}>
       <ItemsCarousel
@@ -107,4 +109,6 @@ export default function HomeCarrousel() {
       </ItemsCarousel>
     </HomeCarrouselStyled>
   );
-}
+};
+
+export default HomeCarrousel;

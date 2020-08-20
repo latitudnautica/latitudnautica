@@ -17,15 +17,8 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const initializeAuth = async () => {
-      // await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/check-auth`, {
-      //   method: "POST",
-      //   headers: {
-      //     Authorization: `Bearer ${Cookies.get("tokenss")}`
-      //   }
-      // });
-
-      await axiosBase
-        .post("user/check-auth", null, {
+        await axiosBase
+        .post("/user/check-auth", null, {
           headers: { Authorization: `Bearer ${Cookies.get("token")}` }
         })
         .then((response) => {
