@@ -22,6 +22,17 @@ const BannersListItem = styled.div`
     margin-right: 10px;
   }
 `;
+const ProgressBarWrapper = styled.div`
+  width: 100%;
+  border: 1px solid red;
+`;
+const ProgressBar = styled.div`
+  width: ${(props) => props.progress || 0}%;
+  background-color: rgb(68, 212, 231);
+  color: white;
+  text-align: center;
+  padding: 2px;
+`;
 
 const UploadFileForm = styled.section``;
 
@@ -32,7 +43,6 @@ const Banners = () => {
   const [progress, setProgress] = useState(0); // progress bar
   const inputTitle = useRef();
   const { data } = useSWR("/utils/banners");
-  const alert = useAlert();
 
   useEffect(() => {
     if (data) {
@@ -57,8 +67,7 @@ const Banners = () => {
     e.preventDefault();
     const title = inputTitle.current.value;
     setProgress(0);
-    console.log(file);
-
+    toast.info("cargando archivo");
     const formData = new FormData();
     formData.append("file", file);
     formData.set("title", title);
@@ -83,7 +92,7 @@ const Banners = () => {
     })
       .then((res) => {
         console.log(res);
-        alert.success("Banner Cargado");
+        toast.success("Banner Cargado");
         trigger("/utils/banners");
       })
       .catch((err) => {
@@ -119,6 +128,11 @@ const Banners = () => {
           </button>
         </form>
       </UploadFileForm>
+      <ProgressBarWrapper>
+        {(progress > 0 || file != null) && (
+          <ProgressBar progress={progress}>{progress}%</ProgressBar>
+        )}
+      </ProgressBarWrapper>
       <div>
         {banners &&
           banners.map((e) => {
