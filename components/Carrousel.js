@@ -48,7 +48,6 @@ const HomeCarrousel = ({ bannersData }) => {
   const windowSize = useWindowSize();
   // const { data, error } = useSWR("/utils/banners");
   // error && console.log(error);
-  console.log(bannersData);
 
   useEffect(() => {
     if (bannersData) {
@@ -65,15 +64,17 @@ const HomeCarrousel = ({ bannersData }) => {
   useEffect(() => {
     windowSize.width > 1000 ? setNoOfCards(2) : setNoOfCards(1);
   }, [windowSize]);
-
+  
   const tick = () =>
-    setActiveItemIndex((activeItemIndex) => {
-      return (activeItemIndex + 1) % (noOfItems - noOfCards + 1);
-    });
+  setActiveItemIndex((activeItemIndex) => {
+    return (activeItemIndex + 1) % (noOfItems - noOfCards + 1);
+  });
+  
   const pauseCarrousel = () => {
     console.log("pause", activeItemIndex);
   };
   
+  console.log(activeItemIndex);
   return (
     <HomeCarrouselStyled onMouseOver={pauseCarrousel}>
       <ItemsCarousel
