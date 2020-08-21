@@ -12,6 +12,7 @@ import theme from "../styles/theme";
 import "../styles/styles.css";
 import "../styles/nprogress.css";
 import "react-toastify/dist/ReactToastify.css";
+import '@brainhubeu/react-carousel/lib/style.css';
 
 Router.events.on("routeChangeStart", (url) => {
   NProgress.start();

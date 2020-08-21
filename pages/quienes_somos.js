@@ -4,7 +4,7 @@ import {
   Container,
   PageTitleH1,
 } from "components/layouts/commonStyledComponents";
-import Carrousel from "@/components/Carrousel";
+// import Carrousel from "@/components/Carrousel";
 import Head from "next/head";
 
 const AboutWrapper = styled.section`
@@ -44,7 +44,7 @@ const QuienesSomos = () => {
       <Head>
         <title>Quienes Somos - Latitud Náutica</title>
       </Head>
-      <Carrousel />
+      {/* <Carrousel /> */}
       <Container>
         <AboutWrapper>
           <PageTitleH1>Quienes Somos</PageTitleH1>

@@ -123,5 +123,6 @@ export async function getServerSideProps({ params }) {
 
   return {
     props: { errorCode, product },
+    // fallback: true,
   };
 }
