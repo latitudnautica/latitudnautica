@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import { Button } from "components/layouts/Button";
 import CmsLayout from "components/layouts/CmsLayout";
 import { toast } from "react-toastify";
+import { TiTickOutline, TiDelete } from "react-icons/ti";
 
 const Select = styled.select`
   border: none;
@@ -157,6 +158,7 @@ const Editar = ({ categories }) => {
                 <th>Categoría</th>
                 <th>Sub Categoría</th>
                 <th>visible</th>
+                <th>Destacado</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -169,7 +171,10 @@ const Editar = ({ categories }) => {
                       <td>{prod.name}</td>
                       <td>{categoryList.name}</td>
                       <td>{prod.SubCategoryId}</td>
-                      <td>{prod.visible}</td>
+                      <td>{prod.visible ? <TiTickOutline /> : <TiDelete />}</td>
+                      <td>
+                        {prod.featured ? <TiTickOutline /> : <TiDelete />}
+                      </td>
                       <td>
                         <Link
                           href={`/cms/editar_producto/[pid]`}

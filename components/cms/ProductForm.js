@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 
 const formatProdToEdit = (prod) => {
   return {
-    SubCategoryId: prod.SubCategoryId || undefined,
+    subCategoryId: prod.SubCategoryId || undefined,
     categoryId: prod.categoryId || undefined,
     codeArticle: prod.codeArticle || undefined,
     codePromo: prod.codePromo || undefined,
@@ -29,6 +29,7 @@ const formatProdToEdit = (prod) => {
     tasaIVA: prod.tasaIVA || undefined,
     upc: prod.upc || undefined,
     visible: prod.visible || undefined,
+    featured: prod.featured || undefined,
   };
 };
 
@@ -381,11 +382,23 @@ const ProductForm = ({ product, isEdit, triggerData }) => {
               </FieldGroup>
               <FieldGroup>
                 <label>Visible</label>
-                <Field name={"visible"}>
+                <Field name="visible">
                   {({ field }) => (
                     <input
                       type="checkbox"
                       checked={values.visible}
+                      {...field}
+                    />
+                  )}
+                </Field>
+              </FieldGroup>
+              <FieldGroup>
+                <label>Destacado</label>
+                <Field name="featured">
+                  {({ field }) => (
+                    <input
+                      type="checkbox"
+                      checked={values.featured}
                       {...field}
                     />
                   )}

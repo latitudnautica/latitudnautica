@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import axiosBase from "../../utils/axiosBase";
-import Cookies from "js-cookie";
 import useSWR, { trigger, mutate } from "swr";
 import CmsLayout from "../../components/layouts/CmsLayout";
 import SubCategoryTableItems from "../../components/cms/SubCategoryTableItems";
 import { toast } from "react-toastify";
 import { GoTrashcan } from "react-icons/go";
 import { Button } from "../../components/layouts/Button";
-import { _delete, _create } from "@/utils/api/services";
+import { _delete, _create, _update } from "@/utils/api/services";
 
 const CategoriesStyled = styled.section`
   display: flex;
@@ -92,12 +90,7 @@ const Categories = (props) => {
     const subCatId = e.target.dataset.id;
     const newName = enterName("Ingresa el nuevo nombre ");
 
-    axiosBase
-      .put(
-        `/category/subcat/${subCatId}`,
-        { name: newName },
-        { headers: { Authorization: `Bearer ${Cookies.get("token")}` } }
-      )
+    _update(subCatId, newName, "/category/subcategory")
       .then((res) => {
         toast.success("categoría Actualizada");
         setIsLoading(false);
@@ -113,18 +106,18 @@ const Categories = (props) => {
   };
 
   const enterName = (text) => {
-    const newName = prompt(text);
-    if (newName == "" || newName === null) {
+    const valueEntered = prompt(text);
+    if (valueEntered == "" || valueEntered === null) {
       console.log("prompt canceled");
       setIsLoading(false);
       return null;
     } else {
-      if (newName.match(/^[a-zA-Z,\d\-_\s]+$/)) {
-        return newName.toLowerCase();
+      if (valueEntered.match(/[a-z0-9.,_\-\s\/]/)) {
+        return valueEntered.toLowerCase();
       } else {
         setIsLoading(false);
         toast(
-          `${newName} No esta permitido, Solo se permiten letras, numero y Comas. No se permiten puntos`
+          `${valueEntered} No esta permitido, Solo se permiten letras, numero y Comas. No se permiten puntos`
         );
         return null;
       }
@@ -175,7 +168,6 @@ const Categories = (props) => {
 
   const handleDeleteCategory = (e) => {
     const cid = e.target.dataset.cid;
-    const _confirm = confirm(`Seguro que quieres borrar la categoría ${cid}`);
 
     //check if category is empty to be deleted
     const categoryCanBeDeleted =
@@ -187,7 +179,9 @@ const Categories = (props) => {
       toast.info(
         "Debes eliminar todas las Sub Categorías antes de poder eliminar la categoría"
       );
+      return;
     }
+    const _confirm = confirm(`Seguro que quieres borrar la categoría ${cid}`);
 
     _confirm === true &&
       categoryCanBeDeleted &&
@@ -260,6 +254,7 @@ const Categories = (props) => {
                   onClick={handleDeleteCategory}
                   data-cid={categorySelected.id}
                 >
+                  <GoTrashcan />
                   Eliminar Categoría {categorySelected.name}
                 </Button>
               </div>
