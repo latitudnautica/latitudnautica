@@ -1,5 +1,4 @@
 import Axios from "axios";
-import Cookies from "js-cookie";
 
 let urls = {
   test: `http://localhost:5000/test`,

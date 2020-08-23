@@ -23,7 +23,13 @@ const ListContainer = styled.div`
   background-color: white;
   box-shadow: inset 0px 0px 6px 0px grey;
 `;
-const SubCategoriesHeader = styled.div``;
+
+const SubCategoriesHeader = styled.div`
+  border: 1px solid red;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+`;
 
 const ListItems = styled.div`
   display: flex;
@@ -31,7 +37,7 @@ const ListItems = styled.div`
   div {
     cursor: pointer;
     text-transform: uppercase;
-    margin: 0.5em;
+    margin: 0.3em;
 
     :hover {
       font-weight: bold;
@@ -47,22 +53,6 @@ const Item = styled.div`
 const AddItem = styled.div`
   text-align: center;
   margin-top: 20px;
-
-  button {
-    cursor: pointer;
-    padding: 15px;
-    background-color: green;
-    text-transform: uppercase;
-    color: white;
-    border: 1px solid green;
-    transition: all 200ms ease-in;
-
-    :hover {
-      background-color: white;
-      color: green;
-      border: 1px solid green;
-    }
-  }
 `;
 
 const Categories = (props) => {
@@ -145,8 +135,7 @@ const Categories = (props) => {
     setIsLoading(true);
     const newCategory = enterName("Ingresa una nueva Categoría");
     if (newCategory == null) return;
-    const payload = { name: newCategory };
-    console.log("add category");
+    const payload = { name: newCategory.toLowerCase() };
 
     _create(payload, "category")
       .then((res) => {
@@ -188,7 +177,20 @@ const Categories = (props) => {
     const cid = e.target.dataset.cid;
     const _confirm = confirm(`Seguro que quieres borrar la categoría ${cid}`);
 
+    //check if category is empty to be deleted
+    const categoryCanBeDeleted =
+      categorySelected.id == cid && categorySelected.SubCategories.length > 0
+        ? false
+        : true;
+
+    if (!categoryCanBeDeleted) {
+      toast.info(
+        "Debes eliminar todas las Sub Categorías antes de poder eliminar la categoría"
+      );
+    }
+
     _confirm === true &&
+      categoryCanBeDeleted &&
       _delete(cid, "/category/category")
         .then((res) => {
           toast.success("recurso eliminado");
@@ -237,7 +239,7 @@ const Categories = (props) => {
           {isLoading ? (
             "Cargando"
           ) : (
-            <button onClick={handleAddCat}>Agregar Categoría</button>
+            <Button onClick={handleAddCat}>Agregar Categoría</Button>
           )}
         </AddItem>
         <p>
@@ -250,15 +252,8 @@ const Categories = (props) => {
         {categorySelected && (
           <div>
             <SubCategoriesHeader>
-              <h4>
-                <small>Categoría: </small>
-                {categorySelected.name}
-              </h4>
               <div>
-                Imagen:{" "}
-                <img
-                  src={`${process.env.NEXT_PUBLIC_API_URL}/${categorySelected.imageUrl}`}
-                />
+                <h1>{categorySelected.name}</h1>
               </div>
               <div>
                 <Button
@@ -282,7 +277,7 @@ const Categories = (props) => {
               {isLoading
                 ? "Cargando"
                 : categorySelected && (
-                    <button onClick={handleAddSubCat}>Agregar</button>
+                    <Button onClick={handleAddSubCat}>Agregar</Button>
                   )}
             </AddItem>
           </>
