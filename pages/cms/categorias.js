@@ -2,17 +2,20 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axiosBase from "../../utils/axiosBase";
 import Cookies from "js-cookie";
-import useSWR, { trigger } from "swr";
+import useSWR, { trigger, mutate } from "swr";
 import CmsLayout from "../../components/layouts/CmsLayout";
-import CategoryTableItems from "../../components/cms/CategoryTableItems";
+import SubCategoryTableItems from "../../components/cms/SubCategoryTableItems";
 import { toast } from "react-toastify";
+import { GoTrashcan } from "react-icons/go";
 import { Button } from "../../components/layouts/Button";
+import { _delete, _create } from "@/utils/api/services";
 
 const CategoriesStyled = styled.section`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 `;
+
 const ListContainer = styled.div`
   width: 40%;
   margin: 20px;
@@ -20,6 +23,7 @@ const ListContainer = styled.div`
   background-color: white;
   box-shadow: inset 0px 0px 6px 0px grey;
 `;
+const SubCategoriesHeader = styled.div``;
 
 const ListItems = styled.div`
   display: flex;
@@ -34,6 +38,12 @@ const ListItems = styled.div`
     }
   }
 `;
+const Item = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
 const AddItem = styled.div`
   text-align: center;
   margin-top: 20px;
@@ -61,7 +71,7 @@ const Categories = (props) => {
   const [categoryId, setCategoryId] = useState(null);
   const [categorySelected, setCategorySelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { data, error } = useSWR("/category/all", { refreshInterval: 1000 });
+  const { data, error } = useSWR("/category/all", { refreshInterval: 20000 });
   if (error) console.log(error);
 
   useEffect(() => {
@@ -112,35 +122,7 @@ const Categories = (props) => {
       });
   };
 
-  const sendData = (data, type) => {
-    setIsLoading(true);
-    const url =
-      type == "cat"
-        ? `/category/category`
-        : type == "subCat" && `/category/subcategory`;
-    axiosBase
-      .post(url, data, {
-        headers: { Authorization: `Bearer ${Cookies.get("token")}` },
-      })
-      .then((res) => {
-        setIsLoading(false);
-        toast.success("categoría Creada");
-      })
-      .then((res) => {
-        trigger("/category/all");
-        toast.success("recargando ");
-      })
-      .catch((err) => {
-        console.log(err.response);
-        setIsLoading(false);
-        toast.error(
-          `Algo no funciono como se esperaba... [ ${err.response.data.message} ]`
-        );
-      });
-  };
-
   const enterName = (text) => {
-    setIsLoading(true);
     const newName = prompt(text);
     if (newName == "" || newName === null) {
       console.log("prompt canceled");
@@ -151,50 +133,92 @@ const Categories = (props) => {
         return newName.toLowerCase();
       } else {
         setIsLoading(false);
-
         toast(
           `${newName} No esta permitido, Solo se permiten letras, numero y Comas. No se permiten puntos`
         );
+        return null;
       }
     }
   };
 
   const handleAddCat = (e) => {
+    setIsLoading(true);
     const newCategory = enterName("Ingresa una nueva Categoría");
     if (newCategory == null) return;
     const payload = { name: newCategory };
-    sendData(payload, "cat");
-    trigger("/category/all");
+    console.log("add category");
+
+    _create(payload, "category")
+      .then((res) => {
+        console.log(res);
+        trigger("/category/all");
+        setIsLoading(false);
+        toast.success("Categoría Creada");
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log(err.response);
+        toast.error(`Error,  ${err.response.data.message}`);
+      });
   };
 
   const handleAddSubCat = (e) => {
+    setIsLoading(true);
     const newSubCategory = enterName(
       `Ingresa una nueva SubCategoría dentro de categoría ${categorySelected.name}`
     );
     if (newSubCategory == null) return;
 
     const payload = { name: newSubCategory, categoryId: categorySelected.id };
-    sendData(payload, "subCat");
+    _create(payload, "subcategory")
+      .then((res) => {
+        console.log(res);
+        trigger("/category/all");
+        setIsLoading(false);
+        toast.success("subCategoría Creada");
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log(err.response);
+        toast.error(`Error,  ${err.response.data.message}`);
+      });
   };
 
-  // const handleDeleteCategory = (e) => {
-  //   const cid = e.target.dataset.id;
+  const handleDeleteCategory = (e) => {
+    const cid = e.target.dataset.cid;
+    const _confirm = confirm(`Seguro que quieres borrar la categoría ${cid}`);
 
-  //   axios
-  //     .delete(`${process.env.NEXT_PUBLIC_API_URL}/api/category/cat/${cid}`, {
-  //       headers: { Authorization: `Bearer ${Cookies.get("token")}` }
-  //     })
-  //     .then((res) => {
-  //       console.log(res);
-  //       setLastDataAdded(null);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+    _confirm === true &&
+      _delete(cid, "/category/category")
+        .then((res) => {
+          toast.success("recurso eliminado");
+          trigger("/category/all");
+        })
+        .catch((err) => {
+          console.log(err.response);
+          toast.error(`Error! ${err.response.data.message}`);
+        });
+  };
 
-  if (!data) return <div> Error al cargar las categorías </div>;
+  const handleDeleteSubCategory = (e) => {
+    const scid = e.target.dataset.scid;
+    const _confirm = confirm(`Seguro que quieres borrar la categoría ${scid}`);
+
+    _confirm === true &&
+      _delete(scid, "/category/subcategory")
+        .then((res) => {
+          toast.success("recurso eliminado");
+          trigger("/category/all");
+        })
+        .catch((err) => {
+          console.log(err.response);
+          toast.error(`Error! ${err.response.data.message}`);
+        });
+  };
+
+  if (!data) return <div> ...Cargando </div>;
   if (error) return <div> Error al cargar las categorías </div>;
+
   return (
     <CategoriesStyled>
       <ListContainer>
@@ -202,13 +226,11 @@ const Categories = (props) => {
         <small>click en una categoría para ver detalles</small>
         <ListItems>
           {categories.map((cat) => (
-            <div
-              key={cat.id}
-              data-cid={Number(cat.id)}
-              onClick={handleCategorySelector}
-            >
-              {cat.name}
-            </div>
+            <Item key={cat.id}>
+              <div data-cid={Number(cat.id)} onClick={handleCategorySelector}>
+                {cat.name}
+              </div>
+            </Item>
           ))}
         </ListItems>
         <AddItem>
@@ -227,32 +249,34 @@ const Categories = (props) => {
       <ListContainer>
         {categorySelected && (
           <div>
-            <h4>
-              <small>Categoría: </small>
-              {categorySelected.name}
-            </h4>
-            <div>Descripción: {categorySelected.description}</div>
-            <div>
-              Imagen:{" "}
-              <img
-                src={`${process.env.NEXT_PUBLIC_API_URL}/${categorySelected.imageUrl}`}
-              />
-            </div>
-            {/* <div>
-              <button
-                onClick={handleDeleteCategory}
-                data-id={categorySelected.id}
-              >
-                Eliminar
-              </button>
-            </div> */}
+            <SubCategoriesHeader>
+              <h4>
+                <small>Categoría: </small>
+                {categorySelected.name}
+              </h4>
+              <div>
+                Imagen:{" "}
+                <img
+                  src={`${process.env.NEXT_PUBLIC_API_URL}/${categorySelected.imageUrl}`}
+                />
+              </div>
+              <div>
+                <Button
+                  onClick={handleDeleteCategory}
+                  data-cid={categorySelected.id}
+                >
+                  Eliminar Categoría {categorySelected.name}
+                </Button>
+              </div>
+            </SubCategoriesHeader>
           </div>
         )}
         {categorySelected ? (
           <>
-            <CategoryTableItems
+            <SubCategoryTableItems
               itemsList={categorySelected.SubCategories}
-              action={handleUpdateSubCategory}
+              updateHandler={handleUpdateSubCategory}
+              deleteHandler={handleDeleteSubCategory}
             />
             <AddItem>
               {isLoading

@@ -13,6 +13,10 @@ export const Button = styled.button`
   border: none;
   transition: all 150ms ease-in;
 
+  * {
+    pointer-events: none;
+  }
+
   :hover {
     background-color: ${({ theme }) => theme.button.hover};
     color: ${({ theme }) => theme.button.textColorHover};

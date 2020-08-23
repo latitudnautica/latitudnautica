@@ -17,29 +17,14 @@ const HomeCarrouselStyled = styled.div`
   }
 `;
 
-const SlideArrow = styled.div`
-  background: none;
-  border: none;
-  font-size: 2.8em;
-
-  :hover {
-    color: ${({ theme }) => theme.colors.primary};
-    box-shadow: 0 0 0 0 white;
-  }
-`;
-
 const ItemCarrousel = styled.img`
   width: 100%;
   z-index: 1;
-  /* 
-  @media (max-width: 960px) {
-    width: 100%;
-  } */
-`;
 
-const BannerPlaceholder = styled.div`
-  height: 250px;
-  background: #eee;
+  
+  @media (min-width: 1400px) {
+    width: 70%;
+  }
 `;
 
 const HomeCarrousel = ({ bannersData }) => {
@@ -52,7 +37,7 @@ const HomeCarrousel = ({ bannersData }) => {
     const handler = () => {
       value >= qtyBanners - 1 ? setValue(0) : setValue(value + 1);
     };
-    const autoplay = setInterval(handler, 3000);
+    const autoplay = setInterval(handler, 5000);
 
     return () => clearInterval(autoplay);
   }, [value]);
@@ -75,7 +60,6 @@ const HomeCarrousel = ({ bannersData }) => {
         centered={true}
         numberOfSlides={3}
         arrows={true}
-        // autoPlay={true}
         animationSpeed={1000}
         plugins={[
           "autoplay",

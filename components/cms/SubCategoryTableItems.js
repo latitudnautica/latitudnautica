@@ -32,7 +32,7 @@ const Table = styled.table`
   }
 `;
 
-const CategoryTableItems = ({ itemsList, action }) => {
+const SubCategoryTableItems = ({ itemsList, updateHandler, deleteHandler }) => {
   return (
     <Table>
       <thead>
@@ -49,8 +49,11 @@ const CategoryTableItems = ({ itemsList, action }) => {
               <td>{subCat.id}</td>
               <td> {subCat.name}</td>
               <td>
-                <Button data-id={subCat.id} onClick={action}>
+              <Button data-id={subCat.id} onClick={updateHandler}>
                   Editar
+                </Button>
+                <Button data-scid={subCat.id} onClick={deleteHandler}>
+                  Eliminar
                 </Button>
               </td>
             </tr>
@@ -60,4 +63,4 @@ const CategoryTableItems = ({ itemsList, action }) => {
   );
 };
 
-export default CategoryTableItems;
+export default SubCategoryTableItems;

@@ -25,6 +25,7 @@
         "Sidebar",
         "axiosbase",
         "filtered",
-        "scid"
+        "scid",
+        "toastify"
     ]
 }
