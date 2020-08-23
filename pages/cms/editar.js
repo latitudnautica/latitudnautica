@@ -72,7 +72,7 @@ const Editar = ({ categories }) => {
   const [categoryList, setCategoryList] = useState(false);
 
   const { data, error } = useSWR(`/category/${catSelected}`);
-  console.log(data);
+  
   if (data == "undefined") return <div>Cargando</div>;
   if (error) return <div>algo salio mal</div>;
 
