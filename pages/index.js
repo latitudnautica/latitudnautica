@@ -59,6 +59,6 @@ export async function getStaticProps() {
       featuredProducts,
       banners,
     },
-    revalidate: 300,
+    revalidate: 1,
   };
 }
