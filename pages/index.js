@@ -3,6 +3,7 @@ import MainLayout from "../components/layouts/MainLayout";
 import HomeCarrousel from "../components/Carrousel";
 import FeaturedProducts from "components/FeaturedProducts";
 import axiosBase from "@/utils/axiosBase";
+import Head from "next/head";
 
 const BannerFullWidth = styled.div`
   background-color: ${({ theme }) => theme.colors.orangeYellowCrayola};
