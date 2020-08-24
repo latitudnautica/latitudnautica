@@ -5,7 +5,7 @@ import CategoriesNavbar from "../CategoriesNavbar";
 const Container = styled.main`
   position: relative;
   min-height: 100vh;
-  margin: auto 10px;
+  margin: auto 0px;
 `;
 
 const Footer = styled.footer`
@@ -15,7 +15,7 @@ const Footer = styled.footer`
   bottom: 0px;
 
   width: 100%;
-  max-width: 100vw;
+  /* max-width: 100vw;  */
   height: 2.5rem;
   text-align: center;
   background-color: ${({ theme }) => theme.colors.orangeYellowCrayola};

@@ -49,7 +49,8 @@ const DropdownWrapper = styled.div`
   height: 4em;
   text-transform: uppercase;
   position: absolute;
-  width: 100vw;
+  width: 80%;
+  left: 10% ;
   opacity: ${(props) => (props.show ? 1 : 0)};
   visibility: ${(props) => (props.show ? "visible" : "hidden")};
   transition: visibility 0.2s, opacity 0.2s ease;
@@ -152,9 +153,9 @@ const CategoriesNavbar = () => {
                   as={`/productos/${categoryHover.name}/${categoryHover.id}?scid=${sCat.id}&scname=${sCat.name}`}
                   passHref
                 >
-                    <DropdownItem onClick={() => setShowDropdown(false)}>
-                      {sCat.name}
-                    </DropdownItem>
+                  <DropdownItem onClick={() => setShowDropdown(false)}>
+                    {sCat.name}
+                  </DropdownItem>
                 </Link>
               ))
             ) : (

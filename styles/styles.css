@@ -14,7 +14,9 @@
   font-family: "permanent_market";
   src: url("../utils/fonts/Permanent_Marker/PermanentMarker-Regular.ttf");
 }
-
+/* * {
+  outline: 1px solid red;
+} */
 :root {
   --gray-900: #1a202c;
   --gray-800: #2d3748;

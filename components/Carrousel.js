@@ -1,34 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import useWindowSize from "../hooks/useWindowSize";
-import AwesomeSlider from "react-awesome-slider";
+import Slider from "react-slick";
 
 const HomeCarrouselStyled = styled.div`
   /* padding: 20px 0px; */
-  /* max-height: 500px; */
-  /* display: flex; */
+  display: flex;
+  max-width: 100vw;
   background-color: ${({ theme }) => theme.colors.background};
   box-shadow: ${({ theme }) => theme.details.boxShadow};
 
   display: block;
-    position: relative;
-    width: 100%;
-
-  * {
-    --slider-height-percentage: 20%;
-    --slider-transition-duration: 600ms;
-    --organic-arrow-thickness: 6px;
-    --organic-arrow-border-radius: 15px;
-    --organic-arrow-height: 40px;
-    --organic-arrow-color: #26456f;
-    --control-button-width: 15%;
-    --control-button-height: 25%;
-    --control-button-background: transparent;
-    --control-bullet-color: #2d5182;
-    --control-bullet-active-color: #26456f;
-    --loader-bar-color: #851515;
-    --loader-bar-height: 5px;
-  }
+  position: relative;
+  width: 100%;
 `;
 
 const CarrouselWrapper = styled.div`
@@ -36,19 +19,30 @@ const CarrouselWrapper = styled.div`
 `;
 
 const HomeCarrousel = ({ bannersData }) => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    autoplay: true,
+    autoplaySpeed: 5000
+  };
+
   return (
     <HomeCarrouselStyled>
       {/* <CarrouselWrapper> */}
-      <AwesomeSlider
-        fillParent={false}
-        bullets={false}
-      >
+      <Slider {...settings}>
         {bannersData.map((e) => {
           return (
-            <div data-src={process.env.NEXT_PUBLIC_API_URL + e.imagePath}></div>
+            <img
+              key={e.id}
+              src={process.env.NEXT_PUBLIC_API_URL + e.imagePath}
+            ></img>
           );
         })}
-      </AwesomeSlider>
+      </Slider>
       {/* </CarrouselWrapper> */}
     </HomeCarrouselStyled>
   );

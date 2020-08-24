@@ -12,8 +12,6 @@ import theme from "../styles/theme";
 import "../styles/styles.css";
 import "../styles/nprogress.css";
 import "react-toastify/dist/ReactToastify.css";
-import "react-awesome-slider/dist/styles.css";
-
 
 Router.events.on("routeChangeStart", (url) => {
   NProgress.start();
@@ -22,7 +20,6 @@ Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
 import { GA_TRACKING_ID } from "../utils/gtag";
-
 
 const Noop = ({ children }) => children;
 
@@ -73,6 +70,17 @@ export default function MyApp({ Component, pageProps }) {
           sizes="16x16"
           href="/images/favicon/favicon-16x16.png"
         />
+        <link
+          rel="stylesheet"
+          type="text/css"
+          charSet="UTF-8"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
+        />
+        <link
+          rel="stylesheet"
+          type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
+        />
       </Head>
       <SWRConfig
         value={{
@@ -81,12 +89,12 @@ export default function MyApp({ Component, pageProps }) {
       >
         <ThemeProvider theme={theme}>
           <CategoriesProvider>
-              <AuthProvider>
-                <Layout>
-                  <ToastContainer />
-                  <Component {...pageProps} />
-                </Layout>
-              </AuthProvider>
+            <AuthProvider>
+              <Layout>
+                <ToastContainer />
+                <Component {...pageProps} />
+              </Layout>
+            </AuthProvider>
           </CategoriesProvider>
         </ThemeProvider>
       </SWRConfig>

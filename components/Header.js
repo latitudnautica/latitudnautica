@@ -87,21 +87,19 @@ const ContactDetail = styled.div`
 
   @media (max-width: 768px) {
     justify-content: center;
-    margin: 2px;
   }
 `;
 
 const SocialIcons = styled(ContactDetail)`
   font-size: 1.5em;
   a {
-    margin: 0 15px;
     color: ${({ theme }) => theme.colors.primary};
   }
 
   @media (max-width: 768px) {
     flex-direction: column;
     position: absolute;
-    right: -5px;
+    right: 10px;
     top: 25px;
   }
   @media (max-width: 470px) {
