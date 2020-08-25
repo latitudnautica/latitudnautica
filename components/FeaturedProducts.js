@@ -1,11 +1,10 @@
 import { useEffect, useState, useRef, createRef } from "react";
 import styled from "styled-components";
-import useSWR from "swr";
 import Link from "next/link";
 import ItemsCarousel from "react-items-carousel";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import useWindowSize from "../hooks/useWindowSize";
-import ProductsPageWrapper from "pages/buscar";
+import PropTypes from "prop-types";
 
 const FeaturedProductosWrapper = styled.section`
   margin: 2em;
@@ -63,10 +62,8 @@ const FeaturedProducts = ({ featuredProducts }) => {
   //   initialData: featuredProducts,
   // });
 
-
   useEffect(() => {
     if (featuredProducts) {
-
       setProducts(featuredProducts);
       setIsLoading(false);
       const interval = setInterval(tick, autoPlayDelay);
@@ -144,6 +141,10 @@ const FeaturedProducts = ({ featuredProducts }) => {
       </ItemsCarousel>
     </FeaturedProductosWrapper>
   );
+};
+
+FeaturedProducts.propTypes = {
+  featuredProducts: PropTypes.array,
 };
 
 export default FeaturedProducts;

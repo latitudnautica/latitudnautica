@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import axiosBase from "@/utils/axiosBase";
+
 import MainLayout from "../components/layouts/MainLayout";
 import HomeCarrousel from "../components/Carrousel";
 import FeaturedProducts from "components/FeaturedProducts";
-import axiosBase from "@/utils/axiosBase";
-import Head from "next/head";
+import CategoriesNavbar from "@/components/CategoriesNavbar";
 
 const BannerFullWidth = styled.div`
   background-color: ${({ theme }) => theme.colors.orangeYellowCrayola};
@@ -28,11 +29,13 @@ const Title = styled.section`
   margin: 1em 0;
 `;
 
-const Index = ({ featuredProducts, banners }) => {
+const Index = ({ featuredProducts, banners, categories }) => {
   return (
     <>
+      <CategoriesNavbar _categories={categories} />
       <BannerFullWidth>Hace tus consultas por WhatsApp</BannerFullWidth>
       <HomeCarrousel bannersData={banners} />
+
       <Title>
         <h1>
           Latitud Náutica <small>Productos y Servicios Náuticos</small>
@@ -54,10 +57,13 @@ export async function getStaticProps() {
   );
   const banners = await axiosBase("/utils/banners").then((res) => res.data);
 
+  const categories = await axiosBase("/category/all").then((res) => res.data);
+
   return {
     props: {
       featuredProducts,
       banners,
+      categories,
     },
     revalidate: 1,
   };

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Header from "../Header";
-import CategoriesNavbar from "../CategoriesNavbar";
 
 const Container = styled.main`
   position: relative;
@@ -27,7 +26,6 @@ export default function MainLayout(props) {
   return (
     <>
       <Header />
-      <CategoriesNavbar />
       <Container>{children}</Container>
       <Footer>FOOTER</Footer>
     </>

@@ -1,5 +1,9 @@
 import MainLayout from "components/layouts/MainLayout";
 import styled from "styled-components";
+import axiosBase from "utils/axiosBase";
+
+import FeaturedProducts from "components/FeaturedProducts";
+import CategoriesNavbar from "@/components/CategoriesNavbar";
 import {
   Container,
   PageTitleH1,
@@ -8,7 +12,7 @@ import {
 import Head from "next/head";
 
 const AboutWrapper = styled.section`
-  margin: 5em 0; 
+  margin: 5em 0;
   position: relative;
 
   :after {
@@ -25,7 +29,7 @@ const AboutWrapper = styled.section`
     position: absolute;
     z-index: -1;
   }
-  `;
+`;
 const TextContainer = styled.div`
   margin-top: 1em;
   padding: 2em;
@@ -38,13 +42,14 @@ const TextContainer = styled.div`
   }
 `;
 
-const QuienesSomos = () => {
+const QuienesSomos = ({ categories, featuredProducts }) => {
   return (
     <>
       <Head>
         <title>Quienes Somos - Latitud Náutica</title>
       </Head>
       {/* <Carrousel /> */}
+      <CategoriesNavbar _categories={categories} />
       <Container>
         <AboutWrapper>
           <PageTitleH1>Quienes Somos</PageTitleH1>
@@ -77,6 +82,7 @@ const QuienesSomos = () => {
             </p>
           </TextContainer>
         </AboutWrapper>
+        <FeaturedProducts featuredProducts={featuredProducts} />
       </Container>
     </>
   );
@@ -85,3 +91,18 @@ const QuienesSomos = () => {
 QuienesSomos.Layout = MainLayout;
 
 export default QuienesSomos;
+
+export async function getStaticProps() {
+  const featuredProducts = await axiosBase("/product/featured").then(
+    (res) => res.data
+  );
+  const categories = await axiosBase("/category/all").then((res) => res.data);
+
+  return {
+    props: {
+      categories,
+      featuredProducts,
+    },
+    revalidate: 1,
+  };
+}

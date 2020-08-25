@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Formik, Field, Form } from "formik";
 import axiosBase from "@/utils/axiosBase";
+import FeaturedProducts from "components/FeaturedProducts";
+import CategoriesNavbar from "@/components/CategoriesNavbar";
 import { useRouter } from "next/router";
 import MainLayout from "../components/layouts/MainLayout";
 import {
@@ -16,7 +18,6 @@ import {
   RiMailSendLine,
 } from "react-icons/ri";
 import { Button } from "components/layouts/Button";
-import FeaturedProducts from "components/FeaturedProducts";
 
 const ContactPageWrapper = styled.section`
   margin: 3em 0;
@@ -120,7 +121,7 @@ const InputError = styled.span`
   font-weight: 400;
 `;
 
-const ContactPage = () => {
+const ContactPage = ({ categories, featuredProducts }) => {
   const [messageStatus, setMessageStatus] = useState({
     status: "Enviar",
     error: false,
@@ -138,184 +139,202 @@ const ContactPage = () => {
   });
 
   return (
-    <Container>
-      <ContactPageWrapper>
-        <PageTitleH1>Envianos un Mensaje</PageTitleH1>
-        <Grid>
-          <Formik
-            initialValues={{
-              name: "",
-              email: "",
-              phone: "",
-            }}
-            validate={(values) => {
-              const errors = {};
-              if (!values.email) {
-                errors.email = "Requerido";
-              } else if (
-                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-              ) {
-                errors.email = "Invalid email address";
-              }
-              if (!values.name) {
-                errors.name = "Requerido";
-              } else if (!/[A-Z0-9]$/i.test(values.name)) {
-                errors.name = "Invalid email address";
-              }
-              return errors;
-            }}
-            onSubmit={(values, { setSubmitting }) => {
-              console.log(values);
-              setSubmitting(true);
-              setMessageStatus({
-                status: "enviando",
-                isEmailSent: null,
-                error: null,
-              });
-
-              axiosBase
-                .post("/mailing/send", values)
-                .then((res) => {
-                  console.log(res);
-                  setMessageStatus({
-                    status: "Mensaje Enviado",
-                    error: false,
-                    isEmailSent: true,
-                  });
-                })
-                .catch((err) => {
-                  console.log(err.response);
-                  setSubmitting(false);
-                  setMessageStatus({
-                    status: "ERROR:  Mensaje No Enviado",
-                    isEmailSent: true,
-                    error: true,
-                  });
+    <>
+      <CategoriesNavbar _categories={categories} />
+      <Container>
+        <ContactPageWrapper>
+          <PageTitleH1>Envianos un Mensaje</PageTitleH1>
+          <Grid>
+            <Formik
+              initialValues={{
+                name: "",
+                email: "",
+                phone: "",
+              }}
+              validate={(values) => {
+                const errors = {};
+                if (!values.email) {
+                  errors.email = "Requerido";
+                } else if (
+                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                ) {
+                  errors.email = "Invalid email address";
+                }
+                if (!values.name) {
+                  errors.name = "Requerido";
+                } else if (!/[A-Z0-9]$/i.test(values.name)) {
+                  errors.name = "Invalid email address";
+                }
+                return errors;
+              }}
+              onSubmit={(values, { setSubmitting }) => {
+                console.log(values);
+                setSubmitting(true);
+                setMessageStatus({
+                  status: "enviando",
+                  isEmailSent: null,
+                  error: null,
                 });
-            }}
-          >
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting,
-              /* and other goodies */
-            }) => (
-              <Form onSubmit={handleSubmit}>
-                <FormFieldsWrapper>
-                  <label htmlFor="name">
-                    Nombre
-                    <InputError>
-                      {errors.name && touched.name && errors.name}
-                    </InputError>
-                  </label>
-                  <Field
-                    as="input"
-                    type="text"
-                    id="name"
-                    name="name"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.name}
-                  />
 
-                  <label htmlFor="email">
-                    Email
-                    <InputError>
-                      {errors.email && touched.email && errors.email}
-                    </InputError>
-                  </label>
-                  <Field
-                    as="input"
-                    type="email"
-                    id="email"
-                    name="email"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.email}
-                  />
+                axiosBase
+                  .post("/mailing/send", values)
+                  .then((res) => {
+                    console.log(res);
+                    setMessageStatus({
+                      status: "Mensaje Enviado",
+                      error: false,
+                      isEmailSent: true,
+                    });
+                  })
+                  .catch((err) => {
+                    console.log(err.response);
+                    setSubmitting(false);
+                    setMessageStatus({
+                      status: "ERROR:  Mensaje No Enviado",
+                      isEmailSent: true,
+                      error: true,
+                    });
+                  });
+              }}
+            >
+              {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                isSubmitting,
+                /* and other goodies */
+              }) => (
+                <Form onSubmit={handleSubmit}>
+                  <FormFieldsWrapper>
+                    <label htmlFor="name">
+                      Nombre
+                      <InputError>
+                        {errors.name && touched.name && errors.name}
+                      </InputError>
+                    </label>
+                    <Field
+                      as="input"
+                      type="text"
+                      id="name"
+                      name="name"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.name}
+                    />
 
-                  <label htmlFor="subject">
-                    Asunto
-                    <InputError>
-                      {errors.subject && touched.subject && errors.subject}
-                    </InputError>
-                  </label>
-                  <Field
-                    as="input"
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.subject}
-                  />
+                    <label htmlFor="email">
+                      Email
+                      <InputError>
+                        {errors.email && touched.email && errors.email}
+                      </InputError>
+                    </label>
+                    <Field
+                      as="input"
+                      type="email"
+                      id="email"
+                      name="email"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.email}
+                    />
 
-                  <label htmlFor="phone">
-                    Teléfono
-                    <InputError>
-                      {errors.phone && touched.phone && errors.phone}
-                    </InputError>
-                  </label>
-                  <Field
-                    as="input"
-                    type="phone"
-                    id="phone"
-                    name="phone"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.phone}
-                  />
+                    <label htmlFor="subject">
+                      Asunto
+                      <InputError>
+                        {errors.subject && touched.subject && errors.subject}
+                      </InputError>
+                    </label>
+                    <Field
+                      as="input"
+                      type="text"
+                      id="subject"
+                      name="subject"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.subject}
+                    />
 
-                  <label htmlFor="message">
-                    Mensaje
-                    <InputError>
-                      {errors.message && touched.message && errors.message}
-                    </InputError>
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={preMessage}
-                  />
-                  <Button type="submit" disabled={isSubmitting}>
-                    {messageStatus.status}
-                  </Button>
-                </FormFieldsWrapper>
-              </Form>
-            )}
-          </Formik>
-          <ContactDetailWrapper>
-            <ContactDetail>
-              <RiPhoneLine /> +54 6545-1321
-            </ContactDetail>
-            <ContactDetail>
-              <RiMailSendLine /> info@latitudnautica.com.ar
-            </ContactDetail>
-            <SocialIcons>
-              <a href="/">
-                <RiWhatsappLine />
-              </a>
-              <a href="/">
-                <RiInstagramLine />
-              </a>
-              <a href="https://www.facebook.com/profile.php?id=100004283867132">
-                <RiFacebookCircleLine />
-              </a>
-            </SocialIcons>
-          </ContactDetailWrapper>
-        </Grid>
-        <FeaturedProducts />
-      </ContactPageWrapper>
-    </Container>
+                    <label htmlFor="phone">
+                      Teléfono
+                      <InputError>
+                        {errors.phone && touched.phone && errors.phone}
+                      </InputError>
+                    </label>
+                    <Field
+                      as="input"
+                      type="phone"
+                      id="phone"
+                      name="phone"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.phone}
+                    />
+
+                    <label htmlFor="message">
+                      Mensaje
+                      <InputError>
+                        {errors.message && touched.message && errors.message}
+                      </InputError>
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={preMessage}
+                    />
+                    <Button type="submit" disabled={isSubmitting}>
+                      {messageStatus.status}
+                    </Button>
+                  </FormFieldsWrapper>
+                </Form>
+              )}
+            </Formik>
+            <ContactDetailWrapper>
+              <ContactDetail>
+                <RiPhoneLine /> +54 6545-1321
+              </ContactDetail>
+              <ContactDetail>
+                <RiMailSendLine /> info@latitudnautica.com.ar
+              </ContactDetail>
+              <SocialIcons>
+                <a href="/">
+                  <RiWhatsappLine />
+                </a>
+                <a href="/">
+                  <RiInstagramLine />
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=100004283867132">
+                  <RiFacebookCircleLine />
+                </a>
+              </SocialIcons>
+            </ContactDetailWrapper>
+          </Grid>
+          <FeaturedProducts featuredProducts={featuredProducts} />
+        </ContactPageWrapper>
+      </Container>
+    </>
   );
 };
 
 ContactPage.Layout = MainLayout;
 
 export default ContactPage;
+
+export async function getStaticProps() {
+  const featuredProducts = await axiosBase("/product/featured").then(
+    (res) => res.data
+  );
+  const categories = await axiosBase("/category/all").then((res) => res.data);
+
+  return {
+    props: {
+      categories,
+      featuredProducts,
+    },
+    revalidate: 1,
+  };
+}

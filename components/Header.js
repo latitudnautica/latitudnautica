@@ -25,7 +25,7 @@ const ContentWrapper = styled.div`
 `;
 
 const HeaderLogo = styled.div`
-  padding: 10px 0;
+  padding: 10px 2em;
   text-align: center;
   flex: 1;
 
@@ -34,6 +34,7 @@ const HeaderLogo = styled.div`
   }
 
   @media (max-width: 768px) {
+    padding: 10px 1em;
     flex: 1;
     img {
       width: 100%;
@@ -41,6 +42,7 @@ const HeaderLogo = styled.div`
   }
 
   @media (max-width: 470px) {
+    padding: 10px 1em;
     flex: 2;
     img {
       width: 100%;

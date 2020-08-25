@@ -1,7 +1,9 @@
-import { useState } from "react";
-import { useCategories } from "../context/CategoriesProvider";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+
 import styled from "styled-components";
 import Link from "next/link";
+import PropTypes from "prop-types";
 
 const CategoriesNavbarStyled = styled.nav`
   text-align: center;
@@ -50,7 +52,7 @@ const DropdownWrapper = styled.div`
   text-transform: uppercase;
   position: absolute;
   width: 80%;
-  left: 10% ;
+  left: 10%;
   opacity: ${(props) => (props.show ? 1 : 0)};
   visibility: ${(props) => (props.show ? "visible" : "hidden")};
   transition: visibility 0.2s, opacity 0.2s ease;
@@ -87,17 +89,36 @@ const Overlay = styled.div`
   /* z-index: 1; */
 `;
 
-const CategoriesNavbar = () => {
-  const {
-    categories,
-    categoryHover,
-    handleHoverCategory,
-    handleClickCategory,
-    categorySelected,
-    isLoading,
-  } = useCategories();
+const CategoriesNavbar = ({ _categories }) => {
+  const [categories, setCategories] = useState(_categories);
+  const [categorySelected, setCategorySelected] = useState(false);
+  const [categoryHover, setCategoryHover] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const Router = useRouter();
+  
+  useEffect(() => {
+    if (_categories) {
+      setCategories(_categories);
+    }
+  }, [_categories]);
+
+  useEffect(() => {
+    const category = categories.find((cat) => cat.id == Router.query.cid);
+    setCategorySelected(category);
+  });
+
+  const handleClickCategory = (cid) => {
+    const category = categories.find((cat) => cat.id == cid);
+    setCategorySelected(category);
+  };
+
+  const handleHoverCategory = (cid) => {
+    const category = categories.find((cat) => cat.id == cid);
+    setCategoryHover(category);
+  };
 
   const [showDropdown, setShowDropdown] = useState(false);
+
 
   const handleHover = (e) => {
     const cid = e.target.dataset.cid;
@@ -110,8 +131,6 @@ const CategoriesNavbar = () => {
     handleClickCategory(cid);
     setShowDropdown(false);
   };
-
-  // if (isLoading) return <NavbarWrapper>Cargando Categorías</NavbarWrapper>;
 
   return (
     <CategoriesNavbarStyled onMouseLeave={() => setShowDropdown(false)}>
@@ -172,4 +191,7 @@ const CategoriesNavbar = () => {
   );
 };
 
+CategoriesNavbar.propTypes = {
+  categories: PropTypes.array,
+};
 export default CategoriesNavbar;

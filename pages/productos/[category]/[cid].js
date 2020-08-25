@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import axiosbase from "../../../utils/axiosBase";
+import axiosBase from "@/utils/axiosBase";
 import styled from "styled-components";
-import MainLayout from "../../../components/layouts/MainLayout";
-import SidebarMenuProducts from "../../../components/SidebarMenuProducts";
-import ListProducts from "../../../components/ListProducts";
+import MainLayout from "@/components/layouts/MainLayout";
+import SidebarMenuProducts from "components/SidebarMenuProducts";
+import ListProducts from "@/components/ListProducts";
+import CategoriesNavbar from "@/components/CategoriesNavbar";
 
 const ListSection = styled.section`
   display: flex;
@@ -16,7 +17,7 @@ const ListSection = styled.section`
   }
 `;
 
-const ProductsPageWrapper = ({ data }) => {
+const ProductsPageWrapper = ({ data, categories }) => {
   const Router = useRouter();
 
   if (Router.isFallback) {
@@ -46,6 +47,7 @@ const ProductsPageWrapper = ({ data }) => {
 
   return (
     <div>
+      <CategoriesNavbar _categories={categories} />
       <ListSection>
         <SidebarMenuProducts category={category} />
         <ListProducts products={products} />
@@ -59,7 +61,7 @@ ProductsPageWrapper.Layout = MainLayout;
 export default ProductsPageWrapper;
 
 export async function getStaticPaths() {
-  const categories = await axiosbase(`/category/all`).then((res) => res.data);
+  const categories = await axiosBase(`/category/all`).then((res) => res.data);
   const paths = categories.map((cat) => ({
     params: { category: cat.name, cid: cat.id.toString() },
   }));
@@ -68,9 +70,10 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const data = await axiosbase(`/category/${params.cid}`).then(
+  const categories = await axiosBase("/category/all").then((res) => res.data);
+  const data = await axiosBase(`/category/${params.cid}`).then(
     (res) => res.data
   );
 
-  return { props: { data }, revalidate: 1 };
+  return { props: { data, categories }, revalidate: 1 };
 }
