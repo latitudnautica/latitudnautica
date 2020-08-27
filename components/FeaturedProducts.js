@@ -6,6 +6,8 @@ import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import useWindowSize from "../hooks/useWindowSize";
 import PropTypes from "prop-types";
 
+import Slider from "react-slick";
+
 const FeaturedProductosWrapper = styled.section`
   margin: 2em;
   box-shadow: ${({ theme }) => theme.details.boxShadow};

@@ -13,14 +13,19 @@ import {
 import {
   RiWhatsappLine,
   RiFacebookCircleLine,
-  RiInstagramLine,
   RiPhoneLine,
   RiMailSendLine,
 } from "react-icons/ri";
 import { Button } from "components/layouts/Button";
+import { contactData } from "@/utils/contactData";
+import {
+  Input,
+  Textarea,
+  Label,
+} from "@/components/layouts/commonStyledComponents";
 
 const ContactPageWrapper = styled.section`
-  margin: 3em 0;
+  margin: 3em 1em;
 `;
 
 const Grid = styled.div`
@@ -43,78 +48,55 @@ const Grid = styled.div`
     position: absolute;
     z-index: -1;
   }
+
+  @media (max-width: 760px) {
+    display: grid;
+    grid-template-columns: 1fr;
+    /* grid-template-rows: 1fr 1fr; */
+    grid-auto-flow: dense;
+  }
 `;
 
 const FormFieldsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 2em;
-  font-size: 1.2em;
-  label {
-    margin: 1em 0 0.3em 0;
-    font-weight: bold;
-  }
-
-  input[type="email"],
-  input[type="text"],
-  input[type="phone"],
-  input[type="number"] {
-    padding: 0.65rem 0.5rem;
-    font-size: 1rem;
-    border: 2px solid ${({ theme }) => theme.input.border};
-    background-color: var(--gray-100);
-    color: var(--gray-800);
-    border-radius: 10px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-  }
-  textarea {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    font-size: 1rem;
-    border: 2px solid ${({ theme }) => theme.input.border};
-    color: var(--gray-700);
-    border-radius: 10px;
-    resize: vertical;
-    background-color: ${({ theme }) => theme.input.background};
-    box-sizing: border-box;
-    padding: 0.65rem 0.5rem;
-  }
-
-  input:focus,
-  select:focus,
-  textarea:focus {
-    outline: none;
-    border: 2px solid ${({ theme }) => theme.input.borderOnFocus};
-  }
-
-  input:invalid,
-  select:invalid,
-  textarea:invalid {
-    border: 2px solid #ff7d87;
-    box-shadow: none;
-  }
+  font-size: 1em;
 `;
 
 const ContactDetailWrapper = styled.div`
-  border-left: 2px solid red;
+  border-left: 2px solid ${({ theme }) => theme.colors.background};
   padding: 0 2em;
+
+  @media (max-width: 760px) {
+    grid-row: 1;
+    border-left: none;
+    border-bottom: 2px solid ${({ theme }) => theme.colors.background};
+
+    div {
+      display: inline-block;
+      margin-left: 1em;
+    }
+  }
 `;
 
 const ContactDetail = styled.div`
-  font-size: 1.5em;
+  font-size: 1.2em;
   margin: 1em 0;
 `;
 
 const SocialIcons = styled(ContactDetail)`
-  font-size: 1.5em;
+  font-size: 2em;
   a {
-    margin: 0 15px;
+    margin: 0 0.6em;
     color: ${({ theme }) => theme.colors.primary};
+
+    :hover {
+      color: ${({ theme }) => theme.colors.backgroundHover};
+    }
   }
 `;
+
 const InputError = styled.span`
   color: ${({ theme }) => theme.input.error};
   padding-left: 10px;
@@ -124,8 +106,8 @@ const InputError = styled.span`
 const ContactPage = ({ categories, featuredProducts }) => {
   const [messageStatus, setMessageStatus] = useState({
     status: "Enviar",
-    error: false,
     isEmailSent: false,
+    error: false,
   });
   const [preMessage, setPreMessage] = useState("");
 
@@ -136,7 +118,7 @@ const ContactPage = ({ categories, featuredProducts }) => {
       const parsedMessage = `Hola, busque el producto "${Router.query.searched}" y no lo encontré en la pagina. ¿Tenes algo parecido a esto?`;
       setPreMessage(parsedMessage);
     }
-  });
+  }, [Router.query.searched]);
 
   return (
     <>
@@ -146,10 +128,12 @@ const ContactPage = ({ categories, featuredProducts }) => {
           <PageTitleH1>Envianos un Mensaje</PageTitleH1>
           <Grid>
             <Formik
+              enableReinitialize
               initialValues={{
                 name: "",
                 email: "",
                 phone: "",
+                message: preMessage ? preMessage : "",
               }}
               validate={(values) => {
                 const errors = {};
@@ -182,8 +166,8 @@ const ContactPage = ({ categories, featuredProducts }) => {
                     console.log(res);
                     setMessageStatus({
                       status: "Mensaje Enviado",
-                      error: false,
                       isEmailSent: true,
+                      error: false,
                     });
                   })
                   .catch((err) => {
@@ -191,7 +175,7 @@ const ContactPage = ({ categories, featuredProducts }) => {
                     setSubmitting(false);
                     setMessageStatus({
                       status: "ERROR:  Mensaje No Enviado",
-                      isEmailSent: true,
+                      isEmailSent: false,
                       error: true,
                     });
                   });
@@ -209,14 +193,14 @@ const ContactPage = ({ categories, featuredProducts }) => {
               }) => (
                 <Form onSubmit={handleSubmit}>
                   <FormFieldsWrapper>
-                    <label htmlFor="name">
+                    <Label htmlFor="name">
                       Nombre
                       <InputError>
                         {errors.name && touched.name && errors.name}
                       </InputError>
-                    </label>
+                    </Label>
                     <Field
-                      as="input"
+                      as={Input}
                       type="text"
                       id="name"
                       name="name"
@@ -225,14 +209,14 @@ const ContactPage = ({ categories, featuredProducts }) => {
                       value={values.name}
                     />
 
-                    <label htmlFor="email">
+                    <Label htmlFor="email">
                       Email
                       <InputError>
                         {errors.email && touched.email && errors.email}
                       </InputError>
-                    </label>
+                    </Label>
                     <Field
-                      as="input"
+                      as={Input}
                       type="email"
                       id="email"
                       name="email"
@@ -241,14 +225,14 @@ const ContactPage = ({ categories, featuredProducts }) => {
                       value={values.email}
                     />
 
-                    <label htmlFor="subject">
+                    <Label htmlFor="subject">
                       Asunto
                       <InputError>
                         {errors.subject && touched.subject && errors.subject}
                       </InputError>
-                    </label>
+                    </Label>
                     <Field
-                      as="input"
+                      as={Input}
                       type="text"
                       id="subject"
                       name="subject"
@@ -257,14 +241,14 @@ const ContactPage = ({ categories, featuredProducts }) => {
                       value={values.subject}
                     />
 
-                    <label htmlFor="phone">
+                    <Label htmlFor="phone">
                       Teléfono
                       <InputError>
                         {errors.phone && touched.phone && errors.phone}
                       </InputError>
-                    </label>
+                    </Label>
                     <Field
-                      as="input"
+                      as={Input}
                       type="phone"
                       id="phone"
                       name="phone"
@@ -273,18 +257,18 @@ const ContactPage = ({ categories, featuredProducts }) => {
                       value={values.phone}
                     />
 
-                    <label htmlFor="message">
+                    <Label htmlFor="message">
                       Mensaje
                       <InputError>
                         {errors.message && touched.message && errors.message}
                       </InputError>
-                    </label>
-                    <textarea
+                    </Label>
+                    <Textarea
                       id="message"
                       name="message"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={preMessage}
+                      value={values.message}
                     />
                     <Button type="submit" disabled={isSubmitting}>
                       {messageStatus.status}
@@ -295,20 +279,31 @@ const ContactPage = ({ categories, featuredProducts }) => {
             </Formik>
             <ContactDetailWrapper>
               <ContactDetail>
-                <RiPhoneLine /> +54 6545-1321
+                <a
+                  href={`https://wa.me/${contactData.celularPhone.number}`}
+                  target="_blank"
+                >
+                  <RiPhoneLine />
+                  {contactData.celularPhone.display}
+                </a>
               </ContactDetail>
               <ContactDetail>
-                <RiMailSendLine /> info@latitudnautica.com.ar
+                <a href={`mailto:${contactData.email}`}>
+                  <RiMailSendLine /> {contactData.email}
+                </a>
               </ContactDetail>
               <SocialIcons>
-                <a href="/">
+                <a href={contactData.facebook} target="_blank">
+                  <RiFacebookCircleLine />
+                </a>
+                <a
+                  href={`https://wa.me/${contactData.celularPhone.number}`}
+                  target="_blank"
+                >
                   <RiWhatsappLine />
                 </a>
-                <a href="/">
-                  <RiInstagramLine />
-                </a>
-                <a href="https://www.facebook.com/profile.php?id=100004283867132">
-                  <RiFacebookCircleLine />
+                <a href={`mailto:${contactData.email}`}>
+                  <RiMailSendLine />
                 </a>
               </SocialIcons>
             </ContactDetailWrapper>

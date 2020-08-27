@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Slider from "react-slick";
+import PropTypes from "prop-types";
 
 const HomeCarrouselStyled = styled.div`
   /* padding: 20px 0px; */
@@ -48,4 +49,7 @@ const HomeCarrousel = ({ bannersData }) => {
   );
 };
 
+HomeCarrousel.propTypes = {
+  bannersData: PropTypes.array,
+};
 export default HomeCarrousel;

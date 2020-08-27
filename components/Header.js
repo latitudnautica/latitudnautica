@@ -6,10 +6,10 @@ import SearchBar from "./SearchBar";
 import {
   RiWhatsappLine,
   RiFacebookCircleLine,
-  RiInstagramLine,
   RiPhoneLine,
   RiMailSendLine,
 } from "react-icons/ri";
+import { contactData } from "@/utils/contactData";
 
 const HeaderStyled = styled.header`
   box-shadow: 0 0 13px -2px #acb1b3;
@@ -93,16 +93,24 @@ const ContactDetail = styled.div`
 `;
 
 const SocialIcons = styled(ContactDetail)`
-  font-size: 1.5em;
+  font-size: 2em;
   a {
+    margin: 0 5px;
     color: ${({ theme }) => theme.colors.primary};
+
+    :hover {
+      color: ${({ theme }) => theme.colors.backgroundHover};
+    }
   }
 
   @media (max-width: 768px) {
     flex-direction: column;
     position: absolute;
     right: 10px;
-    top: 25px;
+    top: 8px;
+    a {
+      margin: 0;
+    }
   }
   @media (max-width: 470px) {
     flex-direction: row;
@@ -131,20 +139,31 @@ export default function Header() {
 
           <ContactDetailsWrapper>
             <ContactDetail>
-              <RiPhoneLine /> +54 6545-1321
+              <a
+                href={`https://wa.me/${contactData.celularPhone.number}`}
+                target="_blank"
+              >
+                <RiPhoneLine />
+                {contactData.celularPhone.display}
+              </a>
             </ContactDetail>
             <ContactDetail>
-              <RiMailSendLine /> info@latitudnautica.com.ar
+              <a href={`mailto:${contactData.email}`}>
+                <RiMailSendLine /> {contactData.email}
+              </a>
             </ContactDetail>
             <SocialIcons>
-              <a href="/">
+              <a href={contactData.facebook} target="_blank">
+                <RiFacebookCircleLine />
+              </a>
+              <a
+                href={`https://wa.me/${contactData.celularPhone.number}`}
+                target="_blank"
+              >
                 <RiWhatsappLine />
               </a>
-              <a href="/">
-                <RiInstagramLine />
-              </a>
-              <a href="https://www.facebook.com/profile.php?id=100004283867132">
-                <RiFacebookCircleLine />
+              <a href={`mailto:${contactData.email}`}>
+                <RiMailSendLine />
               </a>
             </SocialIcons>
           </ContactDetailsWrapper>
