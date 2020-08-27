@@ -1,16 +1,18 @@
 import { useEffect, useState, useRef, createRef } from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import ItemsCarousel from "react-items-carousel";
+import Slider from "react-slick";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import useWindowSize from "../hooks/useWindowSize";
 import PropTypes from "prop-types";
 
-import Slider from "react-slick";
-
 const FeaturedProductosWrapper = styled.section`
   margin: 2em;
   box-shadow: ${({ theme }) => theme.details.boxShadow};
+  h4 {
+    text-align: center;
+    margin: 10px;
+  }
 `;
 
 const SlideArrow = styled.div`
@@ -33,8 +35,9 @@ const ImageItemCarrousel = styled.img`
 const ItemCarrouselWrapper = styled.div`
   border: 2px solid ${({ theme }) => theme.colors.border};
   border-radius: 5px;
-  display: flex;
+  display: flex !important;
   padding: 10px;
+  margin: 0 10px;
   max-width: 200px;
   max-height: 200px;
   min-height: 200px;
@@ -57,22 +60,13 @@ const FeaturedProducts = ({ featuredProducts }) => {
   const [noOfCards, setNoOfCards] = useState(5);
 
   const noOfItems = products.length || 5;
-  const autoPlayDelay = 3000;
   const windowSize = useWindowSize();
   const productosWrapper = createRef();
-  // const { data, error } = useSWR("/product/featured", {
-  //   initialData: featuredProducts,
-  // });
 
   useEffect(() => {
     if (featuredProducts) {
       setProducts(featuredProducts);
       setIsLoading(false);
-      const interval = setInterval(tick, autoPlayDelay);
-
-      return () => {
-        clearInterval(interval);
-      };
     }
   }, [featuredProducts, activeItemIndex]);
 
@@ -84,14 +78,20 @@ const FeaturedProducts = ({ featuredProducts }) => {
     }
   }, [windowSize]);
 
-  const tick = () =>
-    setActiveItemIndex((activeItemIndex) => {
-      return (activeItemIndex + 1) % (noOfItems - noOfCards + 1);
-    });
-
   const onImageError = (e) => {
     const element = e.target;
     element.src = "/images/logo.png";
+  };
+
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: noOfCards,
+    slidesToScroll: 2,
+    arrows: true,
+    autoplay: true,
+    autoplaySpeed: 4000,
   };
 
   return (
@@ -100,28 +100,7 @@ const FeaturedProducts = ({ featuredProducts }) => {
       ref={productosWrapper}
     >
       <h4>Productos Destacados</h4>
-      <ItemsCarousel
-        placeholderItem={<ItemPlaceholder />}
-        enablePlaceholder={true}
-        numberOfPlaceholderItems={5}
-        requestToChangeActive={setActiveItemIndex}
-        activeItemIndex={activeItemIndex}
-        numberOfCards={noOfCards}
-        showSlither={true}
-        gutter={2}
-        leftChevron={
-          <SlideArrow>
-            <RiArrowLeftSLine />
-          </SlideArrow>
-        }
-        rightChevron={
-          <SlideArrow>
-            <RiArrowRightSLine />
-          </SlideArrow>
-        }
-        outsideChevron={false}
-        // chevronWidth={chevronWidth}
-      >
+      <Slider {...settings}>
         {isLoading
           ? []
           : products.map((i) => (
@@ -140,7 +119,7 @@ const FeaturedProducts = ({ featuredProducts }) => {
                 </Link>
               </ItemCarrouselWrapper>
             ))}
-      </ItemsCarousel>
+      </Slider>
     </FeaturedProductosWrapper>
   );
 };
