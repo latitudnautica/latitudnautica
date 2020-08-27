@@ -8,6 +8,7 @@ import { Button } from "components/layouts/Button";
 import CmsLayout from "components/layouts/CmsLayout";
 import { toast } from "react-toastify";
 import { TiTickOutline, TiDelete } from "react-icons/ti";
+import { PageTitleH1 } from "@/components/layouts/commonStyledComponents";
 
 const Select = styled.select`
   border: none;
@@ -21,8 +22,9 @@ const Select = styled.select`
     margin: 5px 0;
   }
 `;
+
 const Table = styled.table`
-  width: 100%;
+  width: 90%;
   margin: 0 25px;
   text-align: center;
   border: 1px solid gray;
@@ -41,10 +43,14 @@ const Table = styled.table`
     font-weight: bold;
   }
 `;
+const CategorySelectContainer = styled.div`
+  margin: 1em 25px;
+`;
+
 const CategoryInfoContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin: 0 25px;
+  margin: 1em 25px;
   justify-content: space-evenly;
 `;
 const CategoryInfoItem = styled.div`
@@ -67,18 +73,23 @@ const CategoryInfoItem = styled.div`
   }
 `;
 
+const Icon = styled.span`
+  font-size: 1.8em;
+  color: #7c95c3;
+`;
+
 const Editar = ({ categories }) => {
   const [catSelected, setCatSelected] = useState(1);
-  const [categoryList, setCategoryList] = useState(false);
+  const [categoryData, setCategoryData] = useState(false);
 
   const { data, error } = useSWR(`/category/${catSelected}`);
-  
+
   if (data == "undefined") return <div>Cargando</div>;
   if (error) return <div>algo salio mal</div>;
 
   useEffect(() => {
     if (data) {
-      setCategoryList(data.data[0]);
+      setCategoryData(data.data[0]);
     }
   }, [data]);
 
@@ -104,12 +115,29 @@ const Editar = ({ categories }) => {
         console.log(err.response);
       });
   };
-  console.log(categoryList);
+
+  const getSubCategoryName = (scid) => {
+    if (categoryData.SubCategories.length == 0) {
+      return "no name";
+    }
+
+    const subCategory = categoryData.SubCategories.find((subCat) => {
+      console.log(subCat);
+      return subCat.id == scid;
+    });
+
+    if (subCategory == undefined) {
+      return "ATENCIÓN: sub categoría perdida";
+    }
+    return subCategory.name;
+  };
+
+  console.log(categoryData);
   return (
     <CmsLayout>
-      <h1>EDITAR</h1>
+      <PageTitleH1>EDITAR</PageTitleH1>
       <div>
-        <h3>
+        <CategorySelectContainer>
           Elige una Categoría:
           <Select onClick={handleCategorySelector}>
             {categories.map((cat) => (
@@ -118,43 +146,48 @@ const Editar = ({ categories }) => {
               </option>
             ))}
           </Select>
-        </h3>
-        {categoryList && (
+        </CategorySelectContainer>
+        {categoryData && (
           <CategoryInfoContainer>
-            {/* <CategoryInfoItem>
-              <div>{categoryList.Products.length}</div>
+            <CategoryInfoItem>
+              <div>{categoryData.Products.length}</div>
               <div>productos</div>
-            </CategoryInfoItem> */}
-            {/* <CategoryInfoItem>
-              <div>{categoryList.SubCategories.length}</div>
+            </CategoryInfoItem>
+            <CategoryInfoItem>
+              <div>{categoryData.SubCategories.length}</div>
               <div>sub categorías</div>
-            </CategoryInfoItem> */}
-            {/* <CategoryInfoItem>
+            </CategoryInfoItem>
+            <CategoryInfoItem>
               <div>
                 {
-                  categoryList.Products.filter((prod) => prod.visible == 0)
+                  categoryData.Products.filter((prod) => prod.visible == 0)
                     .length
                 }
               </div>
               <div>Productos Ocultos</div>
-            </CategoryInfoItem> */}
-            {/* <CategoryInfoItem>
-              {categoryList.SubCategory.length > 0 &&
-                categoryList.SubCategories((scat) => (
-                  <button key={scat.id}>{scat.name}</button>
-                ))}
-            </CategoryInfoItem> */}
+            </CategoryInfoItem>
+            <CategoryInfoItem>
+              <div>
+                {
+                  categoryData.Products.filter((prod) => prod.featured == 1)
+                    .length
+                }
+              </div>
+              <div>Productos Destacados</div>
+            </CategoryInfoItem>
           </CategoryInfoContainer>
         )}
       </div>
       <div>
         <h4>Lista De Productos</h4>
-        {categoryList && (
+        {categoryData && (
           <Table>
             <thead>
               <tr>
                 <th>id</th>
                 <th>Nombre</th>
+                <th>Marca</th>
+                <th>Precio</th>
                 <th>Categoría</th>
                 <th>Sub Categoría</th>
                 <th>visible</th>
@@ -163,17 +196,25 @@ const Editar = ({ categories }) => {
               </tr>
             </thead>
             <tbody>
-              {categoryList.Products.length > 0 &&
-                categoryList.Products.map((prod) => {
+              {categoryData.Products.length > 0 &&
+                categoryData.Products.map((prod) => {
                   return (
                     <tr key={prod.id}>
                       <td>{prod.id}</td>
                       <td>{prod.name}</td>
-                      <td>{categoryList.name}</td>
-                      <td>{prod.SubCategoryId}</td>
-                      <td>{prod.visible ? <TiTickOutline /> : <TiDelete />}</td>
+                      <td>{prod.brand}</td>
+                      <td>{prod.price}</td>
+                      <td>{categoryData.name}</td>
+                      <td>{getSubCategoryName(prod.SubCategoryId)}</td>
                       <td>
-                        {prod.featured ? <TiTickOutline /> : <TiDelete />}
+                        <Icon>
+                          {prod.visible ? <TiTickOutline /> : <TiDelete />}
+                        </Icon>
+                      </td>
+                      <td>
+                        <Icon>
+                          {prod.featured ? <TiTickOutline /> : <TiDelete />}
+                        </Icon>
                       </td>
                       <td>
                         <Link
