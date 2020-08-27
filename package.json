@@ -6,27 +6,26 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start",
-    "prod": "NODE_ENV=production node server.js"
+    "start": "next start"
   },
   "dependencies": {
     "@brainhubeu/react-carousel": "^1.19.26",
     "axios": "^0.19.2",
     "formik": "^2.1.5",
     "js-cookie": "^2.2.1",
-    "next": "^9.5.1",
+    "next": "^9.5.2",
     "nprogress": "^0.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
-    "react-icons": "^3.10.0",
+    "react-icons": "^3.11.0",
     "react-items-carousel": "^2.8.0",
     "react-slick": "^0.27.10",
     "react-spring": "^8.0.27",
     "react-toastify": "^6.0.8",
     "styled-components": "^5.1.1",
     "swr": "^0.2.3",
-    "yup": "^0.29.2"
+    "yup": "^0.29.3"
   },
   "author": "Bernardo Munz",
   "license": "ISC"
