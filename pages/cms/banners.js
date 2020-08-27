@@ -6,26 +6,52 @@ import Cookies from "js-cookie";
 import CmsLayout from "../../components/layouts/CmsLayout";
 import { Button } from "../../components/layouts/Button";
 import { toast } from "react-toastify";
+import { PageTitleH1 } from "@/components/layouts/commonStyledComponents";
+
+const BannersStyled = styled.main`
+  
+`;
+
+const UploadFileForm = styled.section`
+  margin: 2em auto;
+  width: 70vw;
+`;
+const Form = styled.form`
+  margin: 2em auto;
+  display: flex;
+  flex-direction: row;
+  padding-left: 1em;
+
+  input,
+  button {
+    max-width: 200px;
+    margin: 1em;
+  }
+`;
 
 const BannersList = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   margin: 2em;
+  justify-content: center;
 `;
 
 const BannersListItem = styled.div`
-  display: flex;
-  flex-direction: row;
-
+  background-color: #dcdcdc;
+  margin: 1em;
+  max-width: 350px;
+  border-radius: 5px;
   img {
-    width: 300px;
+    width: 100%;
     margin-right: 10px;
   }
 `;
+
 const ProgressBarWrapper = styled.div`
   width: 100%;
-  border: 1px solid red;
 `;
+
 const ProgressBar = styled.div`
   width: ${(props) => props.progress || 0}%;
   background-color: rgb(68, 212, 231);
@@ -34,11 +60,8 @@ const ProgressBar = styled.div`
   padding: 2px;
 `;
 
-const UploadFileForm = styled.section``;
-
 const Banners = () => {
   const [banners, setBanners] = useState(false);
-  const [showForm, setShowForm] = useState(false);
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0); // progress bar
   const inputTitle = useRef();
@@ -100,18 +123,18 @@ const Banners = () => {
       });
   };
   return (
-    <div>
-      <h1>BANNERS</h1>
+    <BannersStyled>
+      <PageTitleH1>BANNERS</PageTitleH1>
       <UploadFileForm>
         <h2>Cargar banner</h2>
-        <button
-          onClick={() => {
-            setShowForm(false);
-          }}
-        >
-          X
-        </button>
-        <form>
+        <h4>
+          IMPORTANTE: Medidas de las imágenes 1200 x 350 pixels
+          <p>
+            Para que las imágenes se muestren correctamente en las paginas y
+            distintos dispositivos es importante respetar esas medidas.
+          </p>
+        </h4>
+        <Form>
           <label>Titulo de la imagen</label>
           <input ref={inputTitle} type="text" name="title" required />
           <label>Banner</label>
@@ -123,47 +146,45 @@ const Banners = () => {
               setFile(e.target.files[0]);
             }}
           />
-          <button type="submit" onClick={uploadFile}>
-            enviar
-          </button>
-        </form>
+          <Button type="submit" onClick={uploadFile}>
+            Subir
+          </Button>
+        </Form>
+        <ProgressBarWrapper>
+          {(progress > 0 || file != null) && (
+            <ProgressBar progress={progress}>{progress}%</ProgressBar>
+          )}
+        </ProgressBarWrapper>
       </UploadFileForm>
-      <ProgressBarWrapper>
-        {(progress > 0 || file != null) && (
-          <ProgressBar progress={progress}>{progress}%</ProgressBar>
-        )}
-      </ProgressBarWrapper>
-      <div>
+      <BannersList>
         {banners &&
           banners.map((e) => {
             return (
-              <BannersList key={e.id}>
-                <BannersListItem>
-                  <img
-                    src={
-                      process.env.NEXT_PUBLIC_API_URL + e.imagePath ||
-                      "images/logo.png"
-                    }
-                  />
-                  <div>
-                    <div>Id: {e.id}</div>
-                    <div>Title*: {e.title}</div>
-                    <div>Publicado: {e.published ? "si" : "no"}</div>
-                    <Button>orden</Button>
-                    <Button
-                      onClick={() => {
-                        handleDeleteBanner(e.id);
-                      }}
-                    >
-                      Remover
-                    </Button>
-                  </div>
-                </BannersListItem>
-              </BannersList>
+              <BannersListItem key={e.id}>
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_API_URL + e.imagePath ||
+                    "images/logo.png"
+                  }
+                />
+                <div>
+                  <div>Id: {e.id}</div>
+                  <div>Titulo*: {e.title}</div>
+                  <div>Publicado: {e.published ? "si" : "no"}</div>
+                  <Button>orden</Button>
+                  <Button
+                    onClick={() => {
+                      handleDeleteBanner(e.id);
+                    }}
+                  >
+                    Remover
+                  </Button>
+                </div>
+              </BannersListItem>
             );
           })}
-      </div>
-    </div>
+      </BannersList>
+    </BannersStyled>
   );
 };
 

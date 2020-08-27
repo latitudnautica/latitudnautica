@@ -35,12 +35,11 @@ const formatProdToEdit = (prod) => {
 
 const FormContainer = styled.div`
   width: 90%;
+  background-color: #f2f2f280;
+
   form {
-    width: 100%;
     display: grid;
-    background-color: whitesmoke;
     grid-template-columns: 1fr 1fr 1fr;
-    /* border: 1px solid red; */
 
     @media (max-width: 600px) {
       grid-template-rows: 1fr 1fr 1fr;
