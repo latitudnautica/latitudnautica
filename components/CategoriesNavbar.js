@@ -95,7 +95,7 @@ const CategoriesNavbar = ({ _categories }) => {
   const [categoryHover, setCategoryHover] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const Router = useRouter();
-  
+
   useEffect(() => {
     if (_categories) {
       setCategories(_categories);
@@ -118,7 +118,6 @@ const CategoriesNavbar = ({ _categories }) => {
   };
 
   const [showDropdown, setShowDropdown] = useState(false);
-
 
   const handleHover = (e) => {
     const cid = e.target.dataset.cid;

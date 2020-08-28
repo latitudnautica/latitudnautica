@@ -1,6 +1,12 @@
 const colors = {
-  background: "#f29b0b",
-  backgroundHover: "#cd8104",
+  background: `linear-gradient(
+    90deg,
+    rgba(75, 205, 238, 1) 0%,
+    rgba(75, 255, 182, 1) 20%,
+    rgba(75, 255, 182, 1) 80%,
+    rgba(75, 205, 238, 1) 100%
+  )`,
+  backgroundHover: "rgba(75, 205, 238, 1)",
   primary: "#278dcd",
   paleCerulean: "#98C1D9",
   price: "#326273",
@@ -19,17 +25,27 @@ const input = {
 };
 
 const button = {
-  background: colors.background,
+  background: `rgba(75, 255, 182)`,
   textColor: "#333333",
   textColorHover: "#000",
-  hover: colors.backgroundHover,
+  hover: `rgba(75,205,238)`,
 };
-
+const menu = {
+  background: `linear-gradient(
+    0deg,
+    rgba(75, 205, 238, 1) 0%,
+    rgba(75, 255, 182, 1) 30%,
+    rgba(75, 255, 182, 1) 70%,
+    rgba(75, 205, 238, 1) 100%
+  )`,
+  burgerBackground: colors.primary,
+  burgerBackgroundHover: colors.raisinBlack,
+};
 const details = {
   boxShadow: "0 0 5px -4px #25171A",
   boxShadowBottom: "0 10px 18px -10px #25171A",
 };
 
-const theme = { colors, button, input, details };
+const theme = { colors, button, input, details, menu };
 
 export default theme;

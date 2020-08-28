@@ -9,7 +9,7 @@ export const Button = styled.button`
   /* text-transform: uppercase; */
   font-weight: 700;
   color: ${({ theme }) => theme.button.textColor};
-  background-color: ${({ theme }) => theme.button.background};
+  background: ${({ theme }) => theme.button.background};
   border: none;
   transition: all 150ms ease-in;
 
@@ -18,7 +18,8 @@ export const Button = styled.button`
   }
 
   :hover {
-    background-color: ${({ theme }) => theme.button.hover};
+    transition: all 200ms ease-in;
+    background: ${({ theme }) => theme.button.hover};
     color: ${({ theme }) => theme.button.textColorHover};
   }
 `;

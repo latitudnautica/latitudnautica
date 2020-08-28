@@ -23,7 +23,8 @@ const HomeCarrousel = ({ bannersData }) => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    fade:true,
+    speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,

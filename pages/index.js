@@ -2,7 +2,7 @@ import styled from "styled-components";
 import axiosBase from "@/utils/axiosBase";
 
 import MainLayout from "../components/layouts/MainLayout";
-import HomeCarrousel from "../components/Carrousel";
+import HomeCarrousel from "../components/HomeCarrousel";
 import FeaturedProducts from "components/FeaturedProducts";
 import CategoriesNavbar from "@/components/CategoriesNavbar";
 

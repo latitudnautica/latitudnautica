@@ -7,6 +7,8 @@ import SidebarMenuProducts from "components/SidebarMenuProducts";
 import ListProducts from "@/components/ListProducts";
 import CategoriesNavbar from "@/components/CategoriesNavbar";
 
+
+
 const ListSection = styled.section`
   display: flex;
   flex-direction: row;

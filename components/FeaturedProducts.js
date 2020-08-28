@@ -5,26 +5,17 @@ import Slider from "react-slick";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import useWindowSize from "../hooks/useWindowSize";
 import PropTypes from "prop-types";
+import onImageError from "@/utils/onImageError";
 
 const FeaturedProductosWrapper = styled.section`
-  margin: 2em;
-  box-shadow: ${({ theme }) => theme.details.boxShadow};
+  margin: 2em 0;
   h4 {
     text-align: center;
     margin: 10px;
   }
 `;
 
-const SlideArrow = styled.div`
-  background: none;
-  border: none;
-  font-size: 2.8em;
 
-  :hover {
-    color: ${({ theme }) => theme.colors.primary};
-    box-shadow: 0 0 0 0 white;
-  }
-`;
 
 const ImageItemCarrousel = styled.img`
   width: 100%;
@@ -55,50 +46,56 @@ const ItemPlaceholder = styled.div`
 
 const FeaturedProducts = ({ featuredProducts }) => {
   const [products, setProducts] = useState(false);
-  const [activeItemIndex, setActiveItemIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [noOfCards, setNoOfCards] = useState(5);
-
-  const noOfItems = products.length || 5;
-  const windowSize = useWindowSize();
-  const productosWrapper = createRef();
 
   useEffect(() => {
     if (featuredProducts) {
       setProducts(featuredProducts);
       setIsLoading(false);
     }
-  }, [featuredProducts, activeItemIndex]);
-
-  useEffect(() => {
-    if (productosWrapper.current) {
-      const parentWidth = productosWrapper.current.offsetWidth;
-      const space = parentWidth / 210;
-      setNoOfCards(Math.round(space));
-    }
-  }, [windowSize]);
-
-  const onImageError = (e) => {
-    const element = e.target;
-    element.src = "/images/logo.png";
-  };
+  }, [featuredProducts]);
 
   const settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: noOfCards,
-    slidesToScroll: 2,
+    slidesToShow: 6,
+    slidesToScroll: 1,
+    variableWidth: false,
+    centerMode: true,
     arrows: true,
     autoplay: true,
     autoplaySpeed: 4000,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 6,
+          slidesToScroll: 4,
+          infinite: false,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   return (
-    <FeaturedProductosWrapper
-      className="productosWrapper"
-      ref={productosWrapper}
-    >
+    <FeaturedProductosWrapper>
       <h4>Productos Destacados</h4>
       <Slider {...settings}>
         {isLoading

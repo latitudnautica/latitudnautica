@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { useSpring, animated } from "react-spring";
-
+import onImageError from "@/utils/onImageError";
 import { ButtonProductCard } from "./layouts/Button";
 
 const ImageWrapper = styled.div`
@@ -73,6 +73,7 @@ export default function ProductCard(props) {
         <ImageWrapper>
           {item.imagePath ? (
             <img
+              onError={onImageError}
               src={`${process.env.NEXT_PUBLIC_API_URL}/${item.imagePath}`}
               alt={`Imagen < ${item.name} >`}
             />
