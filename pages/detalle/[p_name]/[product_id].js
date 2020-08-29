@@ -1,18 +1,31 @@
+import { useRouter } from "next/router";
 import Head from "next/head";
-import axiosbase from "utils/axiosBase";
+import Link from "next/link";
+import axiosBase from "utils/axiosBase";
 import styled from "styled-components";
 import MainLayout from "components/layouts/MainLayout";
 import Error from "next/error";
+import FeaturedProduct from "@/components/FeaturedProducts";
+import CategoriesNavbar from "@/components/CategoriesNavbar";
+import {
+  Container,
+  Divisor,
+  Button,
+} from "@/components/layouts/commonStyledComponents";
 
 const ProductStyled = styled.main``;
 
 const ProductWrapper = styled.div`
   margin: auto;
   display: flex;
-  max-width: 1000px;
   border: 1px solid #f0f0f0;
   padding: 1em;
+
+  border: 5px solid;
+  border-image-slice: 1;
+  border-width: 3px;
   border-radius: 5px;
+  border-image-source: ${({ theme }) => theme.border.gradient};
 
   @media (max-width: 640px) {
     flex-direction: column;
@@ -44,15 +57,14 @@ const ProductImage = styled.div`
 `;
 
 const ProductInfo = styled.div`
-  /* border: 2px solid green; */
   display: flex;
   flex-direction: column;
   flex-basis: 700px;
   flex-shrink: 3;
-  background: #f0f0f0;
-  border-top: 4px solid ${({ theme }) => theme.colors.primary};
-  border-bottom: 4px solid ${({ theme }) => theme.colors.primary};
-  padding: 2em;
+
+  div {
+    margin: 5px 0;
+  }
   @media (max-width: 640px) {
     text-align: center;
     flex-basis: auto;
@@ -76,35 +88,56 @@ const Description = styled.div``;
 const Code = styled.div``;
 const Iva = styled.div``;
 
-const Producto = ({ errorCode, product }) => {
-  if (errorCode) <Error statusCode={errorCode} />;
+const Breadcrumbs = styled.div``;
 
+const Producto = ({ errorCode, product, featuredProducts, categories }) => {
+  if (errorCode) <Error statusCode={errorCode} />;
+  const Router = useRouter();
+  
   return (
     <>
       <Head>
         <title>{product.name}</title>
       </Head>
-      <ProductStyled>
-        <ProductWrapper>
-          <ProductImage>
-            <img
-              src={
-                product.imagePath
-                  ? process.env.NEXT_PUBLIC_API_URL + product.imagePath
-                  : "/images/logo_test.jpg"
-              }
-            />
-          </ProductImage>
-          <ProductInfo>
-            <Title>{product.name}</Title>
-            <Brand>{product.brand}</Brand>
-            <Price> $ {product.price}</Price>
-            <Description>{product.description}</Description>
-            <Code>Código: {product.codeArticle}</Code>
-            <Iva>{product.tasaIVA}</Iva>
-          </ProductInfo>
-        </ProductWrapper>
-      </ProductStyled>
+      <CategoriesNavbar _categories={categories} />
+      <Container>
+        <Breadcrumbs>
+          {`${product.Category.name} / ${product.SubCategory.name} / ${product.name}`}
+        </Breadcrumbs>
+        <ProductStyled>
+          <ProductWrapper>
+            <ProductImage>
+              <img
+                src={
+                  product.imagePath
+                    ? process.env.NEXT_PUBLIC_API_URL + product.imagePath
+                    : "/images/logo_test.jpg"
+                }
+              />
+            </ProductImage>
+            <ProductInfo>
+              <Title>{product.name}</Title>
+              <Brand>{product.brand}</Brand>
+              <Price> $ {product.price}</Price>
+              <Description>{product.description}</Description>
+              <Code>Código: {product.codeArticle}</Code>
+              <Iva>{product.tasaIVA}</Iva>
+              <Link
+                href={`/contacto?product=${
+                  product.name
+                }&link=${`https://www.latitudnautica.com.ar${Router.asPath}`}`}
+                as={`/contacto?product=${
+                  product.name
+                }&link=${`https://www.latitudnautica.com.ar${Router.asPath}`}`}
+              >
+                <Button> Consultanos por este producto</Button>
+              </Link>
+            </ProductInfo>
+          </ProductWrapper>
+          {/* <Divisor /> */}
+        </ProductStyled>
+      </Container>
+      <FeaturedProduct featuredProducts={featuredProducts} />
     </>
   );
 };
@@ -115,14 +148,18 @@ export default Producto;
 
 export async function getServerSideProps({ params }) {
   const pid = params.product_id;
-  const productData = await axiosbase(`/product/detail/${pid}`).then(
+  const productData = await axiosBase(`/product/detail/${pid}`).then(
     (res) => res
   );
+  const featuredProducts = await axiosBase("/product/featured").then(
+    (res) => res.data
+  );
+  const categories = await axiosBase("/category/all").then((res) => res.data);
   const errorCode = productData.status === 200 ? false : productData.statusCode;
   const product = productData.data;
 
   return {
-    props: { errorCode, product },
+    props: { errorCode, product, featuredProducts, categories },
     // fallback: true,
   };
 }

@@ -112,10 +112,14 @@ const ContactPage = ({ categories, featuredProducts }) => {
   const [preMessage, setPreMessage] = useState("");
 
   const Router = useRouter();
-
+  console.log(Router);
   useEffect(() => {
     if (Router.query.searched) {
       const parsedMessage = `Hola, busque el producto "${Router.query.searched}" y no lo encontré en la pagina. ¿Tenes algo parecido a esto?`;
+      setPreMessage(parsedMessage);
+    }
+    if (Router.query.product) {
+      const parsedMessage = `Hola, me interesa el producto ${Router.query.product}" me podrías mandar mas información.   <br/> Link al producto  <a href='${Router.query.link}> ${Router.query.product}</a>"  '`;
       setPreMessage(parsedMessage);
     }
   }, [Router.query.searched]);
@@ -133,6 +137,7 @@ const ContactPage = ({ categories, featuredProducts }) => {
                 name: "",
                 email: "",
                 phone: "",
+                link: Router.query.link || "",
                 message: preMessage ? preMessage : "",
               }}
               validate={(values) => {
@@ -255,6 +260,22 @@ const ContactPage = ({ categories, featuredProducts }) => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.phone}
+                    />
+
+                    <Label htmlFor="link">
+                      Link al Producto
+                      <InputError>
+                        {errors.link && touched.link && errors.link}
+                      </InputError>
+                    </Label>
+                    <Field
+                      as={Input}
+                      type="link"
+                      id="link"
+                      name="link"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.link}
                     />
 
                     <Label htmlFor="message">

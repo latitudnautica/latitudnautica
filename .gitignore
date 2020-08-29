@@ -2,6 +2,7 @@ node_modules
 .next
 .env.local
 .env.development
+.env.production
 components/SpringSlider.js
 hooks/useWindowSize.js
 utils/items.js

@@ -90,7 +90,7 @@ const Overlay = styled.div`
 `;
 
 const CategoriesNavbar = ({ _categories }) => {
-  const [categories, setCategories] = useState(_categories);
+  const [categories, setCategories] = useState(_categories || []);
   const [categorySelected, setCategorySelected] = useState(false);
   const [categoryHover, setCategoryHover] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -191,6 +191,6 @@ const CategoriesNavbar = ({ _categories }) => {
 };
 
 CategoriesNavbar.propTypes = {
-  categories: PropTypes.array,
+  _categories: PropTypes.array,
 };
 export default CategoriesNavbar;

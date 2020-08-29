@@ -30,6 +30,7 @@ const button = {
   textColorHover: "#000",
   hover: `rgba(75,205,238)`,
 };
+
 const menu = {
   background: `linear-gradient(
     0deg,
@@ -41,11 +42,20 @@ const menu = {
   burgerBackground: colors.primary,
   burgerBackgroundHover: colors.raisinBlack,
 };
+const border = {
+  gradient: `linear-gradient(
+    0deg,
+    rgba(75, 205, 238, 1) 0%,
+    rgba(75, 255, 182, 1) 30%,
+    rgba(75, 255, 182, 1) 70%,
+    rgba(75, 205, 238, 1) 100%
+  )`,
+};
 const details = {
   boxShadow: "0 0 5px -4px #25171A",
   boxShadowBottom: "0 10px 18px -10px #25171A",
 };
 
-const theme = { colors, button, input, details, menu };
+const theme = { colors, button, input, details, menu, border };
 
 export default theme;
