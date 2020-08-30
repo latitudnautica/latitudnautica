@@ -1,9 +1,9 @@
 import Axios from "axios";
 
 let urls = {
-  test: `http://localhost:5000/test`,
+  test: `https://www.demo.latitudnautica.xyz/test`,
   development: "http://localhost:5000/api",
-  production: "https://www.demo.latitudnautica.com.ar/api"
+  production: "https://www.api.latitudnautica.xyz/api"
 };
 
 const axiosBase = Axios.create({
