@@ -1,9 +1,7 @@
-import { useEffect, useState, useRef, createRef } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import Slider from "react-slick";
-import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
-import useWindowSize from "../hooks/useWindowSize";
 import PropTypes from "prop-types";
 import onImageError from "@/utils/onImageError";
 
@@ -14,8 +12,6 @@ const FeaturedProductosWrapper = styled.section`
     margin: 10px;
   }
 `;
-
-
 
 const ImageItemCarrousel = styled.img`
   width: 100%;
