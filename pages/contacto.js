@@ -112,7 +112,6 @@ const ContactPage = ({ categories, featuredProducts }) => {
   const [preMessage, setPreMessage] = useState("");
 
   const Router = useRouter();
-  console.log(Router);
   useEffect(() => {
     if (Router.query.searched) {
       const parsedMessage = `Hola, busque el producto "${Router.query.searched}" y no lo encontré en la pagina. ¿Tenes algo parecido a esto?`;
