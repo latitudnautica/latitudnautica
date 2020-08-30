@@ -4,6 +4,5 @@ node_modules
 .env.development
 .env.production
 components/SpringSlider.js
-hooks/useWindowSize.js
 utils/items.js
 utils/slider.js
