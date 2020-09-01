@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import useSWR, { trigger } from "swr";
+import useSWR, { trigger, mutate } from "swr";
 import axiosBase from "../../utils/axiosBase";
 import Cookies from "js-cookie";
 import CmsLayout from "../../components/layouts/CmsLayout";
@@ -8,9 +8,7 @@ import { Button } from "../../components/layouts/Button";
 import { toast } from "react-toastify";
 import { PageTitleH1 } from "@/components/layouts/commonStyledComponents";
 
-const BannersStyled = styled.main`
-  
-`;
+const BannersStyled = styled.main``;
 
 const UploadFileForm = styled.section`
   margin: 2em auto;
@@ -65,7 +63,7 @@ const Banners = () => {
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0); // progress bar
   const inputTitle = useRef();
-  const { data } = useSWR("/utils/banners");
+  const { data } = useSWR("/utils/banners", { refreshInterval: 2000 });
 
   useEffect(() => {
     if (data) {
@@ -79,11 +77,15 @@ const Banners = () => {
         headers: { Authorization: `Bearer ${Cookies.get("token")}` },
       })
       .then((res) => {
-        // console.log(res);
+        console.log(res);
+        const bannersCleaned = banners.filter(
+          (item) => item.id != res.data.bannerId
+        );
+        setBanners(bannersCleaned || []);
         toast.success(`Banner eliminado `);
-        trigger("/utils/banners");
+        mutate("/utils/banners");
       })
-      .catch((err) => console.log(err.response));
+      .catch((err) => console.log(err));
   };
 
   const uploadFile = async (e) => {
@@ -115,10 +117,17 @@ const Banners = () => {
     })
       .then((res) => {
         console.log(res);
+        const newBanner = res.data.data;
+
+        setBanners((ban) => {
+          return [...ban, newBanner];
+        });
+
         toast.success("Banner Cargado");
-        trigger("/utils/banners");
+        mutate("/utils/banners");
       })
       .catch((err) => {
+        toast.error("Selecciona una imagen");
         console.log(err, err.response);
       });
   };

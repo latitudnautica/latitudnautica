@@ -66,7 +66,7 @@ const DetailButton = styled.button``;
 export default function ProductCard(props) {
   const { item } = props;
   const fade = useSpring({ opacity: 1, from: { opacity: 0 } });
-
+  console.log(item);
   return (
     <ProductCardStyled key={item.id} title={item.id}>
       <animated.div style={fade}>
@@ -74,7 +74,7 @@ export default function ProductCard(props) {
           {item.imagePath ? (
             <img
               onError={onImageError}
-              src={`${process.env.NEXT_PUBLIC_API_URL}/${item.imagePath}`}
+              src={`${process.env.NEXT_PUBLIC_API_URL + item.imagePath}`}
               alt={`Imagen < ${item.name} >`}
             />
           ) : (

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Cookies from "js-cookie";
 import { Button } from "../layouts/Button";
 import { toast } from "react-toastify";
+import PropTypes from "prop-types";
 
 const FileUploadStyled = styled.div`
   display: flex;
@@ -34,27 +35,23 @@ export default function UploadFiles(props) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [uploadedFile, setUploadedFile] = useState({ name: "", path: "" });
   const [progress, setProgress] = useState(0); // progress bar
   const { product, triggerData } = props;
 
   const handleSelectedFile = (e) => {
     const file = e.target.files[0];
 
-    try {
-      if (file.size < 2097152) {
-        //2mb max file size
-        setSelectedFile(file);
-        setProgress(0);
-        setIsLoaded(false);
-      } else {
-        setIsError({
-          message: "La imagen seleccionada es muy pesada. Max 2mb",
-          status: 413,
-        });
-      }
-    } catch (error) {
-      console.log(error);
+    if (file.size < 2097152) {
+      //2mb max file size
+      setSelectedFile(file);
+      setProgress(0);
+      // setIsLoaded(false);
+    } else {
+      toast.error("La imagen seleccionada es muy pesada. Max 2mb");
+      setIsError({
+        message: "La imagen seleccionada es muy pesada. Max 2mb",
+        status: 413,
+      });
     }
   };
 
@@ -83,8 +80,8 @@ export default function UploadFiles(props) {
       },
     })
       .then((res) => {
-        // then print response status
-        setIsLoaded(true);
+        console.log(res);
+
         triggerData(true);
         toast.success("Imagen cargada exitosamente");
       })

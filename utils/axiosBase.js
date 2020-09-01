@@ -2,7 +2,7 @@ import Axios from "axios";
 
 let urls = {
   test: `https://www.demo.latitudnautica.xyz/test`,
-  development: "http://localhost:5000/api",
+  development: "https://www.api.latitudnautica.xyz/api",
   production: "https://www.api.latitudnautica.xyz/api"
 };
 
