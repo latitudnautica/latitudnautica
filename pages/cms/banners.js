@@ -63,7 +63,7 @@ const Banners = () => {
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0); // progress bar
   const inputTitle = useRef();
-  const { data } = useSWR("/utils/banners", { refreshInterval: 2000 });
+  const { data } = useSWR("/utils/banners?nocache", { refreshInterval: 2000 });
 
   useEffect(() => {
     if (data) {
@@ -78,10 +78,10 @@ const Banners = () => {
       })
       .then((res) => {
         console.log(res);
-        const bannersCleaned = banners.filter(
-          (item) => item.id != res.data.bannerId
-        );
-        setBanners(bannersCleaned || []);
+        // const bannersCleaned = banners.filter(
+        //   (item) => item.id != res.data.bannerId
+        // );
+        // setBanners(bannersCleaned || []);
         toast.success(`Banner eliminado `);
         mutate("/utils/banners");
       })
@@ -90,9 +90,10 @@ const Banners = () => {
 
   const uploadFile = async (e) => {
     e.preventDefault();
+    toast.info("cargando archivo");
+    
     const title = inputTitle.current.value;
     setProgress(0);
-    toast.info("cargando archivo");
     const formData = new FormData();
     formData.append("file", file);
     formData.set("title", title);
@@ -117,11 +118,11 @@ const Banners = () => {
     })
       .then((res) => {
         console.log(res);
-        const newBanner = res.data.data;
+        // const newBanner = res.data.data;
 
-        setBanners((ban) => {
-          return [...ban, newBanner];
-        });
+        // setBanners((ban) => {
+        //   return [...ban, newBanner];
+        // });
 
         toast.success("Banner Cargado");
         mutate("/utils/banners");

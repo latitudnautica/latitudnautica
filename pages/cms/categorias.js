@@ -59,7 +59,7 @@ const Categories = (props) => {
   const [categoryId, setCategoryId] = useState(null);
   const [categorySelected, setCategorySelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { data, error } = useSWR("/category/all", { refreshInterval: 20000 });
+  const { data, error } = useSWR("/category/all?nocache");
   if (error) console.log(error);
 
   useEffect(() => {
@@ -133,7 +133,7 @@ const Categories = (props) => {
     _create(payload, "category")
       .then((res) => {
         console.log(res);
-        trigger("/category/all");
+        trigger("/category/all?nocache");
         setIsLoading(false);
         toast.success("Categoría Creada");
       })
@@ -155,7 +155,7 @@ const Categories = (props) => {
     _create(payload, "subcategory")
       .then((res) => {
         console.log(res);
-        trigger("/category/all");
+        trigger("/category/all?nocache");
         setIsLoading(false);
         toast.success("subCategoría Creada");
       })
@@ -188,7 +188,7 @@ const Categories = (props) => {
       _delete(cid, "/category/category")
         .then((res) => {
           toast.success("recurso eliminado");
-          trigger("/category/all");
+          trigger("/category/all?nocache");
         })
         .catch((err) => {
           console.log(err.response);
@@ -204,7 +204,7 @@ const Categories = (props) => {
       _delete(scid, "/category/subcategory")
         .then((res) => {
           toast.success("recurso eliminado");
-          trigger("/category/all");
+          trigger("/category/all?nocache");
         })
         .catch((err) => {
           console.log(err.response);

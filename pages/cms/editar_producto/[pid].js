@@ -56,7 +56,7 @@ const EditProduct = (props) => {
   const Router = useRouter();
   const { pid } = Router.query;
 
-  const { data, error } = useSWR(`product/cms/${pid}`);
+  const { data, error } = useSWR(`product/cms/${pid}?nocache`);
 
   if (!data) return <div>Cargando</div>;
   if (error) return <div>Error cargando el producto</div>;
@@ -64,7 +64,7 @@ const EditProduct = (props) => {
   const product = data.data;
 
   const handleTriggerData = (status) => {
-    trigger(`product/cms/${pid}`);
+    trigger(`product/cms/${pid}?nocache`);
   };
 
   return (
