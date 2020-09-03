@@ -1,25 +1,25 @@
 // /pages/_app.tsx
-import Head from "next/head";
-import Router from "next/router";
-import NProgress from "nprogress";
-import { SWRConfig } from "swr";
-import axiosBase from "utils/axiosBase";
-import { AuthProvider } from "context/AuthProvider";
-import { CategoriesProvider } from "context/CategoriesProvider";
-import { ThemeProvider } from "styled-components";
-import { ToastContainer } from "react-toastify";
-import theme from "../styles/theme";
-import "../styles/styles.css";
-import "../styles/nprogress.css";
-import "react-toastify/dist/ReactToastify.css";
+import Head from 'next/head';
+import Router from 'next/router';
+import NProgress from 'nprogress';
+import { SWRConfig } from 'swr';
+import axiosBase from 'utils/axiosBase';
+import { AuthProvider } from 'context/AuthProvider';
+import { CategoriesProvider } from 'context/CategoriesProvider';
+import { ThemeProvider } from 'styled-components';
+import { ToastContainer } from 'react-toastify';
+import theme from '../styles/theme';
+import '../styles/styles.css';
+import '../styles/nprogress.css';
+import 'react-toastify/dist/ReactToastify.css';
 
-Router.events.on("routeChangeStart", (url) => {
+import { GA_TRACKING_ID } from '../utils/gtag';
+
+Router.events.on('routeChangeStart', (url) => {
   NProgress.start();
 });
-Router.events.on("routeChangeComplete", () => NProgress.done());
-Router.events.on("routeChangeError", () => NProgress.done());
-
-import { GA_TRACKING_ID } from "../utils/gtag";
+Router.events.on('routeChangeComplete', () => NProgress.done());
+Router.events.on('routeChangeError', () => NProgress.done());
 
 const Noop = ({ children }) => children;
 
@@ -33,7 +33,7 @@ export default function MyApp({ Component, pageProps }) {
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0"
-        ></meta>
+        />
         {/* Global Site Tag (gtag.js) - Google Analytics */}
         <script
           async

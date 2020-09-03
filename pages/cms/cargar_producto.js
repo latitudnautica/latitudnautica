@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import ProductForm from "../../components/cms/ProductForm";
-import CmsLayout from "../../components/layouts/CmsLayout";
-import { PageTitleH1 } from "@/components/layouts/commonStyledComponents";
+import styled from 'styled-components';
+import { PageTitleH1 } from '@/components/layouts/commonStyledComponents';
+import ProductForm from '../../components/cms/ProductForm';
+import CmsLayout from '../../components/layouts/CmsLayout';
 
 const productInitialData = {
   categoryId: 1,
@@ -14,15 +14,13 @@ const FormWrapper = styled.section`
   margin-top: 1em;
 `;
 
-const cargarProducto = ({ loggedIn }) => {
-  return (
-    <CmsLayout>
-      <PageTitleH1>Cargar Producto</PageTitleH1>
-      <FormWrapper>
-        <ProductForm product={productInitialData} isEdit={false} />
-      </FormWrapper>
-    </CmsLayout>
-  );
-};
+const cargarProducto = ({ loggedIn }) => (
+  <CmsLayout>
+    <PageTitleH1>Cargar Producto</PageTitleH1>
+    <FormWrapper>
+      <ProductForm product={productInitialData} isEdit={false} />
+    </FormWrapper>
+  </CmsLayout>
+);
 
 export default cargarProducto;

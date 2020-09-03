@@ -1,17 +1,17 @@
-import { useRouter } from "next/router";
-import Head from "next/head";
-import Link from "next/link";
-import axiosBase from "utils/axiosBase";
-import styled from "styled-components";
-import MainLayout from "components/layouts/MainLayout";
-import Error from "next/error";
-import FeaturedProduct from "@/components/FeaturedProducts";
-import CategoriesNavbar from "@/components/CategoriesNavbar";
+import { useRouter } from 'next/router';
+import Head from 'next/head';
+import Link from 'next/link';
+import axiosBase from 'utils/axiosBase';
+import styled from 'styled-components';
+import MainLayout from 'components/layouts/MainLayout';
+import Error from 'next/error';
+import FeaturedProduct from '@/components/FeaturedProducts';
+import CategoriesNavbar from '@/components/CategoriesNavbar';
 import {
   Container,
   Divisor,
   Button,
-} from "@/components/layouts/commonStyledComponents";
+} from '@/components/layouts/commonStyledComponents';
 
 const ProductStyled = styled.main``;
 
@@ -90,10 +90,12 @@ const Iva = styled.div``;
 
 const Breadcrumbs = styled.div``;
 
-const Producto = ({ errorCode, product, featuredProducts, categories }) => {
+const Producto = ({
+  errorCode, product, featuredProducts, categories,
+}) => {
   if (errorCode) <Error statusCode={errorCode} />;
   const Router = useRouter();
-  
+
   return (
     <>
       <Head>
@@ -111,16 +113,23 @@ const Producto = ({ errorCode, product, featuredProducts, categories }) => {
                 src={
                   product.imagePath
                     ? process.env.NEXT_PUBLIC_API_URL + product.imagePath
-                    : "/images/logo_test.jpg"
+                    : '/images/logo_test.jpg'
                 }
               />
             </ProductImage>
             <ProductInfo>
               <Title>{product.name}</Title>
               <Brand>{product.brand}</Brand>
-              <Price> $ {product.price}</Price>
+              <Price>
+                {' '}
+                $
+                {product.price}
+              </Price>
               <Description>{product.description}</Description>
-              <Code>Código: {product.codeArticle}</Code>
+              <Code>
+                Código:
+                {product.codeArticle}
+              </Code>
               <Iva>{product.tasaIVA}</Iva>
               <Link
                 href={`/contacto?product=${
@@ -149,17 +158,19 @@ export default Producto;
 export async function getServerSideProps({ params }) {
   const pid = params.product_id;
   const productData = await axiosBase(`/product/detail/${pid}`).then(
-    (res) => res
+    (res) => res,
   );
-  const featuredProducts = await axiosBase("/product/featured").then(
-    (res) => res.data
+  const featuredProducts = await axiosBase('/product/featured').then(
+    (res) => res.data,
   );
-  const categories = await axiosBase("/category/all").then((res) => res.data);
+  const categories = await axiosBase('/category/all').then((res) => res.data);
   const errorCode = productData.status === 200 ? false : productData.statusCode;
   const product = productData.data;
 
   return {
-    props: { errorCode, product, featuredProducts, categories },
+    props: {
+      errorCode, product, featuredProducts, categories,
+    },
     // fallback: true,
   };
 }

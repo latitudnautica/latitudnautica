@@ -1,12 +1,14 @@
-import { useState, useEffect, useContext, createContext } from "react";
-import { useRouter } from "next/router";
-import axiosBase from "../utils/axiosBase";
-import Cookies from "js-cookie";
+import {
+  useState, useEffect, useContext, createContext,
+} from 'react';
+import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
+import axiosBase from '../utils/axiosBase';
 
 const AuthContext = createContext({
   isAuthenticated: false,
   isLoading: true,
-  setIsAuthenticated: () => {}
+  setIsAuthenticated: () => {},
 });
 
 export const AuthProvider = ({ children }) => {
@@ -17,9 +19,9 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const initializeAuth = async () => {
-        await axiosBase
-        .post("/user/check-auth", null, {
-          headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+      await axiosBase
+        .post('/user/check-auth', null, {
+          headers: { Authorization: `Bearer ${Cookies.get('token')}` },
         })
         .then((response) => {
           if (response.data.user) {
@@ -46,7 +48,7 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated,
         isLoading,
         user,
-        setIsAuthenticated
+        setIsAuthenticated,
       }}
     >
       {children}
@@ -57,7 +59,7 @@ export const AuthProvider = ({ children }) => {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 }

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Field, Form } from "formik";
-import styled from "styled-components";
-import axios from "axios";
-import UploadFile from "./uploadFiles";
-import ProductCard from "../ProductCard";
-import createProductSchema from "../../schemas/crateProd.schema";
-import Link from "next/link";
-import Cookies from "js-cookie";
-import getCategories from "../../utils/getCategories";
+import React, { useState, useEffect } from 'react';
+import { Formik, Field, Form } from 'formik';
+import styled from 'styled-components';
+import axios from 'axios';
+import Link from 'next/link';
+import Cookies from 'js-cookie';
+import UploadFile from './uploadFiles';
+import ProductCard from '../ProductCard';
+import createProductSchema from '../../schemas/crateProd.schema';
+import getCategories from '../../utils/getCategories';
 
 const CreateItemStyled = styled.div`
   font-family: "Roboto", sans-serif;
@@ -132,7 +132,7 @@ export default function CreateItem(props) {
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/product/create/`;
     axios
       .post(apiUrl, values, {
-        headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+        headers: { Authorization: `Bearer ${Cookies.get('token')}` },
       })
       .then((data) => {
         setProdCreated(data);
@@ -160,8 +160,8 @@ export default function CreateItem(props) {
         validationSchema={createProductSchema}
         initialValues={{
           categoryId: 1,
-          name: "testing image uploading",
-          visible: true
+          name: 'testing image uploading',
+          visible: true,
         }}
         onSubmit={(values, { setSubmitting }) => {
           handleSubmit(values);
@@ -176,7 +176,7 @@ export default function CreateItem(props) {
           handleBlur,
           handleSubmit,
           isSubmitting,
-          isValidating
+          isValidating,
           /* and other goodies */
         }) => (
           <FormContainer>
@@ -187,52 +187,52 @@ export default function CreateItem(props) {
                   <FieldGroup>
                     <label>Categoría</label>
                     <Field
-                      as='select'
-                      name='categoryId'
+                      as="select"
+                      name="categoryId"
                       onChange={handleChange}
                       onClick={handleCategorySelector}
                       onBlur={handleBlur}
                       value={values.categoryId}
                       required
                     >
-                      {categories &&
-                        categories.map((cat) => (
+                      {categories
+                        && categories.map((cat) => (
                           <option key={cat.id} value={cat.id}>
                             {cat.name}
                           </option>
                         ))}
                     </Field>
-                    {errors.categoryId &&
-                      touched.categoryId &&
-                      errors.categoryId}
+                    {errors.categoryId
+                      && touched.categoryId
+                      && errors.categoryId}
                   </FieldGroup>
                   <FieldGroup>
                     <label>Sub Categoría</label>
                     <Field
-                      as='select'
-                      name='subCategoryId'
+                      as="select"
+                      name="subCategoryId"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.subCategoryId}
                       required
                     >
-                      {subCategories &&
-                        subCategories.map((scat) => (
+                      {subCategories
+                        && subCategories.map((scat) => (
                           <option key={scat.id} value={scat.id}>
                             {scat.name}
                           </option>
                         ))}
                     </Field>
 
-                    {errors.subCategoryId &&
-                      touched.subCategoryId &&
-                      errors.subCategoryId}
+                    {errors.subCategoryId
+                      && touched.subCategoryId
+                      && errors.subCategoryId}
                   </FieldGroup>
                   <FieldGroup>
                     <label>Nombre</label>
                     <Field
-                      type='text'
-                      name='name'
+                      type="text"
+                      name="name"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.name}
@@ -244,8 +244,8 @@ export default function CreateItem(props) {
                   <FieldGroup>
                     <label>Precio</label>
                     <Field
-                      type='number'
-                      name='price'
+                      type="number"
+                      name="price"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.price}
@@ -255,21 +255,21 @@ export default function CreateItem(props) {
                   <FieldGroup>
                     <label>Precio Dolares</label>
                     <Field
-                      type='number'
-                      name='priceDolar'
+                      type="number"
+                      name="priceDolar"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.priceDolar}
                     />
-                    {errors.priceDolar &&
-                      touched.priceDolar &&
-                      errors.priceDolar}
+                    {errors.priceDolar
+                      && touched.priceDolar
+                      && errors.priceDolar}
                   </FieldGroup>
                   <FieldGroup>
                     <label>IVA</label>
                     <Field
-                      type='number'
-                      name='tasasIVA'
+                      type="number"
+                      name="tasasIVA"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.tasasIVA}
@@ -279,8 +279,8 @@ export default function CreateItem(props) {
                   <FieldGroup>
                     <label>Stock</label>
                     <Field
-                      type='number'
-                      name='stock'
+                      type="number"
+                      name="stock"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.stock}
@@ -292,34 +292,34 @@ export default function CreateItem(props) {
                   <FieldGroup>
                     <label>Código</label>
                     <Field
-                      type='text'
-                      name='codeArticle'
+                      type="text"
+                      name="codeArticle"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.codeArticle}
                     />
-                    {errors.codeArticle &&
-                      touched.codeArticle &&
-                      errors.codeArticle}
+                    {errors.codeArticle
+                      && touched.codeArticle
+                      && errors.codeArticle}
                   </FieldGroup>
                   <FieldGroup>
                     <label>Promoción</label>
                     <Field
-                      type='text'
-                      name='promoActive'
+                      type="text"
+                      name="promoActive"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.promoActive}
                     />
-                    {errors.promoActive &&
-                      touched.promoActive &&
-                      errors.promoActive}
+                    {errors.promoActive
+                      && touched.promoActive
+                      && errors.promoActive}
                   </FieldGroup>
                   <FieldGroup>
                     <label>Código promoción</label>
                     <Field
-                      type='text'
-                      name='codePromo'
+                      type="text"
+                      name="codePromo"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.codePromo}
@@ -329,8 +329,8 @@ export default function CreateItem(props) {
                   <FieldGroup>
                     <label>Código SKU</label>
                     <Field
-                      type='text'
-                      name='sku'
+                      type="text"
+                      name="sku"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.sku}
@@ -340,8 +340,8 @@ export default function CreateItem(props) {
                   <FieldGroup>
                     <label>Código UPC</label>
                     <Field
-                      type='text'
-                      name='upc'
+                      type="text"
+                      name="upc"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.upc}
@@ -353,22 +353,22 @@ export default function CreateItem(props) {
                   <FieldGroup>
                     <label>Descripción</label>
                     <textarea
-                      type='textarea'
-                      name='description'
+                      type="textarea"
+                      name="description"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.description}
                     />
-                    {errors.description &&
-                      touched.description &&
-                      errors.description}
+                    {errors.description
+                      && touched.description
+                      && errors.description}
                   </FieldGroup>
                   <FieldGroup>
                     <label>Visible</label>
-                    <Field name={"visible"}>
+                    <Field name="visible">
                       {({ field }) => (
                         <input
-                          type='checkbox'
+                          type="checkbox"
                           checked={values.visible}
                           {...field}
                         />
@@ -380,10 +380,10 @@ export default function CreateItem(props) {
                       Después de cargar el producto podrás cargar la imagen del
                       producto.
                     </p>
-                    <button type='submit' disabled={isSubmitting}>
+                    <button type="submit" disabled={isSubmitting}>
                       Cargar Producto
                     </button>
-                    <button type='reset' disabled={isSubmitting}>
+                    <button type="reset" disabled={isSubmitting}>
                       Reset
                     </button>
                   </FieldGroup>
@@ -403,13 +403,13 @@ export default function CreateItem(props) {
                     <a>No cargar imagen</a>
                   </button>
                 </FormGroupContainer>
-                <FormGroupContainer style={{ textAlign: "center" }}>
+                <FormGroupContainer style={{ textAlign: 'center' }}>
                   <h4>Ejemplo del producto creado</h4>
                   <p>Selecciona una imagen para este producto</p>
                   <ProductCardContainer>
                     <ProductCard
                       item={prodCreated.data}
-                      style={{ margin: "auto" }}
+                      style={{ margin: 'auto' }}
                     />
                     <Link href={`/cms/editar_producto/${prodCreated.data.id}`}>
                       <a>Editar</a>

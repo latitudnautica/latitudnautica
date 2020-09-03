@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 const useWindowSize = () => {
-  const isClient = typeof window === "object";
+  const isClient = typeof window === 'object';
 
   function getSize() {
     return {
@@ -23,9 +23,9 @@ const useWindowSize = () => {
       setWindowSize(getSize());
     }
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
-    return () => window.removeEventListener("resize", handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []); // Empty array ensures that effect is only run on mount and unmount
 
   return windowSize;

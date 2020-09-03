@@ -1,8 +1,8 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import withAuth from "../../hoc/withAut";
-import styled from "styled-components";
-import Cookies from "js-cookie";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
+import Cookies from 'js-cookie';
+import withAuth from '../../hoc/withAut';
 
 const MainContainer = styled.main`
   margin: auto;
@@ -41,8 +41,8 @@ const Header = styled.header`
 const CmsLayout = ({ children }) => {
   const Router = useRouter();
   const handleLogout = () => {
-    Cookies.remove("token");
-    Router.push("/cms/login");
+    Cookies.remove('token');
+    Router.push('/cms/login');
   };
   return (
     <MainContainer>

@@ -1,12 +1,12 @@
-import { useState, useEffect, useRef } from "react";
-import styled from "styled-components";
-import useSWR, { trigger, mutate } from "swr";
-import axiosBase from "../../utils/axiosBase";
-import Cookies from "js-cookie";
-import CmsLayout from "../../components/layouts/CmsLayout";
-import { Button } from "../../components/layouts/Button";
-import { toast } from "react-toastify";
-import { PageTitleH1 } from "@/components/layouts/commonStyledComponents";
+import { useState, useEffect, useRef } from 'react';
+import styled from 'styled-components';
+import useSWR, { trigger, mutate } from 'swr';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+import { PageTitleH1 } from '@/components/layouts/commonStyledComponents';
+import axiosBase from '../../utils/axiosBase';
+import CmsLayout from '../../components/layouts/CmsLayout';
+import { Button } from '../../components/layouts/Button';
 
 const BannersStyled = styled.main``;
 
@@ -63,7 +63,7 @@ const Banners = () => {
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0); // progress bar
   const inputTitle = useRef();
-  const { data } = useSWR("/utils/banners?nocache", { refreshInterval: 2000 });
+  const { data } = useSWR('/utils/banners?nocache', { refreshInterval: 2000 });
 
   useEffect(() => {
     if (data) {
@@ -74,7 +74,7 @@ const Banners = () => {
   const handleDeleteBanner = (bid) => {
     axiosBase
       .delete(`/utils/banner/${bid}`, {
-        headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+        headers: { Authorization: `Bearer ${Cookies.get('token')}` },
       })
       .then((res) => {
         console.log(res);
@@ -82,36 +82,36 @@ const Banners = () => {
         //   (item) => item.id != res.data.bannerId
         // );
         // setBanners(bannersCleaned || []);
-        toast.success(`Banner eliminado `);
-        mutate("/utils/banners");
+        toast.success('Banner eliminado ');
+        mutate('/utils/banners');
       })
       .catch((err) => console.log(err));
   };
 
   const uploadFile = async (e) => {
     e.preventDefault();
-    toast.info("cargando archivo");
-    
+    toast.info('cargando archivo');
+
     const title = inputTitle.current.value;
     setProgress(0);
     const formData = new FormData();
-    formData.append("file", file);
-    formData.set("title", title);
-    formData.set("position", 1);
-    formData.set("link", 1);
-    formData.set("published ", 1);
+    formData.append('file', file);
+    formData.set('title', title);
+    formData.set('position', 1);
+    formData.set('link', 1);
+    formData.set('published ', 1);
 
     axiosBase({
-      method: "post",
-      url: `/utils/banner`,
+      method: 'post',
+      url: '/utils/banner',
       data: formData,
       headers: {
-        "content-type": "multipart/form-data",
-        Authorization: `Bearer ${Cookies.get("token")}`,
+        'content-type': 'multipart/form-data',
+        Authorization: `Bearer ${Cookies.get('token')}`,
       },
       onUploadProgress: (ProgressEvent) => {
-        let progress = Math.round(
-          (ProgressEvent.loaded / ProgressEvent.total) * 100
+        const progress = Math.round(
+          (ProgressEvent.loaded / ProgressEvent.total) * 100,
         );
         setProgress(progress);
       },
@@ -124,11 +124,11 @@ const Banners = () => {
         //   return [...ban, newBanner];
         // });
 
-        toast.success("Banner Cargado");
-        mutate("/utils/banners");
+        toast.success('Banner Cargado');
+        mutate('/utils/banners');
       })
       .catch((err) => {
-        toast.error("Selecciona una imagen");
+        toast.error('Selecciona una imagen');
         console.log(err, err.response);
       });
   };
@@ -162,37 +162,47 @@ const Banners = () => {
         </Form>
         <ProgressBarWrapper>
           {(progress > 0 || file != null) && (
-            <ProgressBar progress={progress}>{progress}%</ProgressBar>
+            <ProgressBar progress={progress}>
+              {progress}
+              %
+            </ProgressBar>
           )}
         </ProgressBarWrapper>
       </UploadFileForm>
       <BannersList>
-        {banners &&
-          banners.map((e) => {
-            return (
-              <BannersListItem key={e.id}>
-                <img
-                  src={
-                    process.env.NEXT_PUBLIC_API_URL + e.imagePath ||
-                    "images/logo.png"
+        {banners
+          && banners.map((e) => (
+            <BannersListItem key={e.id}>
+              <img
+                src={
+                    process.env.NEXT_PUBLIC_API_URL + e.imagePath
+                    || 'images/logo.png'
                   }
-                />
+              />
+              <div>
                 <div>
-                  <div>Id: {e.id}</div>
-                  <div>Titulo*: {e.title}</div>
-                  <div>Publicado: {e.published ? "si" : "no"}</div>
-                  <Button>orden</Button>
-                  <Button
-                    onClick={() => {
-                      handleDeleteBanner(e.id);
-                    }}
-                  >
-                    Remover
-                  </Button>
+                  Id:
+                  {e.id}
                 </div>
-              </BannersListItem>
-            );
-          })}
+                <div>
+                  Titulo*:
+                  {e.title}
+                </div>
+                <div>
+                  Publicado:
+                  {e.published ? 'si' : 'no'}
+                </div>
+                <Button>orden</Button>
+                <Button
+                  onClick={() => {
+                    handleDeleteBanner(e.id);
+                  }}
+                >
+                  Remover
+                </Button>
+              </div>
+            </BannersListItem>
+          ))}
       </BannersList>
     </BannersStyled>
   );

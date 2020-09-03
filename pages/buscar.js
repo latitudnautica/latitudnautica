@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import styled from "styled-components";
-import axiosBase from "utils/axiosBase";
-import FeaturedProducts from "components/FeaturedProducts";
-import CategoriesNavbar from "@/components/CategoriesNavbar";
-import MainLayout from "components/layouts/MainLayout";
-import ListProducts from "components/ListProducts";
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import styled from 'styled-components';
+import axiosBase from 'utils/axiosBase';
+import FeaturedProducts from 'components/FeaturedProducts';
+import CategoriesNavbar from '@/components/CategoriesNavbar';
+import MainLayout from 'components/layouts/MainLayout';
+import ListProducts from 'components/ListProducts';
 import {
   PageTitleH1,
   Container,
-} from "components/layouts/commonStyledComponents";
+} from 'components/layouts/commonStyledComponents';
 
 const SearchProductsStyled = styled.section`
   margin-top: 3em;
@@ -41,7 +41,7 @@ const NoProductsFound = styled.div`
 const ProductsPageWrapper = ({ categories, featuredProducts }) => {
   const [products, setProducts] = useState(false);
   const Router = useRouter();
-  const query = Router.query;
+  const { query } = Router;
 
   const searchProducts = async () => {
     await axiosBase(`/product/search?q=${query.q}`)
@@ -49,8 +49,6 @@ const ProductsPageWrapper = ({ categories, featuredProducts }) => {
         setProducts(res.data);
       })
       .catch((err) => console.log(err));
-
-    return;
   };
 
   useEffect(() => {
@@ -63,7 +61,13 @@ const ProductsPageWrapper = ({ categories, featuredProducts }) => {
       <Container>
         <SearchProductsStyled>
           <PageTitleH1>
-            Resultados de la Búsqueda <small>"{query.q}"</small>
+            Resultados de la Búsqueda
+            {' '}
+            <small>
+              "
+              {query.q}
+              "
+            </small>
           </PageTitleH1>
           <ListSection>
             {products.length > 0 ? (
@@ -94,10 +98,10 @@ ProductsPageWrapper.Layout = MainLayout;
 export default ProductsPageWrapper;
 
 export async function getStaticProps() {
-  const featuredProducts = await axiosBase("/product/featured").then(
-    (res) => res.data
+  const featuredProducts = await axiosBase('/product/featured').then(
+    (res) => res.data,
   );
-  const categories = await axiosBase("/category/all").then((res) => res.data);
+  const categories = await axiosBase('/category/all').then((res) => res.data);
 
   return {
     props: {

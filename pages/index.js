@@ -1,10 +1,10 @@
-import styled from "styled-components";
-import axiosBase from "@/utils/axiosBase";
+import styled from 'styled-components';
+import axiosBase from '@/utils/axiosBase';
 
-import MainLayout from "../components/layouts/MainLayout";
-import HomeCarrousel from "../components/HomeCarrousel";
-import FeaturedProducts from "components/FeaturedProducts";
-import CategoriesNavbar from "@/components/CategoriesNavbar";
+import FeaturedProducts from 'components/FeaturedProducts';
+import CategoriesNavbar from '@/components/CategoriesNavbar';
+import MainLayout from '../components/layouts/MainLayout';
+import HomeCarrousel from '../components/HomeCarrousel';
 
 const BannerFullWidth = styled.div`
   background-color: ${({ theme }) => theme.colors.orangeYellowCrayola};
@@ -29,35 +29,35 @@ const Title = styled.section`
   margin: 1em 0;
 `;
 
-const Index = ({ featuredProducts, banners, categories }) => {
-  return (
-    <>
-      <CategoriesNavbar _categories={categories} />
-      <BannerFullWidth>Hace tus consultas por WhatsApp</BannerFullWidth>
-      <HomeCarrousel bannersData={banners} />
+const Index = ({ featuredProducts, banners, categories }) => (
+  <>
+    <CategoriesNavbar _categories={categories} />
+    <BannerFullWidth>Hace tus consultas por WhatsApp</BannerFullWidth>
+    <HomeCarrousel bannersData={banners} />
 
-      <Title>
-        <h1>
-          Latitud Náutica <small>Productos y Servicios Náuticos</small>
-        </h1>
-      </Title>
+    <Title>
+      <h1>
+        Latitud Náutica
+        {' '}
+        <small>Productos y Servicios Náuticos</small>
+      </h1>
+    </Title>
 
-      <FeaturedProducts featuredProducts={featuredProducts} />
-    </>
-  );
-};
+    <FeaturedProducts featuredProducts={featuredProducts} />
+  </>
+);
 
 Index.Layout = MainLayout;
 
 export default Index;
 
 export async function getStaticProps() {
-  const featuredProducts = await axiosBase("/product/featured").then(
-    (res) => res.data
+  const featuredProducts = await axiosBase('/product/featured').then(
+    (res) => res.data,
   );
-  const banners = await axiosBase("/utils/banners").then((res) => res.data);
+  const banners = await axiosBase('/utils/banners').then((res) => res.data);
 
-  const categories = await axiosBase("/category/all").then((res) => res.data);
+  const categories = await axiosBase('/category/all').then((res) => res.data);
 
   return {
     props: {

@@ -1,12 +1,12 @@
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
 const createProductSchema = Yup.object().shape({
-  categoryId: Yup.number().required("Campo Requerido"),
-  subCategoryId: Yup.number().required("Required"),
+  categoryId: Yup.number().required('Campo Requerido'),
+  subCategoryId: Yup.number().required('Required'),
   name: Yup.string()
-    .min(1, " 1 caracter mínimo")
-    .max(150, "150 caracteres máximo")
-    .required("Required"),
+    .min(1, ' 1 caracter mínimo')
+    .max(150, '150 caracteres máximo')
+    .required('Required'),
   description: Yup.string(),
   price: Yup.number(),
   priceDolar: Yup.number(),
@@ -17,7 +17,7 @@ const createProductSchema = Yup.object().shape({
   codePromo: Yup.string(),
   promoActive: Yup.string(),
   sku: Yup.string(),
-  serialNumber: Yup.string()
+  serialNumber: Yup.string(),
 });
 
 export default createProductSchema;

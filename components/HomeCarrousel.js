@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import Slider from "react-slick";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import Slider from 'react-slick';
+import PropTypes from 'prop-types';
 
 const HomeCarrouselStyled = styled.div`
   /* padding: 20px 0px; */
@@ -23,27 +23,25 @@ const HomeCarrousel = ({ bannersData }) => {
   const settings = {
     dots: true,
     infinite: true,
-    fade:true,
+    fade: true,
     speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
     autoplay: true,
-    autoplaySpeed: 5000
+    autoplaySpeed: 5000,
   };
 
   return (
     <HomeCarrouselStyled>
       {/* <CarrouselWrapper> */}
       <Slider {...settings}>
-        {bannersData.map((e) => {
-          return (
-            <img
-              key={e.id}
-              src={process.env.NEXT_PUBLIC_API_URL + e.imagePath}
-            ></img>
-          );
-        })}
+        {bannersData.map((e) => (
+          <img
+            key={e.id}
+            src={process.env.NEXT_PUBLIC_API_URL + e.imagePath}
+          />
+        ))}
       </Slider>
       {/* </CarrouselWrapper> */}
     </HomeCarrouselStyled>

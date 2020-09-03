@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
-import styled from "styled-components";
-import Link from "next/link";
-import PropTypes from "prop-types";
+import styled from 'styled-components';
+import Link from 'next/link';
+import PropTypes from 'prop-types';
 
 const CategoriesNavbarStyled = styled.nav`
   text-align: center;
@@ -54,7 +54,7 @@ const DropdownWrapper = styled.div`
   width: 80%;
   left: 10%;
   opacity: ${(props) => (props.show ? 1 : 0)};
-  visibility: ${(props) => (props.show ? "visible" : "hidden")};
+  visibility: ${(props) => (props.show ? 'visible' : 'hidden')};
   transition: visibility 0.2s, opacity 0.2s ease;
   box-shadow: ${({ theme }) => theme.details.boxShadowBottom};
   z-index: 99;
@@ -120,13 +120,13 @@ const CategoriesNavbar = ({ _categories }) => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleHover = (e) => {
-    const cid = e.target.dataset.cid;
+    const { cid } = e.target.dataset;
     handleHoverCategory(cid);
     setShowDropdown(true);
   };
 
   const handleClick = (e) => {
-    const cid = e.target.dataset.cid;
+    const { cid } = e.target.dataset;
     handleClickCategory(cid);
     setShowDropdown(false);
   };
@@ -134,11 +134,11 @@ const CategoriesNavbar = ({ _categories }) => {
   return (
     <CategoriesNavbarStyled onMouseLeave={() => setShowDropdown(false)}>
       <NavbarWrapper>
-        {!isLoading &&
-          categories.map((cat) => (
+        {!isLoading
+          && categories.map((cat) => (
             <Link
               key={cat.id}
-              href={`/productos/[category]/[cid]`}
+              href="/productos/[category]/[cid]"
               as={`/productos/${cat.name}/${cat.id}`}
               passHref
             >
@@ -148,8 +148,8 @@ const CategoriesNavbar = ({ _categories }) => {
                 data-cid={cat.id}
                 borderColor={
                   categorySelected && cat.id == categorySelected.id
-                    ? "red"
-                    : "transparent"
+                    ? 'red'
+                    : 'transparent'
                 }
               >
                 {cat.name}

@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import ProductCard from "../components/ProductCard";
+import styled from 'styled-components';
+import ProductCard from './ProductCard';
 // import GridLoader from "react-spinners/GridLoader";
 
 const ListProductsStyled = styled.section`
@@ -24,20 +24,17 @@ const ListProducts = ({ products }) => {
       return (
         <div>
           <ListProductsStyled>
-            {products.map((item) => {
-              return <ProductCard key={item.id} item={item} />;
-            })}
+            {products.map((item) => <ProductCard key={item.id} item={item} />)}
           </ListProductsStyled>
         </div>
       );
-    } else {
-      return (
-        <NoProductsContactForm>
-          <h2>No hay productos en la Categoría Seleccionada</h2>
-          <h4>envianos un mensaje consultándonos lo que estas buscando.</h4>
-        </NoProductsContactForm>
-      );
     }
+    return (
+      <NoProductsContactForm>
+        <h2>No hay productos en la Categoría Seleccionada</h2>
+        <h4>envianos un mensaje consultándonos lo que estas buscando.</h4>
+      </NoProductsContactForm>
+    );
   }
 };
 export default ListProducts;

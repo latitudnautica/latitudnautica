@@ -1,6 +1,6 @@
-import Document from "next/document";
-import Head from 'next/head'
-import { ServerStyleSheet } from "styled-components";
+import Document from 'next/document';
+import Head from 'next/head';
+import { ServerStyleSheet } from 'styled-components';
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -8,11 +8,9 @@ export default class MyDocument extends Document {
     const originalRenderPage = ctx.renderPage;
 
     try {
-      ctx.renderPage = () =>
-        originalRenderPage({
-          enhanceApp: (App) => (props) =>
-            sheet.collectStyles(<App {...props} />)
-        });
+      ctx.renderPage = () => originalRenderPage({
+        enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
+      });
 
       const initialProps = await Document.getInitialProps(ctx);
       return {
@@ -22,7 +20,7 @@ export default class MyDocument extends Document {
             {initialProps.styles}
             {sheet.getStyleElement()}
           </>
-        )
+        ),
       };
     } finally {
       sheet.seal();

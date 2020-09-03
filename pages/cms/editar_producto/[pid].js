@@ -1,12 +1,12 @@
-import { useState } from "react";
-import Error from "next/error";
-import styled from "styled-components";
-import { useRouter } from "next/router";
-import useSWR, { trigger } from "swr";
-import CmsLayout from "../../../components/layouts/CmsLayout";
-import ProductCard from "../../../components/ProductCard";
-import ProductForm from "../../../components/cms/ProductForm";
-import UploadFiles from "../../../components/cms/uploadFiles";
+import { useState } from 'react';
+import Error from 'next/error';
+import styled from 'styled-components';
+import { useRouter } from 'next/router';
+import useSWR, { trigger } from 'swr';
+import CmsLayout from '../../../components/layouts/CmsLayout';
+import ProductCard from '../../../components/ProductCard';
+import ProductForm from '../../../components/cms/ProductForm';
+import UploadFiles from '../../../components/cms/uploadFiles';
 
 const ProductsContainer = styled.main`
   padding: 20px;
@@ -71,13 +71,24 @@ const EditProduct = (props) => {
     <CmsLayout>
       <ProductsContainer>
         <h2>
-          Editando el Producto: <b>{product.name}</b>
+          Editando el Producto:
+          {' '}
+          <b>{product.name}</b>
         </h2>
         <ProdSection>
           <div>
-            <h3>Categoría: {product.Category.name}</h3>
-            <h3>Sub Categoría: {product.SubCategory.name}</h3>
-            <h3>Producto Visible: {product.visible ? "visible" : "oculto"}</h3>
+            <h3>
+              Categoría:
+              {product.Category.name}
+            </h3>
+            <h3>
+              Sub Categoría:
+              {product.SubCategory.name}
+            </h3>
+            <h3>
+              Producto Visible:
+              {product.visible ? 'visible' : 'oculto'}
+            </h3>
           </div>
           <ProductCard item={product} />
 

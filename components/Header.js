@@ -1,15 +1,15 @@
-import { useState } from "react";
-import styled from "styled-components";
-import Link from "next/link";
-import Menu from "../components/Menu";
-import SearchBar from "./SearchBar";
+import { useState } from 'react';
+import styled from 'styled-components';
+import Link from 'next/link';
 import {
   RiWhatsappLine,
   RiFacebookCircleLine,
   RiPhoneLine,
   RiMailSendLine,
-} from "react-icons/ri";
-import { contactData } from "@/utils/contactData";
+} from 'react-icons/ri';
+import { contactData } from '@/utils/contactData';
+import Menu from './Menu';
+import SearchBar from './SearchBar';
 
 const HeaderStyled = styled.header`
   box-shadow: 0 0 13px -2px #acb1b3;
@@ -128,7 +128,7 @@ export default function Header() {
         <Menu />
         {/* </div> */}
         <HeaderLogo>
-          <Link href={"/"}>
+          <Link href="/">
             <a>
               <img src="/images/logo_full.png" />
             </a>
@@ -149,7 +149,9 @@ export default function Header() {
             </ContactDetail>
             <ContactDetail>
               <a href={`mailto:${contactData.email}`}>
-                <RiMailSendLine /> {contactData.email}
+                <RiMailSendLine />
+                {' '}
+                {contactData.email}
               </a>
             </ContactDetail>
             <SocialIcons>

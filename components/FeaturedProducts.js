@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
-import Link from "next/link";
-import Slider from "react-slick";
-import PropTypes from "prop-types";
-import onImageError from "@/utils/onImageError";
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import Link from 'next/link';
+import Slider from 'react-slick';
+import PropTypes from 'prop-types';
+import onImageError from '@/utils/onImageError';
 
 const FeaturedProductosWrapper = styled.section`
   margin: 2em 0;
@@ -97,21 +97,21 @@ const FeaturedProducts = ({ featuredProducts }) => {
         {isLoading
           ? []
           : products.map((i) => (
-              <ItemCarrouselWrapper key={i.id}>
-                <Link
-                  href={`/detalle/[name]/[id]`}
-                  as={`/detalle/${i.name}/${i.id}`}
-                >
-                  <ImageItemCarrousel
-                    onError={onImageError}
-                    key={i}
-                    src={process.env.NEXT_PUBLIC_API_URL + i.imagePath}
-                    alt={i.name}
-                    title={i.name}
-                  />
-                </Link>
-              </ItemCarrouselWrapper>
-            ))}
+            <ItemCarrouselWrapper key={i.id}>
+              <Link
+                href="/detalle/[name]/[id]"
+                as={`/detalle/${i.name}/${i.id}`}
+              >
+                <ImageItemCarrousel
+                  onError={onImageError}
+                  key={i}
+                  src={process.env.NEXT_PUBLIC_API_URL + i.imagePath}
+                  alt={i.name}
+                  title={i.name}
+                />
+              </Link>
+            </ItemCarrouselWrapper>
+          ))}
       </Slider>
     </FeaturedProductosWrapper>
   );

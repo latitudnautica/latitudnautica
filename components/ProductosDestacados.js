@@ -1,7 +1,5 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-const ProductosDestacados = () => {
-  return <div>ProductosDestacados</div>;
-};
+const ProductosDestacados = () => <div>ProductosDestacados</div>;
 
 export default ProductosDestacados;

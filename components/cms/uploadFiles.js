@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import axiosBase from "../../utils/axiosBase";
-import styled from "styled-components";
-import Cookies from "js-cookie";
-import { Button } from "../layouts/Button";
-import { toast } from "react-toastify";
-import PropTypes from "prop-types";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+import PropTypes from 'prop-types';
+import { Button } from '../layouts/Button';
+import axiosBase from '../../utils/axiosBase';
 
 const FileUploadStyled = styled.div`
   display: flex;
@@ -42,14 +42,14 @@ export default function UploadFiles(props) {
     const file = e.target.files[0];
 
     if (file.size < 2097152) {
-      //2mb max file size
+      // 2mb max file size
       setSelectedFile(file);
       setProgress(0);
       // setIsLoaded(false);
     } else {
-      toast.error("La imagen seleccionada es muy pesada. Max 2mb");
+      toast.error('La imagen seleccionada es muy pesada. Max 2mb');
       setIsError({
-        message: "La imagen seleccionada es muy pesada. Max 2mb",
+        message: 'La imagen seleccionada es muy pesada. Max 2mb',
         status: 413,
       });
     }
@@ -61,20 +61,20 @@ export default function UploadFiles(props) {
     setIsError(false);
 
     const formData = new FormData();
-    formData.append("file", selectedFile);
-    formData.set("prod_id", product.id);
+    formData.append('file', selectedFile);
+    formData.set('prod_id', product.id);
 
     axiosBase({
-      method: "post",
-      url: `/product/upload/image`,
+      method: 'post',
+      url: '/product/upload/image',
       data: formData,
       headers: {
-        Authorization: `Bearer ${Cookies.get("token")}`,
-        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${Cookies.get('token')}`,
+        'content-type': 'multipart/form-data',
       },
       onUploadProgress: (ProgressEvent) => {
-        let progress = Math.round(
-          (ProgressEvent.loaded / ProgressEvent.total) * 100
+        const progress = Math.round(
+          (ProgressEvent.loaded / ProgressEvent.total) * 100,
         );
         setProgress(progress);
       },
@@ -83,7 +83,7 @@ export default function UploadFiles(props) {
         console.log(res);
 
         triggerData(true);
-        toast.success("Imagen cargada exitosamente");
+        toast.success('Imagen cargada exitosamente');
       })
       .catch((err) => {
         setIsError(err.response);
@@ -98,7 +98,7 @@ export default function UploadFiles(props) {
     setIsLoaded(false);
   };
 
-  if (isError)
+  if (isError) {
     return (
       <FileUploadStyled>
         <h3>error al subir la imagen</h3>
@@ -106,6 +106,7 @@ export default function UploadFiles(props) {
         <Button onClick={handelTryAgain}>Intentar de nuevo</Button>
       </FileUploadStyled>
     );
+  }
 
   return (
     <FileUploadStyled>
@@ -128,7 +129,10 @@ export default function UploadFiles(props) {
         )}
         <ProgressBarWrapper>
           {(progress > 0 || selectedFile) && (
-            <ProgressBar progress={progress}>{progress}%</ProgressBar>
+            <ProgressBar progress={progress}>
+              {progress}
+              %
+            </ProgressBar>
           )}
         </ProgressBarWrapper>
       </FormContainer>

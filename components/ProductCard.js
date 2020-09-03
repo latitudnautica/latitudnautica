@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import Link from "next/link";
-import { useSpring, animated } from "react-spring";
-import onImageError from "@/utils/onImageError";
-import { ButtonProductCard } from "./layouts/Button";
+import React from 'react';
+import styled from 'styled-components';
+import Link from 'next/link';
+import { useSpring, animated } from 'react-spring';
+import onImageError from '@/utils/onImageError';
+import { ButtonProductCard } from './layouts/Button';
 
 const ImageWrapper = styled.div`
   padding: 10px;
@@ -82,12 +82,21 @@ export default function ProductCard(props) {
           )}
         </ImageWrapper>
         <InfoWrapper>
-          <Code>cod:{item.id}</Code>
+          <Code>
+            cod:
+            {item.id}
+          </Code>
           <ProductName>{item.name}</ProductName>
-          <Price>$ {item.price}</Price>
-          <Brand> {item.brand ? item.brand : "-"}</Brand>
+          <Price>
+            $
+            {item.price}
+          </Price>
+          <Brand>
+            {' '}
+            {item.brand ? item.brand : '-'}
+          </Brand>
           <Link
-            href={`/detalle/[p_name]/[product_id]`}
+            href="/detalle/[p_name]/[product_id]"
             as={`/detalle/${item.name}/${item.id}`}
           >
             <a>

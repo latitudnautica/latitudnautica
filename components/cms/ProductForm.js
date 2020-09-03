@@ -1,37 +1,35 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Field, Form } from "formik";
-import styled from "styled-components";
-import axiosbase from "utils/axiosBase";
-import Cookies from "js-cookie";
-import { useCategories } from "../../context/CategoriesProvider";
-import { Button } from "../layouts/Button";
-import { toast } from "react-toastify";
+import React, { useState, useEffect } from 'react';
+import { Formik, Field, Form } from 'formik';
+import styled from 'styled-components';
+import axiosbase from 'utils/axiosBase';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+import { useCategories } from '../../context/CategoriesProvider';
+import { Button } from '../layouts/Button';
 
-const formatProdToEdit = (prod) => {
-  return {
-    subCategoryId: prod.SubCategoryId || undefined,
-    categoryId: prod.categoryId || undefined,
-    codeArticle: prod.codeArticle || undefined,
-    codePromo: prod.codePromo || undefined,
-    description: prod.description || undefined,
-    descriptionGroup: prod.descriptionGroup || undefined,
-    brand: prod.brand || undefined,
-    id: prod.id || undefined,
-    imageUrl: prod.imageUrl || undefined,
-    name: prod.name || undefined,
-    price: prod.price || undefined,
-    priceDolar: prod.priceDolar || undefined,
-    promoActive: prod.promoActive || undefined,
-    serialNumber: prod.serialNumber || undefined,
-    sku: prod.sku || undefined,
-    stock: prod.stock || undefined,
-    subCategoryId: prod.subCategoryId || undefined,
-    tasaIVA: prod.tasaIVA || undefined,
-    upc: prod.upc || undefined,
-    visible: prod.visible || undefined,
-    featured: prod.featured || undefined,
-  };
-};
+const formatProdToEdit = (prod) => ({
+  subCategoryId: prod.SubCategoryId || undefined,
+  categoryId: prod.categoryId || undefined,
+  codeArticle: prod.codeArticle || undefined,
+  codePromo: prod.codePromo || undefined,
+  description: prod.description || undefined,
+  descriptionGroup: prod.descriptionGroup || undefined,
+  brand: prod.brand || undefined,
+  id: prod.id || undefined,
+  imageUrl: prod.imageUrl || undefined,
+  name: prod.name || undefined,
+  price: prod.price || undefined,
+  priceDolar: prod.priceDolar || undefined,
+  promoActive: prod.promoActive || undefined,
+  serialNumber: prod.serialNumber || undefined,
+  sku: prod.sku || undefined,
+  stock: prod.stock || undefined,
+  subCategoryId: prod.subCategoryId || undefined,
+  tasaIVA: prod.tasaIVA || undefined,
+  upc: prod.upc || undefined,
+  visible: prod.visible || undefined,
+  featured: prod.featured || undefined,
+});
 
 const FormContainer = styled.div`
   width: 90%;
@@ -112,26 +110,25 @@ const ProductForm = ({ product, isEdit, triggerData }) => {
       const subCat = categories.filter((c) => c.id == id);
       setSubCategories(subCat[0].SubCategories);
     } else {
-      return;
+
     }
   };
 
   const handleSubmit = (values) => {
-    toast.info("Cargando Producto");
+    toast.info('Cargando Producto');
     try {
       const request = async () => {
         if (!isEdit) {
-          return await axiosbase.post("/product", values, {
-            headers: { Authorization: `Bearer ${Cookies.get("token")}` },
-          });
-        } else {
-          const data = values;
-          data.id = product.id;
-
-          return await axiosbase.put("/product", data, {
-            headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+          return await axiosbase.post('/product', values, {
+            headers: { Authorization: `Bearer ${Cookies.get('token')}` },
           });
         }
+        const data = values;
+        data.id = product.id;
+
+        return await axiosbase.put('/product', data, {
+          headers: { Authorization: `Bearer ${Cookies.get('token')}` },
+        });
       };
 
       request()
@@ -141,8 +138,8 @@ const ProductForm = ({ product, isEdit, triggerData }) => {
 
           toast.success(
             `El producto ${data.data.productData.name} ${
-              isEdit ? "editado" : "creado"
-            } con éxito.`
+              isEdit ? 'editado' : 'creado'
+            } con éxito.`,
           );
         })
         .catch((err) => {
@@ -154,18 +151,18 @@ const ProductForm = ({ product, isEdit, triggerData }) => {
 
             if (errMessage.status == 406) {
               toast.error(
-                `Algo no funciono como se esperaba... [ ${errMessage.data.message} ]`
+                `Algo no funciono como se esperaba... [ ${errMessage.data.message} ]`,
               );
             }
             if (errMessage.status == 401) {
               toast.error(
-                `Debes Iniciar sesión nuevamente, recarga la pagina presionando F5`
+                'Debes Iniciar sesión nuevamente, recarga la pagina presionando F5',
               );
             }
           }
         });
     } catch (error) {
-      toast.error(`Algo no funciono como se esperaba...`);
+      toast.error('Algo no funciono como se esperaba...');
       console.log(error);
     }
   };
@@ -223,17 +220,17 @@ const ProductForm = ({ product, isEdit, triggerData }) => {
                   required
                 >
                   <option value={false}>------------</option>
-                  {subCategories.length > 0 &&
-                    subCategories.map((scat) => (
+                  {subCategories.length > 0
+                    && subCategories.map((scat) => (
                       <option key={scat.id} value={Number(scat.id)}>
                         {scat.name}
                       </option>
                     ))}
                 </Select>
 
-                {errors.subCategoryId &&
-                  touched.subCategoryId &&
-                  errors.subCategoryId}
+                {errors.subCategoryId
+                  && touched.subCategoryId
+                  && errors.subCategoryId}
               </FieldGroup>
               <FieldGroup>
                 <label>Nombre</label>
@@ -314,9 +311,9 @@ const ProductForm = ({ product, isEdit, triggerData }) => {
                   onBlur={handleBlur}
                   value={values.codeArticle}
                 />
-                {errors.codeArticle &&
-                  touched.codeArticle &&
-                  errors.codeArticle}
+                {errors.codeArticle
+                  && touched.codeArticle
+                  && errors.codeArticle}
               </FieldGroup>
               <FieldGroup>
                 <label>Promoción</label>
@@ -327,9 +324,9 @@ const ProductForm = ({ product, isEdit, triggerData }) => {
                   onBlur={handleBlur}
                   value={values.promoActive}
                 />
-                {errors.promoActive &&
-                  touched.promoActive &&
-                  errors.promoActive}
+                {errors.promoActive
+                  && touched.promoActive
+                  && errors.promoActive}
               </FieldGroup>
               <FieldGroup>
                 <label>Código promoción</label>
@@ -375,9 +372,9 @@ const ProductForm = ({ product, isEdit, triggerData }) => {
                   onBlur={handleBlur}
                   value={values.description}
                 />
-                {errors.description &&
-                  touched.description &&
-                  errors.description}
+                {errors.description
+                  && touched.description
+                  && errors.description}
               </FieldGroup>
               <FieldGroup>
                 <label>Visible</label>

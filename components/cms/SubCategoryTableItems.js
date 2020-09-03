@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Button } from "../layouts/Button";
+import styled from 'styled-components';
+import { Button } from '../layouts/Button';
 
 const Table = styled.table`
   width: 100%;
@@ -32,24 +32,26 @@ const Table = styled.table`
   }
 `;
 
-const SubCategoryTableItems = ({ itemsList, updateHandler, deleteHandler }) => {
-  return (
-    <Table>
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Nombre</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        {itemsList &&
-          itemsList.map((subCat) => (
+const SubCategoryTableItems = ({ itemsList, updateHandler, deleteHandler }) => (
+  <Table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {itemsList
+          && itemsList.map((subCat) => (
             <tr data-id={subCat.id} key={subCat.id}>
               <td>{subCat.id}</td>
-              <td> {subCat.name}</td>
               <td>
-              <Button data-id={subCat.id} onClick={updateHandler}>
+                {' '}
+                {subCat.name}
+              </td>
+              <td>
+                <Button data-id={subCat.id} onClick={updateHandler}>
                   Editar
                 </Button>
                 <Button data-scid={subCat.id} onClick={deleteHandler}>
@@ -58,9 +60,8 @@ const SubCategoryTableItems = ({ itemsList, updateHandler, deleteHandler }) => {
               </td>
             </tr>
           ))}
-      </tbody>
-    </Table>
-  );
-};
+    </tbody>
+  </Table>
+);
 
 export default SubCategoryTableItems;

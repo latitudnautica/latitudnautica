@@ -1,28 +1,28 @@
-import { useState, useEffect } from "react";
-import styled from "styled-components";
-import { Formik, Field, Form } from "formik";
-import axiosBase from "@/utils/axiosBase";
-import FeaturedProducts from "components/FeaturedProducts";
-import CategoriesNavbar from "@/components/CategoriesNavbar";
-import { useRouter } from "next/router";
-import MainLayout from "../components/layouts/MainLayout";
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { Formik, Field, Form } from 'formik';
+import axiosBase from '@/utils/axiosBase';
+import FeaturedProducts from 'components/FeaturedProducts';
+import CategoriesNavbar from '@/components/CategoriesNavbar';
+import { useRouter } from 'next/router';
 import {
   Container,
   PageTitleH1,
-} from "components/layouts/commonStyledComponents";
+} from 'components/layouts/commonStyledComponents';
 import {
   RiWhatsappLine,
   RiFacebookCircleLine,
   RiPhoneLine,
   RiMailSendLine,
-} from "react-icons/ri";
-import { Button } from "components/layouts/Button";
-import { contactData } from "@/utils/contactData";
+} from 'react-icons/ri';
+import { Button } from 'components/layouts/Button';
+import { contactData } from '@/utils/contactData';
 import {
   Input,
   Textarea,
   Label,
-} from "@/components/layouts/commonStyledComponents";
+} from '@/components/layouts/commonStyledComponents';
+import MainLayout from '../components/layouts/MainLayout';
 
 const ContactPageWrapper = styled.section`
   margin: 3em 1em;
@@ -105,11 +105,11 @@ const InputError = styled.span`
 
 const ContactPage = ({ categories, featuredProducts }) => {
   const [messageStatus, setMessageStatus] = useState({
-    status: "Enviar",
+    status: 'Enviar',
     isEmailSent: false,
     error: false,
   });
-  const [preMessage, setPreMessage] = useState("");
+  const [preMessage, setPreMessage] = useState('');
 
   const Router = useRouter();
   useEffect(() => {
@@ -133,25 +133,25 @@ const ContactPage = ({ categories, featuredProducts }) => {
             <Formik
               enableReinitialize
               initialValues={{
-                name: "",
-                email: "",
-                phone: "",
-                link: Router.query.link || "",
-                message: preMessage ? preMessage : "",
+                name: '',
+                email: '',
+                phone: '',
+                link: Router.query.link || '',
+                message: preMessage || '',
               }}
               validate={(values) => {
                 const errors = {};
                 if (!values.email) {
-                  errors.email = "Requerido";
+                  errors.email = 'Requerido';
                 } else if (
                   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
                 ) {
-                  errors.email = "Invalid email address";
+                  errors.email = 'Invalid email address';
                 }
                 if (!values.name) {
-                  errors.name = "Requerido";
+                  errors.name = 'Requerido';
                 } else if (!/[A-Z0-9]$/i.test(values.name)) {
-                  errors.name = "Invalid email address";
+                  errors.name = 'Invalid email address';
                 }
                 return errors;
               }}
@@ -159,17 +159,17 @@ const ContactPage = ({ categories, featuredProducts }) => {
                 console.log(values);
                 setSubmitting(true);
                 setMessageStatus({
-                  status: "enviando",
+                  status: 'enviando',
                   isEmailSent: null,
                   error: null,
                 });
 
                 axiosBase
-                  .post("/mailing/send", values)
+                  .post('/mailing/send', values)
                   .then((res) => {
                     console.log(res);
                     setMessageStatus({
-                      status: "Mensaje Enviado",
+                      status: 'Mensaje Enviado',
                       isEmailSent: true,
                       error: false,
                     });
@@ -178,7 +178,7 @@ const ContactPage = ({ categories, featuredProducts }) => {
                     console.log(err.response);
                     setSubmitting(false);
                     setMessageStatus({
-                      status: "ERROR:  Mensaje No Enviado",
+                      status: 'ERROR:  Mensaje No Enviado',
                       isEmailSent: false,
                       error: true,
                     });
@@ -309,7 +309,9 @@ const ContactPage = ({ categories, featuredProducts }) => {
               </ContactDetail>
               <ContactDetail>
                 <a href={`mailto:${contactData.email}`}>
-                  <RiMailSendLine /> {contactData.email}
+                  <RiMailSendLine />
+                  {' '}
+                  {contactData.email}
                 </a>
               </ContactDetail>
               <SocialIcons>
@@ -340,10 +342,10 @@ ContactPage.Layout = MainLayout;
 export default ContactPage;
 
 export async function getStaticProps() {
-  const featuredProducts = await axiosBase("/product/featured").then(
-    (res) => res.data
+  const featuredProducts = await axiosBase('/product/featured').then(
+    (res) => res.data,
   );
-  const categories = await axiosBase("/category/all").then((res) => res.data);
+  const categories = await axiosBase('/category/all').then((res) => res.data);
 
   return {
     props: {

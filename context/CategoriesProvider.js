@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useContext, createContext } from "react";
-import axiosBase from "../utils/axiosBase";
-import useSWR from "swr";
-import { useRouter } from "next/router";
+import React, {
+  useState, useEffect, useContext, createContext,
+} from 'react';
+import useSWR from 'swr';
+import { useRouter } from 'next/router';
+import axiosBase from '../utils/axiosBase';
 
 const CategoriesContext = createContext({
   categories: {},
   isLoading: true,
-  setCategories: () => {}
+  setCategories: () => {},
 });
 
 export const CategoriesProvider = ({ children }) => {
@@ -15,7 +17,7 @@ export const CategoriesProvider = ({ children }) => {
   const [categoryHover, setCategoryHover] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const Router = useRouter();
-  const { data } = useSWR("/category/all");
+  const { data } = useSWR('/category/all');
 
   useEffect(() => {
     if (data) {
@@ -47,7 +49,7 @@ export const CategoriesProvider = ({ children }) => {
         handleHoverCategory,
         categorySelected,
         categoryHover,
-        isLoading
+        isLoading,
       }}
     >
       {children}
@@ -55,11 +57,11 @@ export const CategoriesProvider = ({ children }) => {
   );
 };
 
-//hook
+// hook
 export function useCategories() {
   const context = useContext(CategoriesContext);
   if (context === undefined) {
-    throw new Error("useCategories must be used within an AuthProvider");
+    throw new Error('useCategories must be used within an AuthProvider');
   }
   return context;
 }

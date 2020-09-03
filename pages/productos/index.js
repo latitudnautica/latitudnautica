@@ -1,7 +1,7 @@
-import MainLayout from "components/layouts/MainLayout";
-import axiosbase from "utils/axiosBase";
-import styled from "styled-components";
-import Link from "next/link";
+import MainLayout from 'components/layouts/MainLayout';
+import axiosbase from 'utils/axiosBase';
+import styled from 'styled-components';
+import Link from 'next/link';
 
 const CategoriesContainer = styled.main`
   display: flex;
@@ -36,34 +36,31 @@ const CardContent = styled.div`
 `;
 
 const ProductosMain = ({ categories }) => {
-  if (categories.length == 0)
-    return <CategoriesContainer>Cargando..</CategoriesContainer>;
+  if (categories.length == 0) { return <CategoriesContainer>Cargando..</CategoriesContainer>; }
 
   return (
     <CategoriesContainer>
-      {categories.map((cat) => {
-        return (
-          <Link
-            key={cat.id}
-            href={`/productos/[category]/[cid]`}
-            as={`/productos/${cat.name}/${cat.id}`}
-            passHref
-          >
-            <CategoryCard key={cat.id}>
-              <CardImage
-                src={
+      {categories.map((cat) => (
+        <Link
+          key={cat.id}
+          href="/productos/[category]/[cid]"
+          as={`/productos/${cat.name}/${cat.id}`}
+          passHref
+        >
+          <CategoryCard key={cat.id}>
+            <CardImage
+              src={
                   cat.imageUrl
                     ? process.env.NEXT_PUBLIC_API_URL + cat.imageUrl
-                    : "/images/logo_test.jpg"
+                    : '/images/logo_test.jpg'
                 }
-              />
-              <CardContent>
-                <a>{cat.name.toUpperCase()}</a>
-              </CardContent>
-            </CategoryCard>
-          </Link>
-        );
-      })}
+            />
+            <CardContent>
+              <a>{cat.name.toUpperCase()}</a>
+            </CardContent>
+          </CategoryCard>
+        </Link>
+      ))}
     </CategoriesContainer>
   );
 };
@@ -73,7 +70,7 @@ ProductosMain.Layout = MainLayout;
 export default ProductosMain;
 
 export async function getStaticProps() {
-  const categories = await axiosbase("/category/all").then((res) => res.data);
+  const categories = await axiosbase('/category/all').then((res) => res.data);
 
   return {
     props: { categories },

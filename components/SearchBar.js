@@ -1,7 +1,6 @@
-import { useState } from "react";
-import styled from "styled-components";
-import { useRouter } from "next/router";
-import { RiSearchEyeLine } from "react-icons/ri";
+import { useState } from 'react';
+import styled from 'styled-components';
+import { useRouter } from 'next/router';
 
 const SearchBarStyled = styled.div`
   flex: 2;
@@ -72,21 +71,21 @@ const SearchBar = () => {
   };
 
   const handleSearch = (e) => {
-    const key = e.key;
-    if (key === "Enter") {
-      Router.push({ pathname: "/buscar", query: { q: searchValue } });
+    const { key } = e;
+    if (key === 'Enter') {
+      Router.push({ pathname: '/buscar', query: { q: searchValue } });
     }
   };
 
   return (
     <SearchBarStyled>
       <input
-        type='text'
-        placeholder='Buscar...'
+        type="text"
+        placeholder="Buscar..."
         onChange={handleSearchValue}
         onKeyPress={handleSearch}
-        />
-        {/* <span>
+      />
+      {/* <span>
           <RiSearchEyeLine />
         </span> */}
       {/* <SearchButton onClick={() => setOpenModalSearch(!openModalSearch)}>

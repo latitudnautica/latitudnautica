@@ -1,10 +1,11 @@
-import { useState, useRef } from "react";
-import ReactModal from "react-modal";
-import styled from "styled-components";
+import { useState, useRef } from 'react';
+import ReactModal from 'react-modal';
+import styled from 'styled-components';
 
-import { Button } from "../layouts/Button";
-import axiosBase from "../../utils/axiosBase";
-ReactModal.setAppElement("#__next");
+import { Button } from '../layouts/Button';
+import axiosBase from '../../utils/axiosBase';
+
+ReactModal.setAppElement('#__next');
 
 const ModalStyled = styled.div`
   border: 1px solid red;
@@ -21,18 +22,18 @@ const ModalStyled = styled.div`
 
 const customStyles = {
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    transition: "transform 500ms",
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    transition: 'transform 500ms',
   },
 };
 
 const UploadFileModal = () => {
-  var subtitle;
+  let subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0); // progress bar
@@ -44,7 +45,7 @@ const UploadFileModal = () => {
 
   function afterOpenModal() {
     // references are now sync'd and can be accessed.
-    subtitle.style.color = "#000";
+    subtitle.style.color = '#000';
   }
 
   function closeModal() {
@@ -58,22 +59,22 @@ const UploadFileModal = () => {
     console.log(file);
 
     const formData = new FormData();
-    formData.append("file", file);
-    formData.set("title", title);
-    formData.set("position", 1);
-    formData.set("link", 1);
-    console.log("formData", formData);
+    formData.append('file', file);
+    formData.set('title', title);
+    formData.set('position', 1);
+    formData.set('link', 1);
+    console.log('formData', formData);
 
     axiosBase({
-      method: "post",
-      url: `/utils/banner`,
+      method: 'post',
+      url: '/utils/banner',
       data: formData,
       headers: {
-        "content-type": "multipart/form-data",
+        'content-type': 'multipart/form-data',
       },
       onUploadProgress: (ProgressEvent) => {
-        let progress = Math.round(
-          (ProgressEvent.loaded / ProgressEvent.total) * 100
+        const progress = Math.round(
+          (ProgressEvent.loaded / ProgressEvent.total) * 100,
         );
         setProgress(progress);
       },

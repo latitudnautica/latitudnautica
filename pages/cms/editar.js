@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import axiosbase from "utils/axiosBase";
-import useSWR, { trigger } from "swr";
-import styled from "styled-components";
-import Link from "next/link";
-import Cookies from "js-cookie";
-import { Button } from "components/layouts/Button";
-import CmsLayout from "components/layouts/CmsLayout";
-import { toast } from "react-toastify";
-import { TiTickOutline, TiDelete } from "react-icons/ti";
-import { PageTitleH1 } from "@/components/layouts/commonStyledComponents";
+import React, { useState, useEffect } from 'react';
+import axiosbase from 'utils/axiosBase';
+import useSWR, { trigger } from 'swr';
+import styled from 'styled-components';
+import Link from 'next/link';
+import Cookies from 'js-cookie';
+import { Button } from 'components/layouts/Button';
+import CmsLayout from 'components/layouts/CmsLayout';
+import { toast } from 'react-toastify';
+import { TiTickOutline, TiDelete } from 'react-icons/ti';
+import { PageTitleH1 } from '@/components/layouts/commonStyledComponents';
 
 const Select = styled.select`
   border: none;
@@ -84,7 +84,7 @@ const Editar = ({ categories }) => {
 
   const { data, error } = useSWR(`/category/${catSelected}`);
 
-  if (data == "undefined") return <div>Cargando</div>;
+  if (data == 'undefined') return <div>Cargando</div>;
   if (error) return <div>algo salio mal</div>;
 
   useEffect(() => {
@@ -100,16 +100,16 @@ const Editar = ({ categories }) => {
   };
 
   const handleDeleteProduct = (e) => {
-    console.log("delete product clicked");
-    const pid = e.target.dataset.pid;
+    console.log('delete product clicked');
+    const { pid } = e.target.dataset;
     axiosbase
       .delete(`/product/${pid}`, {
-        headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+        headers: { Authorization: `Bearer ${Cookies.get('token')}` },
       })
       .then((res) => {
-        console.log("deleted", res);
+        console.log('deleted', res);
         trigger(`/category/${catSelected}`);
-        toast.success(" Producto Eliminado");
+        toast.success(' Producto Eliminado');
       })
       .catch((err) => {
         console.log(err.response);
@@ -118,7 +118,7 @@ const Editar = ({ categories }) => {
 
   const getSubCategoryName = (scid) => {
     if (categoryData.SubCategories.length == 0) {
-      return "no name";
+      return 'no name';
     }
 
     const subCategory = categoryData.SubCategories.find((subCat) => {
@@ -127,7 +127,7 @@ const Editar = ({ categories }) => {
     });
 
     if (subCategory == undefined) {
-      return "ATENCIÓN: sub categoría perdida";
+      return 'ATENCIÓN: sub categoría perdida';
     }
     return subCategory.name;
   };
@@ -196,45 +196,43 @@ const Editar = ({ categories }) => {
               </tr>
             </thead>
             <tbody>
-              {categoryData.Products.length > 0 &&
-                categoryData.Products.map((prod) => {
-                  return (
-                    <tr key={prod.id}>
-                      <td>{prod.id}</td>
-                      <td>{prod.name}</td>
-                      <td>{prod.brand}</td>
-                      <td>{prod.price}</td>
-                      <td>{categoryData.name}</td>
-                      <td>{getSubCategoryName(prod.SubCategoryId)}</td>
-                      <td>
-                        <Icon>
-                          {prod.visible ? <TiTickOutline /> : <TiDelete />}
-                        </Icon>
-                      </td>
-                      <td>
-                        <Icon>
-                          {prod.featured ? <TiTickOutline /> : <TiDelete />}
-                        </Icon>
-                      </td>
-                      <td>
-                        <Link
-                          href={`/cms/editar_producto/[pid]`}
-                          as={`/cms/editar_producto/${prod.id}`}
-                        >
-                          <a>
-                            <Button>Editar</Button>
-                          </a>
-                        </Link>
-                        <Button
-                          data-pid={prod.id}
-                          onClick={handleDeleteProduct}
-                        >
-                          Borrar
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })}
+              {categoryData.Products.length > 0
+                && categoryData.Products.map((prod) => (
+                  <tr key={prod.id}>
+                    <td>{prod.id}</td>
+                    <td>{prod.name}</td>
+                    <td>{prod.brand}</td>
+                    <td>{prod.price}</td>
+                    <td>{categoryData.name}</td>
+                    <td>{getSubCategoryName(prod.SubCategoryId)}</td>
+                    <td>
+                      <Icon>
+                        {prod.visible ? <TiTickOutline /> : <TiDelete />}
+                      </Icon>
+                    </td>
+                    <td>
+                      <Icon>
+                        {prod.featured ? <TiTickOutline /> : <TiDelete />}
+                      </Icon>
+                    </td>
+                    <td>
+                      <Link
+                        href="/cms/editar_producto/[pid]"
+                        as={`/cms/editar_producto/${prod.id}`}
+                      >
+                        <a>
+                          <Button>Editar</Button>
+                        </a>
+                      </Link>
+                      <Button
+                        data-pid={prod.id}
+                        onClick={handleDeleteProduct}
+                      >
+                        Borrar
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </Table>
         )}
@@ -246,7 +244,7 @@ const Editar = ({ categories }) => {
 export default Editar;
 
 export async function getServerSideProps(context) {
-  const fetchCategories = await axiosbase(`/category/all`)
+  const fetchCategories = await axiosbase('/category/all')
     .then((res) => res)
     .catch((err) => console.log(err));
 

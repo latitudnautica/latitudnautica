@@ -1,11 +1,11 @@
-import { useState } from "react";
-import Router from "next/router";
-import { Formik, Field } from "formik";
-import axiosBase from "utils/axiosBase";
-import Cookies from "js-cookie";
-import styled from "styled-components";
-import { useAuth } from "../../context/AuthProvider";
-import { Button } from "../../components/layouts/Button";
+import { useState } from 'react';
+import Router from 'next/router';
+import { Formik, Field } from 'formik';
+import axiosBase from 'utils/axiosBase';
+import Cookies from 'js-cookie';
+import styled from 'styled-components';
+import { useAuth } from '../../context/AuthProvider';
+import { Button } from '../../components/layouts/Button';
 
 const LoginStyled = styled.section`
   display: flex;
@@ -44,9 +44,9 @@ const Form = styled.form`
 function validateEmail(value) {
   let error;
   if (!value) {
-    error = "Required";
+    error = 'Required';
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-    error = "Invalid email address";
+    error = 'Invalid email address';
   }
   return error;
 }
@@ -54,9 +54,9 @@ function validateEmail(value) {
 function validatePassword(value) {
   let error;
   if (!value) {
-    error = "Required";
+    error = 'Required';
   } else if (value.length == 0 || value.length > 16) {
-    error = "Invalid password ";
+    error = 'Invalid password ';
   }
   return error;
 }
@@ -68,18 +68,18 @@ const Login = () => {
 
   const handleLogin = (data) => {
     axiosBase
-      .post("/user/login", data)
+      .post('/user/login', data)
       .then((user) => {
-        Cookies.set("token", user.data.token, { expires: 7 });
+        Cookies.set('token', user.data.token, { expires: 7 });
       })
       .then((r) => {
         setIsAuthenticated(true);
         Router.back();
       })
       .catch((err) => {
-        Cookies.remove("token");
+        Cookies.remove('token');
         setLoginError(err);
-        console.log("error", err);
+        console.log('error', err);
       });
   };
 
@@ -88,8 +88,8 @@ const Login = () => {
       {loginError && <div>Usuario o Password erróneo.</div>}
       <Formik
         initialValues={{
-          password: "",
-          email: "",
+          password: '',
+          email: '',
         }}
         onSubmit={(values, actions) => {
           handleLogin(values);

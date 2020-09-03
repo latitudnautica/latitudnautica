@@ -1,13 +1,11 @@
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import axiosBase from "@/utils/axiosBase";
-import styled from "styled-components";
-import MainLayout from "@/components/layouts/MainLayout";
-import SidebarMenuProducts from "components/SidebarMenuProducts";
-import ListProducts from "@/components/ListProducts";
-import CategoriesNavbar from "@/components/CategoriesNavbar";
-
-
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import axiosBase from '@/utils/axiosBase';
+import styled from 'styled-components';
+import MainLayout from '@/components/layouts/MainLayout';
+import SidebarMenuProducts from 'components/SidebarMenuProducts';
+import ListProducts from '@/components/ListProducts';
+import CategoriesNavbar from '@/components/CategoriesNavbar';
 
 const ListSection = styled.section`
   display: flex;
@@ -28,12 +26,10 @@ const ProductsPageWrapper = ({ data, categories }) => {
 
   const category = data[0];
   const [products, setProducts] = useState([]);
-  const query = Router.query;
+  const { query } = Router;
 
   const applyFilter = (scid) => {
-    const productsFiltered = category.Products.filter((item) => {
-      return item.SubCategoryId == scid;
-    });
+    const productsFiltered = category.Products.filter((item) => item.SubCategoryId == scid);
     setProducts(productsFiltered);
   };
 
@@ -63,7 +59,7 @@ ProductsPageWrapper.Layout = MainLayout;
 export default ProductsPageWrapper;
 
 export async function getStaticPaths() {
-  const categories = await axiosBase(`/category/all`).then((res) => res.data);
+  const categories = await axiosBase('/category/all').then((res) => res.data);
   const paths = categories.map((cat) => ({
     params: { category: cat.name, cid: cat.id.toString() },
   }));
@@ -72,9 +68,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const categories = await axiosBase("/category/all").then((res) => res.data);
+  const categories = await axiosBase('/category/all').then((res) => res.data);
   const data = await axiosBase(`/category/${params.cid}`).then(
-    (res) => res.data
+    (res) => res.data,
   );
 
   return { props: { data, categories }, revalidate: 1 };
