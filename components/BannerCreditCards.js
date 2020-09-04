@@ -30,7 +30,7 @@ const BannerCreditCards = () => (
     </ImageWrapper>
     <ImageWrapper>
       <img
-        src='/images/credit/cabal-logo.svg'
+        src='/images/credit/cabal-logo.png'
         alt='logo tarjeta de crédito cabal'
       />
     </ImageWrapper>
