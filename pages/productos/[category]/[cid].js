@@ -22,7 +22,6 @@ const ListSection = styled.section`
 const ProductsPageWrapper = ({ category, categories }) => {
   const [products, setProducts] = useState([]);
   const Router = useRouter();
-  console.log(Router);
 
   useEffect(() => {
     if (category) setProducts(category.Products);
@@ -31,7 +30,7 @@ const ProductsPageWrapper = ({ category, categories }) => {
   useEffect(() => {
     const applyFilter = (scid) => {
       const productsFiltered = category.Products.filter(
-        (item) => item.SubCategoryId === Number(scid)
+        (item) => item.SubCategoryId === Number(scid),
       );
       setProducts(productsFiltered);
     };
@@ -73,7 +72,7 @@ export default ProductsPageWrapper;
 
 export async function getStaticPaths() {
   const categories = await axiosBase('/category/all?nocache').then(
-    (res) => res.data
+    (res) => res.data,
   );
   const paths = categories.map((cat) => ({
     params: { category: cat.name, cid: cat.id.toString() },
@@ -84,10 +83,10 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const categories = await axiosBase('/category/all?nocache').then(
-    (res) => res.data
+    (res) => res.data,
   );
   const category = await axiosBase(`/category/${params.cid}?nocache`).then(
-    (res) => res.data[0]
+    (res) => res.data[0],
   );
   return { props: { category, categories }, revalidate: 1 };
 }
