@@ -1,11 +1,9 @@
-/* eslint-disable import/no-unresolved */
 // /pages/_app.tsx
 import Head from 'next/head';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import '../styles/styles.css';
 import '../styles/nprogress.css';
-import 'react-toastify/dist/ReactToastify.css';
 
 import { GA_TRACKING_ID } from '../utils/gtag';
 
