@@ -3,13 +3,6 @@
 import Head from 'next/head';
 import Router from 'next/router';
 import NProgress from 'nprogress';
-import { SWRConfig } from 'swr';
-import axiosBase from '@/utils/axiosBase';
-import { AuthProvider } from '@/context/AuthProvider';
-import { CategoriesProvider } from '@/context/CategoriesProvider';
-import { ThemeProvider } from 'styled-components';
-import { ToastContainer } from 'react-toastify';
-import theme from '../styles/theme';
 import '../styles/styles.css';
 import '../styles/nprogress.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,16 +18,11 @@ Router.events.on('routeChangeError', () => NProgress.done());
 const Noop = ({ children }) => children;
 
 export default function MyApp({ Component, pageProps }) {
-  const Layout = Component.Layout || Noop;
-
-  return (
+    return (
     <>
       <Head>
         <title>Latitud Náutica</title>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         {/* Global Site Tag (gtag.js) - Google Analytics */}
         <script
           async
@@ -85,22 +73,7 @@ export default function MyApp({ Component, pageProps }) {
           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
         />
       </Head>
-      <SWRConfig
-        value={{
-          fetcher: (...args) => axiosBase.get(...args).then((res) => res),
-        }}
-      >
-        <ThemeProvider theme={theme}>
-          <CategoriesProvider>
-            <AuthProvider>
-              <Layout>
-                <ToastContainer />
-                <Component {...pageProps} />
-              </Layout>
-            </AuthProvider>
-          </CategoriesProvider>
-        </ThemeProvider>
-      </SWRConfig>
+      <Component {...pageProps} />
     </>
   );
 }
