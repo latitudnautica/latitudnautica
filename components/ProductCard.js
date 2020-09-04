@@ -62,11 +62,9 @@ const Code = styled.div`
   color: #4a4c58;
 `;
 
-const DetailButton = styled.button``;
 export default function ProductCard(props) {
   const { item } = props;
   const fade = useSpring({ opacity: 1, from: { opacity: 0 } });
-  console.log(item);
   return (
     <ProductCardStyled key={item.id} title={item.id}>
       <animated.div style={fade}>

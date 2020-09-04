@@ -21,18 +21,17 @@ const ListSection = styled.section`
 
 const ProductsPageWrapper = ({ category, categories }) => {
   const [products, setProducts] = useState([]);
+  const Router = useRouter();
 
   useEffect(() => {
     console.log('category', category);
     if (category) setProducts(category.Products);
   }, [category]);
 
-  const Router = useRouter();
-
   useEffect(() => {
     const applyFilter = (scid) => {
       const productsFiltered = category.Products.filter(
-        (item) => item.SubCategoryId === scid
+        (item) => item.SubCategoryId === Number(scid)
       );
       setProducts(productsFiltered);
     };
@@ -59,8 +58,11 @@ const ProductsPageWrapper = ({ category, categories }) => {
 ProductsPageWrapper.Layout = MainLayout;
 
 ProductsPageWrapper.propType = {
-  category: PropTypes.shape({ id: PropTypes.number, name: PropTypes.string })
-    .isRequired,
+  category: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    Products: PropTypes.arrayOf(PropTypes.object),
+  }).isRequired,
   categories: PropTypes.shape({ id: PropTypes.number, name: PropTypes.string })
     .isRequired,
 };
