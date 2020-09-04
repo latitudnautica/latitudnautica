@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -7,11 +8,7 @@ import MainLayout from 'components/layouts/MainLayout';
 import Error from 'next/error';
 import FeaturedProduct from '@/components/FeaturedProducts';
 import CategoriesNavbar from '@/components/CategoriesNavbar';
-import {
-  Container,
-  Divisor,
-  Button,
-} from '@/components/layouts/commonStyledComponents';
+import { Container, Button } from '@/components/layouts/commonStyledComponents';
 
 const ProductStyled = styled.main``;
 
@@ -61,9 +58,10 @@ const ProductInfo = styled.div`
   flex-direction: column;
   flex-basis: 700px;
   flex-shrink: 3;
-
+  margin: 0 2em;
+ 
   div {
-    margin: 5px 0;
+    margin: 1em 0;
   }
   @media (max-width: 640px) {
     text-align: center;
@@ -77,22 +75,26 @@ const Title = styled.h1`
   text-transform: uppercase;
   margin: 0px;
 `;
-const Brand = styled.h3`
+const Brand = styled.h2`
+  font-size: 1.4em;
+
   margin-top: 5px;
 `;
-const Price = styled.h2`
+const Price = styled.h3`
   color: ${({ theme }) => theme.colors.price};
-  margin: 0px 0 20px 0;
+  margin: 10px 0 20px 0;
 `;
-const Description = styled.div``;
+const Description = styled.div`
+  line-height: 1.4em;
+`;
 const Code = styled.div``;
 const Iva = styled.div``;
 
-const Breadcrumbs = styled.div``;
+const Breadcrumbs = styled.div`
+  margin-bottom: 5px;
+`;
 
-const Producto = ({
-  errorCode, product, featuredProducts, categories,
-}) => {
+const Producto = ({ errorCode, product, featuredProducts, categories }) => {
   if (errorCode) <Error statusCode={errorCode} />;
   const Router = useRouter();
 
@@ -115,16 +117,13 @@ const Producto = ({
                     ? process.env.NEXT_PUBLIC_API_URL + product.imagePath
                     : '/images/logo_test.jpg'
                 }
+                alt={product.name}
               />
             </ProductImage>
             <ProductInfo>
               <Title>{product.name}</Title>
               <Brand>{product.brand}</Brand>
-              <Price>
-                {' '}
-                $
-                {product.price}
-              </Price>
+              <Price> $ {product.price}</Price>
               <Description>{product.description}</Description>
               <Code>
                 Código:
@@ -158,10 +157,10 @@ export default Producto;
 export async function getServerSideProps({ params }) {
   const pid = params.product_id;
   const productData = await axiosBase(`/product/detail/${pid}`).then(
-    (res) => res,
+    (res) => res
   );
   const featuredProducts = await axiosBase('/product/featured').then(
-    (res) => res.data,
+    (res) => res.data
   );
   const categories = await axiosBase('/category/all').then((res) => res.data);
   const errorCode = productData.status === 200 ? false : productData.statusCode;
@@ -169,8 +168,10 @@ export async function getServerSideProps({ params }) {
 
   return {
     props: {
-      errorCode, product, featuredProducts, categories,
+      errorCode,
+      product,
+      featuredProducts,
+      categories,
     },
-    // fallback: true,
   };
 }

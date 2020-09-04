@@ -40,6 +40,7 @@ const HomeCarrousel = ({ bannersData }) => {
           <img
             key={e.id}
             src={process.env.NEXT_PUBLIC_API_URL + e.imagePath}
+            alt={e.title}
           />
         ))}
       </Slider>
