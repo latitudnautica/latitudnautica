@@ -22,9 +22,9 @@ const ListSection = styled.section`
 const ProductsPageWrapper = ({ category, categories }) => {
   const [products, setProducts] = useState([]);
   const Router = useRouter();
+  console.log(Router);
 
   useEffect(() => {
-    console.log('category', category);
     if (category) setProducts(category.Products);
   }, [category]);
 
@@ -38,12 +38,15 @@ const ProductsPageWrapper = ({ category, categories }) => {
 
     if (Router.query.scid) {
       applyFilter(Router.query.scid);
+    } else {
+      setProducts(category.Products);
     }
-  }, [Router.query.scid, category]);
+  }, [Router]);
 
   if (Router.isFallback) {
     return <div>cargando...</div>;
   }
+
   return (
     <div>
       <CategoriesNavbar _categories={categories} />
@@ -57,20 +60,21 @@ const ProductsPageWrapper = ({ category, categories }) => {
 
 ProductsPageWrapper.Layout = MainLayout;
 
-ProductsPageWrapper.propType = {
+ProductsPageWrapper.propTypes = {
   category: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
     Products: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
-  categories: PropTypes.shape({ id: PropTypes.number, name: PropTypes.string })
-    .isRequired,
+  categories: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default ProductsPageWrapper;
 
 export async function getStaticPaths() {
-  const categories = await axiosBase('/category/all').then((res) => res.data);
+  const categories = await axiosBase('/category/all?nocache').then(
+    (res) => res.data
+  );
   const paths = categories.map((cat) => ({
     params: { category: cat.name, cid: cat.id.toString() },
   }));
@@ -79,8 +83,10 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const categories = await axiosBase('/category/all').then((res) => res.data);
-  const category = await axiosBase(`/category/${params.cid}`).then(
+  const categories = await axiosBase('/category/all?nocache').then(
+    (res) => res.data
+  );
+  const category = await axiosBase(`/category/${params.cid}?nocache`).then(
     (res) => res.data[0]
   );
   return { props: { category, categories }, revalidate: 1 };
