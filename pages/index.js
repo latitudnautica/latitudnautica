@@ -23,12 +23,11 @@ Index.Layout = MainLayout;
 export default Index;
 
 export async function getStaticProps() {
-  const featuredProducts = await axiosBase('/product/featured').then(
-    (res) => res.data
-  );
-  const banners = await axiosBase('/utils/banners').then((res) => res.data);
-
   const categories = await axiosBase('/category/all').then((res) => res.data);
+  const banners = await axiosBase('/utils/banners').then((res) => res.data);
+  const featuredProducts = await axiosBase('/product/featured').then(
+    (res) => res.data,
+  );
 
   return {
     props: {
