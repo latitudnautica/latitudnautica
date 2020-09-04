@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import Error from 'next/error';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import useSWR, { trigger } from 'swr';
@@ -39,20 +37,7 @@ const InfoSection = styled.div`
   padding: 15px;
 `;
 
-const Select = styled.select`
-  border: none;
-  height: 35px;
-  width: 200px;
-  margin: 0 0 0 25px;
-  padding: 0 15px;
-  font-size: 1.1em;
-
-  option {
-    margin: 5px 0;
-  }
-`;
-
-const EditProduct = (props) => {
+const EditProduct = () => {
   const Router = useRouter();
   const { pid } = Router.query;
 
@@ -63,7 +48,7 @@ const EditProduct = (props) => {
 
   const product = data.data;
 
-  const handleTriggerData = (status) => {
+  const handleTriggerData = () => {
     trigger(`product/cms/${pid}?nocache`);
   };
 

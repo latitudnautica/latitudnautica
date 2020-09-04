@@ -2,12 +2,12 @@ import Axios from 'axios';
 
 const urls = {
   test: 'https://www.demo.latitudnautica.xyz/test',
-  development: 'https://www.api.latitudnautica.xyz/api',
+  development: 'http://localhost:5000/api',
   production: 'https://www.api.latitudnautica.xyz/api',
 };
 
 const axiosBase = Axios.create({
-  baseURL: urls[process.env.environment],
+  baseURL: urls[process.env.NEXT_PUBLIC_ENVIRONMENT],
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',

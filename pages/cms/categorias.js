@@ -1,12 +1,15 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-alert */
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import useSWR, { trigger, mutate } from 'swr';
+import useSWR, { trigger } from 'swr';
 import { toast } from 'react-toastify';
 import { GoTrashcan } from 'react-icons/go';
-import { _delete, _create, _update } from '@/utils/api/services';
-import CmsLayout from '../../components/layouts/CmsLayout';
-import SubCategoryTableItems from '../../components/cms/SubCategoryTableItems';
-import { Button } from '../../components/layouts/Button';
+import { apiDelete, apiCreate, apiUpdate } from '@/utils/api/services';
+import CmsLayout from '@/components/layouts/CmsLayout';
+import SubCategoryTableItems from '@/components/cms/SubCategoryTableItems';
+import { Button } from '@/components/layouts/Button';
 
 const CategoriesStyled = styled.section`
   display: flex;
@@ -53,14 +56,14 @@ const AddItem = styled.div`
   margin-top: 20px;
 `;
 
-const Categories = (props) => {
+const Categories = () => {
   // const [lastDataAdded, setLastDataAdded] = useState(null);
   const [categories, setCategories] = useState([]);
-  const [categoryId, setCategoryId] = useState(null);
+  const [categoryId, setCategoryId] = useState(false);
   const [categorySelected, setCategorySelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { data, error } = useSWR('/category/all?nocache');
-  if (error) console.log(error);
+  if (error) console.error(error);
 
   useEffect(() => {
     if (data) {
@@ -70,7 +73,7 @@ const Categories = (props) => {
 
   useEffect(() => {
     if (categoryId && categories.length > 0) {
-      const cat = categories.filter((c) => c.id == categoryId)[0];
+      const cat = categories.filter((c) => c.id === Number(categoryId))[0];
       setCategorySelected(cat);
     } else {
       setCategorySelected(false);
@@ -79,40 +82,16 @@ const Categories = (props) => {
 
   const handleCategorySelector = (e) => {
     const { cid } = e.target.dataset;
-    if (cid != 0) {
-      setCategoryId(cid);
-    } else {
-      setCategoryId(null);
-    }
-  };
-
-  const handleUpdateSubCategory = (e) => {
-    const subCatId = e.target.dataset.id;
-    const newName = enterName('Ingresa el nuevo nombre ');
-
-    _update(subCatId, newName, '/category/subcategory')
-      .then((res) => {
-        toast.success('categoría Actualizada');
-        setIsLoading(false);
-        trigger('/category/all');
-      })
-      .catch((err) => {
-        console.log(err.response);
-        setIsLoading(false);
-        toast.error(
-          `Algo no funciono como se esperaba... [ ${err.response.data.message} ]`,
-        );
-      });
+    setCategoryId(cid);
   };
 
   const enterName = (text) => {
     const valueEntered = prompt(text);
-    if (valueEntered == '' || valueEntered === null) {
-      console.log('prompt canceled');
+    if (valueEntered === '' || valueEntered === null) {
       setIsLoading(false);
       return null;
     }
-    if (valueEntered.match(/[a-z0-9.,_\-\s\/]/)) {
+    if (valueEntered.match(/[a-z0-9.,_\-\s/]/)) {
       return valueEntered.toLowerCase();
     }
     setIsLoading(false);
@@ -122,27 +101,45 @@ const Categories = (props) => {
     return null;
   };
 
-  const handleAddCat = (e) => {
+  const handleUpdateSubCategory = (e) => {
+    const subCatId = e.target.dataset.id;
+    const newName = enterName('Ingresa el nuevo nombre ');
+
+    apiUpdate(subCatId, newName, '/category/subcategory')
+      .then(() => {
+        toast.success('categoría Actualizada');
+        setIsLoading(false);
+        trigger('/category/all?nocache');
+      })
+      .catch((err) => {
+        console.error(err.response);
+        setIsLoading(false);
+        toast.error(
+          `Algo no funciono como se esperaba... [ ${err.response.data.message} ]`,
+        );
+      });
+  };
+
+  const handleAddCat = () => {
     setIsLoading(true);
-    const newCategory = enterName('Ingresa una nueva Categoría');
+    const newCategory = enterName('Ingresa el nombre de la nueva Categoría');
     if (newCategory == null) return;
     const payload = { name: newCategory.toLowerCase() };
 
-    _create(payload, 'category')
-      .then((res) => {
-        console.log(res);
+    apiCreate(payload, 'category')
+      .then(() => {
         trigger('/category/all?nocache');
         setIsLoading(false);
         toast.success('Categoría Creada');
       })
       .catch((err) => {
         setIsLoading(false);
-        console.log(err.response);
+        console.error(err.response);
         toast.error(`Error,  ${err.response.data.message}`);
       });
   };
 
-  const handleAddSubCat = (e) => {
+  const handleAddSubCat = () => {
     setIsLoading(true);
     const newSubCategory = enterName(
       `Ingresa una nueva SubCategoría dentro de categoría ${categorySelected.name}`,
@@ -150,16 +147,15 @@ const Categories = (props) => {
     if (newSubCategory == null) return;
 
     const payload = { name: newSubCategory, categoryId: categorySelected.id };
-    _create(payload, 'subcategory')
-      .then((res) => {
-        console.log(res);
+    apiCreate(payload, 'subcategory')
+      .then(() => {
         trigger('/category/all?nocache');
         setIsLoading(false);
         toast.success('subCategoría Creada');
       })
       .catch((err) => {
         setIsLoading(false);
-        console.log(err.response);
+        console.error(err.response);
         toast.error(`Error,  ${err.response.data.message}`);
       });
   };
@@ -167,44 +163,45 @@ const Categories = (props) => {
   const handleDeleteCategory = (e) => {
     const { cid } = e.target.dataset;
 
-    // check if category is empty to be deleted
-    const categoryCanBeDeleted = !(categorySelected.id == cid && categorySelected.SubCategories.length > 0);
-
-    if (!categoryCanBeDeleted) {
+    if (categorySelected.SubCategories.length === 0) {
+      const userAccept = confirm(
+        `Seguro que quieres borrar la categoría ${cid}`,
+      );
+      if (userAccept) {
+        apiDelete(cid, '/category/category')
+          .then(() => {
+            toast.success('recurso eliminado');
+            trigger('/category/all?nocache');
+          })
+          .catch((err) => {
+            console.error(err.response);
+            toast.error(`Error! ${err.response.data.message}`);
+          });
+      }
+    } else {
       toast.info(
         'Debes eliminar todas las Sub Categorías antes de poder eliminar la categoría',
       );
-      return;
     }
-    const _confirm = confirm(`Seguro que quieres borrar la categoría ${cid}`);
-
-    _confirm === true
-      && categoryCanBeDeleted
-      && _delete(cid, '/category/category')
-        .then((res) => {
-          toast.success('recurso eliminado');
-          trigger('/category/all?nocache');
-        })
-        .catch((err) => {
-          console.log(err.response);
-          toast.error(`Error! ${err.response.data.message}`);
-        });
   };
 
   const handleDeleteSubCategory = (e) => {
     const { scid } = e.target.dataset;
-    const _confirm = confirm(`Seguro que quieres borrar la categoría ${scid}`);
+    const userAccept = confirm(
+      `Seguro que quieres borrar la categoría ${scid}`,
+    );
 
-    _confirm === true
-      && _delete(scid, '/category/subcategory')
-        .then((res) => {
+    if (userAccept) {
+      apiDelete(scid, '/category/subcategory')
+        .then(() => {
           toast.success('recurso eliminado');
           trigger('/category/all?nocache');
         })
         .catch((err) => {
-          console.log(err.response);
+          console.error(err.response);
           toast.error(`Error! ${err.response.data.message}`);
         });
+    }
   };
 
   if (!data) return <div> ...Cargando </div>;
@@ -218,7 +215,11 @@ const Categories = (props) => {
         <ListItems>
           {categories.map((cat) => (
             <Item key={cat.id}>
-              <div data-cid={Number(cat.id)} onClick={handleCategorySelector}>
+              <div
+                data-cid={Number(cat.id)}
+                onClick={handleCategorySelector}
+                aria-hidden="true"
+              >
                 {cat.name}
               </div>
             </Item>
@@ -251,7 +252,6 @@ const Categories = (props) => {
                 >
                   <GoTrashcan />
                   Eliminar Categoría
-                  {' '}
                   {categorySelected.name}
                 </Button>
               </div>

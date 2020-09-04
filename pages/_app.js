@@ -1,11 +1,12 @@
+/* eslint-disable import/no-unresolved */
 // /pages/_app.tsx
 import Head from 'next/head';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import { SWRConfig } from 'swr';
-import axiosBase from 'utils/axiosBase';
-import { AuthProvider } from 'context/AuthProvider';
-import { CategoriesProvider } from 'context/CategoriesProvider';
+import axiosBase from '@/utils/axiosBase';
+import { AuthProvider } from '@/context/AuthProvider';
+import { CategoriesProvider } from '@/context/CategoriesProvider';
 import { ThemeProvider } from 'styled-components';
 import { ToastContainer } from 'react-toastify';
 import theme from '../styles/theme';
@@ -15,7 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { GA_TRACKING_ID } from '../utils/gtag';
 
-Router.events.on('routeChangeStart', (url) => {
+Router.events.on('routeChangeStart', () => {
   NProgress.start();
 });
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -40,6 +41,7 @@ export default function MyApp({ Component, pageProps }) {
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
         />
         <script
+          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
             __html: [
               `

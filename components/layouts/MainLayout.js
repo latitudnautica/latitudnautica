@@ -3,8 +3,9 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 const Container = styled.main`
+  border: 3px solid red;
   position: relative;
-  min-height: 100vh;
+  min-height: 80vh;
   margin: auto 0px;
 `;
 

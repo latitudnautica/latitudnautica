@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import axiosbase from 'utils/axiosBase';
 import useSWR, { trigger } from 'swr';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
-import { Button } from 'components/layouts/Button';
-import CmsLayout from 'components/layouts/CmsLayout';
 import { toast } from 'react-toastify';
 import { TiTickOutline, TiDelete } from 'react-icons/ti';
+
+import { Button } from '@/components/layouts/Button';
+import CmsLayout from '@/components/layouts/CmsLayout';
+import axiosbase from '@/utils/axiosBase';
 import { PageTitleH1 } from '@/components/layouts/commonStyledComponents';
 
 const Select = styled.select`
@@ -82,10 +83,7 @@ const Editar = ({ categories }) => {
   const [catSelected, setCatSelected] = useState(1);
   const [categoryData, setCategoryData] = useState(false);
 
-  const { data, error } = useSWR(`/category/${catSelected}`);
-
-  if (data == 'undefined') return <div>Cargando</div>;
-  if (error) return <div>algo salio mal</div>;
+  const { data, error } = useSWR(`/category/${catSelected}?nocache`);
 
   useEffect(() => {
     if (data) {
@@ -93,38 +91,35 @@ const Editar = ({ categories }) => {
     }
   }, [data]);
 
+  if (data === 'undefined') return <div>Cargando</div>;
+  if (error) return <div>algo salio mal</div>;
   const handleCategorySelector = (e) => {
     const id = e.target.value;
     setCatSelected(id);
-    trigger(`/category/${catSelected}`);
+    trigger(`/category/${catSelected}?nocache`);
   };
 
   const handleDeleteProduct = (e) => {
-    console.log('delete product clicked');
     const { pid } = e.target.dataset;
     axiosbase
       .delete(`/product/${pid}`, {
         headers: { Authorization: `Bearer ${Cookies.get('token')}` },
       })
       .then((res) => {
-        console.log('deleted', res);
-        trigger(`/category/${catSelected}`);
+        trigger(`/category/${catSelected}?nocache`);
         toast.success(' Producto Eliminado');
       })
       .catch((err) => {
-        console.log(err.response);
+        console.error(err.response);
       });
   };
 
   const getSubCategoryName = (scid) => {
-    if (categoryData.SubCategories.length == 0) {
+    if (categoryData.SubCategories.length === 0) {
       return 'no name';
     }
 
-    const subCategory = categoryData.SubCategories.find((subCat) => {
-      console.log(subCat);
-      return subCat.id == scid;
-    });
+    const subCategory = categoryData.SubCategories.find((subCat) => subCat.id == scid);
 
     if (subCategory == undefined) {
       return 'ATENCIÓN: sub categoría perdida';
@@ -132,7 +127,6 @@ const Editar = ({ categories }) => {
     return subCategory.name;
   };
 
-  console.log(categoryData);
   return (
     <CmsLayout>
       <PageTitleH1>EDITAR</PageTitleH1>
@@ -224,10 +218,7 @@ const Editar = ({ categories }) => {
                           <Button>Editar</Button>
                         </a>
                       </Link>
-                      <Button
-                        data-pid={prod.id}
-                        onClick={handleDeleteProduct}
-                      >
+                      <Button data-pid={prod.id} onClick={handleDeleteProduct}>
                         Borrar
                       </Button>
                     </td>

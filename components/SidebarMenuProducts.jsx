@@ -1,9 +1,12 @@
-import { useState, useEffect } from "react";
-import styled from "styled-components";
-import Link from "next/link";
-import { useSpring, animated } from "react-spring";
-import useWindowSize from "hooks/useWindowSize";
-import { Button } from "./layouts/Button";
+/* eslint-disable no-unused-expressions */
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import Link from 'next/link';
+import PropTypes from 'prop-types';
+import { useSpring, animated } from 'react-spring';
+// eslint-disable-next-line import/no-unresolved
+import useWindowSize from '@/hooks/useWindowSize';
+import { Button } from './layouts/Button';
 
 const SidebarMenuProductsStyled = styled.div`
   min-width: 200px;
@@ -45,6 +48,7 @@ const SidebarMenuProducts = ({ category }) => {
   const { width } = useWindowSize();
 
   useEffect(() => {
+    // eslint-disable-next-line no-unused-expressions
     width >= 769 && setShowMenu(true);
     width <= 768 && setShowMenu(false);
   }, [width]);
@@ -54,7 +58,7 @@ const SidebarMenuProducts = ({ category }) => {
   };
 
   const menuAppear = useSpring({
-    transform: showMenu ? "translate3D(0,0,0)" : "translate3D(0,-30px,0)",
+    transform: showMenu ? 'translate3D(0,0,0)' : 'translate3D(0,-30px,0)',
     opacity: showMenu ? 1 : 0,
   });
 
@@ -62,13 +66,13 @@ const SidebarMenuProducts = ({ category }) => {
     <SidebarMenuProductsStyled>
       {width <= 768 && (
         <ShowMenuButton onClick={handleShowMenu}>
-          {`${showMenu ? "Ocultar" : "Mostrar"} Sub Categorías`}
+          {`${showMenu ? 'Ocultar' : 'Mostrar'} Sub Categorías`}
         </ShowMenuButton>
       )}
       <animated.div style={menuAppear}>
         <ItemsWrapper>
-          {showMenu &&
-            (category && category.SubCategories.length > 0 ? (
+          {showMenu
+            && (category && category.SubCategories.length > 0 ? (
               category.SubCategories.map((sCat) => (
                 <Link
                   key={sCat.id}
@@ -88,6 +92,14 @@ const SidebarMenuProducts = ({ category }) => {
       </animated.div>
     </SidebarMenuProductsStyled>
   );
+};
+
+SidebarMenuProducts.propTypes = {
+  category: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string.isRequired,
+    SubCategories: PropTypes.arrayOf(PropTypes.object),
+  }).isRequired,
 };
 
 export default SidebarMenuProducts;

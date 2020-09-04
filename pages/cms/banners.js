@@ -1,8 +1,10 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import useSWR, { trigger, mutate } from 'swr';
+import useSWR, { trigger } from 'swr';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
+// eslint-disable-next-line import/no-unresolved
 import { PageTitleH1 } from '@/components/layouts/commonStyledComponents';
 import axiosBase from '../../utils/axiosBase';
 import CmsLayout from '../../components/layouts/CmsLayout';
@@ -63,7 +65,7 @@ const Banners = () => {
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0); // progress bar
   const inputTitle = useRef();
-  const { data } = useSWR('/utils/banners?nocache', { refreshInterval: 2000 });
+  const { data } = useSWR('/utils/banners?nocache');
 
   useEffect(() => {
     if (data) {
@@ -76,16 +78,11 @@ const Banners = () => {
       .delete(`/utils/banner/${bid}`, {
         headers: { Authorization: `Bearer ${Cookies.get('token')}` },
       })
-      .then((res) => {
-        console.log(res);
-        // const bannersCleaned = banners.filter(
-        //   (item) => item.id != res.data.bannerId
-        // );
-        // setBanners(bannersCleaned || []);
+      .then(() => {
         toast.success('Banner eliminado ');
-        mutate('/utils/banners');
+        trigger('/utils/banners?nocache');
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   };
 
   const uploadFile = async (e) => {
@@ -110,26 +107,19 @@ const Banners = () => {
         Authorization: `Bearer ${Cookies.get('token')}`,
       },
       onUploadProgress: (ProgressEvent) => {
-        const progress = Math.round(
+        const progressValue = Math.round(
           (ProgressEvent.loaded / ProgressEvent.total) * 100,
         );
-        setProgress(progress);
+        setProgress(progressValue);
       },
     })
-      .then((res) => {
-        console.log(res);
-        // const newBanner = res.data.data;
-
-        // setBanners((ban) => {
-        //   return [...ban, newBanner];
-        // });
-
+      .then(() => {
         toast.success('Banner Cargado');
-        mutate('/utils/banners');
+        trigger('/utils/banners?nocache');
       })
       .catch((err) => {
         toast.error('Selecciona una imagen');
-        console.log(err, err.response);
+        console.error(err, err.response);
       });
   };
   return (
@@ -145,12 +135,19 @@ const Banners = () => {
           </p>
         </h4>
         <Form>
-          <label>Titulo de la imagen</label>
-          <input ref={inputTitle} type="text" name="title" required />
-          <label>Banner</label>
+          <label htmlFor="title">Titulo de la imagen</label>
+          <input
+            ref={inputTitle}
+            type="text"
+            id="title"
+            name="title"
+            required
+          />
+          <label htmlFor="file">Banner</label>
           <input
             type="file"
             name="file"
+            id="file"
             required
             onChange={(e) => {
               setFile(e.target.files[0]);
@@ -175,9 +172,10 @@ const Banners = () => {
             <BannersListItem key={e.id}>
               <img
                 src={
-                    process.env.NEXT_PUBLIC_API_URL + e.imagePath
-                    || 'images/logo.png'
-                  }
+                  process.env.NEXT_PUBLIC_API_URL + e.imagePath
+                  || 'images/logo.png'
+                }
+                alt={e.title}
               />
               <div>
                 <div>

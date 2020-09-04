@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import { Container } from '@/components/layouts/commonStyledComponents';
 
 const FooterStyled = styled.footer`
   position: relative;
-  /* background-color: ${({ theme }) => theme.colors.background}; */
-  display: flex;
+ 
+  text-align: center;
   bottom: 1px;
   padding: 2em;
 
@@ -17,10 +16,9 @@ const FooterStyled = styled.footer`
 const Footer = () => (
   <>
     <FooterStyled>
-      <Container>
-        <div>Latitud Náutica</div>
-        <div>+ de 1000 Productos y artículos para el mundo náutico</div>
-      </Container>
+      <div>Latitud Náutica</div>
+      <div> Productos y Artículos para el Mundo Náutico</div>
+      <div>Copyright 2020 Latitud Náutica  </div>
     </FooterStyled>
   </>
 );

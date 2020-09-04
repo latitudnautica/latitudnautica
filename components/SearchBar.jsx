@@ -44,22 +44,22 @@ const SearchBarStyled = styled.div`
   }
 `;
 
-const SearchButton = styled.div`
-  display: none;
-  margin-right: 10px;
+// const SearchButton = styled.div`
+//   display: none;
+//   margin-right: 10px;
 
-  span {
-    position: relative;
-    left: 45px;
-    font-size: 2.5em;
-    color: ${({ theme }) => theme.colors.charcoal};
-  }
+//   span {
+//     position: relative;
+//     left: 45px;
+//     font-size: 2.5em;
+//     color: ${({ theme }) => theme.colors.charcoal};
+//   }
 
-  @media (max-width: 470px) {
-    display: block;
-    flex: 1;
-  }
-`;
+//   @media (max-width: 470px) {
+//     display: block;
+//     flex: 1;
+//   }
+// `;
 
 const SearchBar = () => {
   const [searchValue, setSearchValue] = useState(false);

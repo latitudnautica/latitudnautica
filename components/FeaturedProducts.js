@@ -1,13 +1,17 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Slider from 'react-slick';
 import PropTypes from 'prop-types';
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+// eslint-disable-next-line import/no-unresolved
 import onImageError from '@/utils/onImageError';
 
 const FeaturedProductosWrapper = styled.section`
-  margin: 2em 0;
-  h4 {
+  margin: 2em 3em;
+
+  h3 {
     text-align: center;
     margin: 10px;
   }
@@ -35,15 +39,38 @@ const ItemCarrouselWrapper = styled.div`
   }
 `;
 
-const ItemPlaceholder = styled.div`
-  height: 250px;
-  background: #eee;
+// const ItemPlaceholder = styled.div`
+//   height: 250px;
+//   background: #eee;
+// `;
+
+const Arrow = styled.div`
+  color: red;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  font-size: 1em;
+  z-index: 99;
+
+  :before {
+    font-size: 2.5em !important;
+    color: black;
+  }
 `;
 
+const NextArrow = styled(Arrow)`
+  :before {
+    content: ${FaAngleRight};
+  }
+`;
+const PrevArrow = styled(Arrow)`
+  :before {
+    content: ${FaAngleRight};
+  }
+`;
 const FeaturedProducts = ({ featuredProducts }) => {
   const [products, setProducts] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     if (featuredProducts) {
       setProducts(featuredProducts);
@@ -52,24 +79,33 @@ const FeaturedProducts = ({ featuredProducts }) => {
   }, [featuredProducts]);
 
   const settings = {
-    dots: false,
+    dots: true,
     infinite: true,
-    speed: 500,
-    slidesToShow: 6,
+    speed: 800,
+    slidesToShow: 8,
     slidesToScroll: 1,
     variableWidth: false,
-    centerMode: true,
+    centerMode: false,
     arrows: true,
     autoplay: true,
-    autoplaySpeed: 4000,
+    autoplaySpeed: 3000,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
           slidesToShow: 6,
-          slidesToScroll: 4,
-          infinite: false,
-          dots: true,
+          slidesToScroll: 1,
+          arrows: true,
+        },
+      },
+      {
+        breakpoint: 800,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 2,
+          arrows: true,
         },
       },
       {
@@ -77,7 +113,7 @@ const FeaturedProducts = ({ featuredProducts }) => {
         settings: {
           slidesToShow: 4,
           slidesToScroll: 2,
-          initialSlide: 2,
+          arrows: true,
         },
       },
       {
@@ -85,6 +121,7 @@ const FeaturedProducts = ({ featuredProducts }) => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
+          arrows: true,
         },
       },
     ],
@@ -92,7 +129,7 @@ const FeaturedProducts = ({ featuredProducts }) => {
 
   return (
     <FeaturedProductosWrapper>
-      <h4>Productos Destacados</h4>
+      <h3>Productos Destacados</h3>
       <Slider {...settings}>
         {isLoading
           ? []
@@ -118,7 +155,13 @@ const FeaturedProducts = ({ featuredProducts }) => {
 };
 
 FeaturedProducts.propTypes = {
-  featuredProducts: PropTypes.array,
+  featuredProducts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequried,
+      name: PropTypes.string.isRequried,
+      imagePath: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
 export default FeaturedProducts;

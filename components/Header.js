@@ -7,7 +7,7 @@ import {
   RiPhoneLine,
   RiMailSendLine,
 } from 'react-icons/ri';
-import { contactData } from '@/utils/contactData';
+import contactData from '@/utils/contactData';
 import Menu from './Menu';
 import SearchBar from './SearchBar';
 
@@ -142,6 +142,7 @@ export default function Header() {
               <a
                 href={`https://wa.me/${contactData.celularPhone.number}`}
                 target="_blank"
+                rel="noreferrer"
               >
                 <RiPhoneLine />
                 {contactData.celularPhone.display}
@@ -155,12 +156,13 @@ export default function Header() {
               </a>
             </ContactDetail>
             <SocialIcons>
-              <a href={contactData.facebook} target="_blank">
+              <a href={contactData.facebook} target="_blank" rel="noreferrer">
                 <RiFacebookCircleLine />
               </a>
               <a
                 href={`https://wa.me/${contactData.celularPhone.number}`}
                 target="_blank"
+                rel="noreferrer"
               >
                 <RiWhatsappLine />
               </a>

@@ -1,9 +1,11 @@
+/* eslint-disable import/no-unresolved */
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import axiosBase from '@/utils/axiosBase';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import axiosBase from '@/utils/axiosBase';
 import MainLayout from '@/components/layouts/MainLayout';
-import SidebarMenuProducts from 'components/SidebarMenuProducts';
+import SidebarMenuProducts from '@/components/SidebarMenuProducts';
 import ListProducts from '@/components/ListProducts';
 import CategoriesNavbar from '@/components/CategoriesNavbar';
 
@@ -17,32 +19,32 @@ const ListSection = styled.section`
   }
 `;
 
-const ProductsPageWrapper = ({ data, categories }) => {
+const ProductsPageWrapper = ({ category, categories }) => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    console.log('category', category);
+    if (category) setProducts(category.Products);
+  }, [category]);
+
   const Router = useRouter();
+
+  useEffect(() => {
+    const applyFilter = (scid) => {
+      const productsFiltered = category.Products.filter(
+        (item) => item.SubCategoryId === scid
+      );
+      setProducts(productsFiltered);
+    };
+
+    if (Router.query.scid) {
+      applyFilter(Router.query.scid);
+    }
+  }, [Router.query.scid, category]);
 
   if (Router.isFallback) {
     return <div>cargando...</div>;
   }
-
-  const category = data[0];
-  const [products, setProducts] = useState([]);
-  const { query } = Router;
-
-  const applyFilter = (scid) => {
-    const productsFiltered = category.Products.filter((item) => item.SubCategoryId == scid);
-    setProducts(productsFiltered);
-  };
-
-  useEffect(() => {
-    setProducts(category.Products);
-  }, [data]);
-
-  useEffect(() => {
-    if (Router.query.scid) {
-      applyFilter(Router.query.scid);
-    }
-  }, [query]);
-
   return (
     <div>
       <CategoriesNavbar _categories={categories} />
@@ -55,6 +57,13 @@ const ProductsPageWrapper = ({ data, categories }) => {
 };
 
 ProductsPageWrapper.Layout = MainLayout;
+
+ProductsPageWrapper.propType = {
+  category: PropTypes.shape({ id: PropTypes.number, name: PropTypes.string })
+    .isRequired,
+  categories: PropTypes.shape({ id: PropTypes.number, name: PropTypes.string })
+    .isRequired,
+};
 
 export default ProductsPageWrapper;
 
@@ -69,9 +78,8 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const categories = await axiosBase('/category/all').then((res) => res.data);
-  const data = await axiosBase(`/category/${params.cid}`).then(
-    (res) => res.data,
+  const category = await axiosBase(`/category/${params.cid}`).then(
+    (res) => res.data[0]
   );
-
-  return { props: { data, categories }, revalidate: 1 };
+  return { props: { category, categories }, revalidate: 1 };
 }
