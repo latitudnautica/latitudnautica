@@ -30,7 +30,7 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>Latitud Náutica</title>
+        <title>Latitud Náutica - </title>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0"
