@@ -9,23 +9,25 @@ export default function Home() {
   });
 
   return (
-    <div className='container'>
+    <div className="container">
       <Head>
         <title>LATITUD NÁUTICA</title>
-        <link rel='icon' href='/favicon.ico' />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
         <animated.div style={move}>
-          <h1 className='title'>
-            Bienvenido a <br />
-            <a href='https://www.facebook.com/profile.php?id=100004283867132'>
+          <h1 className="title">
+            Bienvenido a
+            {' '}
+            <br />
+            <a href="https://www.facebook.com/profile.php?id=100004283867132">
               LATITUD NÁUTICA
             </a>
           </h1>
         </animated.div>
         <animated.div style={props}>
-          <div className='text'>estamos creando nuestra página web</div>
+          <div className="text">estamos creando nuestra página web</div>
         </animated.div>
       </main>
 
