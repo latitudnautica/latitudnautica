@@ -72,6 +72,7 @@ export default function MyApp({ Component, pageProps }) {
           sizes="16x16"
           href="/images/favicon/favicon-16x16.png"
         />
+        <link rel="manifest" href="/site.webmanifest" />
         <link
           rel="stylesheet"
           type="text/css"
