@@ -1,11 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,700;1,400&family=Roboto&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,200;0,400;0,700;1,400;1,700&display=swap");
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 @font-face {
   font-family: "Neucha";
   src: url("../utils/fonts/Neucha/Neucha-Regular.ttf");
@@ -14,6 +8,12 @@
   font-family: "permanent_market";
   src: url("../utils/fonts/Permanent_Marker/PermanentMarker-Regular.ttf");
 }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 /* * {
   outline: 1px solid red;
 } */

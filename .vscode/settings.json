@@ -1,32 +1,33 @@
 {
-    "cSpell.language": "es,en",
-    "cSpell.enableFiletypes": [
-        "!c",
-        "!csharp",
-        "!go",
-        "!handlebars",
-        "!haskell",
-        "!java",
-        "!latex",
-        "!pug",
-        "!python",
-        "!rust",
-        "!scala",
-        "!yaml",
-        "!yml",
-        "log",
-        "properties",
-        "source.css.styled"
-    ],
-    "cSpell.words": [
-        "Formik",
-        "Page",
-        "Selected",
-        "Sidebar",
-        "axiosbase",
-        "filtered",
-        "noreferrer",
-        "scid",
-        "toastify"
-    ]
+  "files.eol": "\n",
+  "cSpell.language": "es,en",
+  "cSpell.enableFiletypes": [
+    "!c",
+    "!csharp",
+    "!go",
+    "!handlebars",
+    "!haskell",
+    "!java",
+    "!latex",
+    "!pug",
+    "!python",
+    "!rust",
+    "!scala",
+    "!yaml",
+    "!yml",
+    "log",
+    "properties",
+    "source.css.styled"
+  ],
+  "cSpell.words": [
+    "Formik",
+    "Page",
+    "Selected",
+    "Sidebar",
+    "axiosbase",
+    "filtered",
+    "noreferrer",
+    "scid",
+    "toastify"
+  ]
 }

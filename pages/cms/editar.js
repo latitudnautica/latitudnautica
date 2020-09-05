@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import React, { useState, useEffect } from 'react';
 import useSWR, { trigger } from 'swr';
 import styled from 'styled-components';
@@ -8,7 +9,7 @@ import { TiTickOutline, TiDelete } from 'react-icons/ti';
 
 import { Button } from '@/components/layouts/Button';
 import CmsLayout from '@/components/layouts/CmsLayout';
-import axiosbase from '@/utils/axiosBase';
+import axiosBase from '@/utils/axiosBase';
 import { PageTitleH1 } from '@/components/layouts/commonStyledComponents';
 
 const Select = styled.select`
@@ -93,6 +94,7 @@ const Editar = ({ categories }) => {
 
   if (data === 'undefined') return <div>Cargando</div>;
   if (error) return <div>algo salio mal</div>;
+  
   const handleCategorySelector = (e) => {
     const id = e.target.value;
     setCatSelected(id);
@@ -101,7 +103,7 @@ const Editar = ({ categories }) => {
 
   const handleDeleteProduct = (e) => {
     const { pid } = e.target.dataset;
-    axiosbase
+    axiosBase
       .delete(`/product/${pid}`, {
         headers: { Authorization: `Bearer ${Cookies.get('token')}` },
       })
@@ -119,7 +121,9 @@ const Editar = ({ categories }) => {
       return 'no name';
     }
 
-    const subCategory = categoryData.SubCategories.find((subCat) => subCat.id == scid);
+    const subCategory = categoryData.SubCategories.find(
+      (subCat) => subCat.id == scid
+    );
 
     if (subCategory == undefined) {
       return 'ATENCIÓN: sub categoría perdida';
@@ -190,8 +194,8 @@ const Editar = ({ categories }) => {
               </tr>
             </thead>
             <tbody>
-              {categoryData.Products.length > 0
-                && categoryData.Products.map((prod) => (
+              {categoryData.Products.length > 0 &&
+                categoryData.Products.map((prod) => (
                   <tr key={prod.id}>
                     <td>{prod.id}</td>
                     <td>{prod.name}</td>
@@ -211,7 +215,7 @@ const Editar = ({ categories }) => {
                     </td>
                     <td>
                       <Link
-                        href="/cms/editar_producto/[pid]"
+                        href='/cms/editar_producto/[pid]'
                         as={`/cms/editar_producto/${prod.id}`}
                       >
                         <a>
@@ -234,12 +238,11 @@ const Editar = ({ categories }) => {
 
 export default Editar;
 
-export async function getServerSideProps(context) {
-  const fetchCategories = await axiosbase('/category/all')
-    .then((res) => res)
-    .catch((err) => console.log(err));
+export async function getServerSideProps() {
+  const categories = await axiosBase('/category/all?nocache').then(
+    (res) => res.data
+  );
 
-  const categories = fetchCategories.data;
   return {
     props: { categories }, // will be passed to the page component as props
   };
