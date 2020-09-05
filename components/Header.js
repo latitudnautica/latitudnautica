@@ -1,12 +1,8 @@
-import { useState } from 'react';
+/* eslint-disable import/no-unresolved */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import styled from 'styled-components';
 import Link from 'next/link';
-import {
-  RiWhatsappLine,
-  RiFacebookCircleLine,
-  RiPhoneLine,
-  RiMailSendLine,
-} from 'react-icons/ri';
+import { FaWhatsapp, FaEnvelope, FaFacebook } from 'react-icons/fa';
 import contactData from '@/utils/contactData';
 import Menu from './Menu';
 import SearchBar from './SearchBar';
@@ -17,7 +13,7 @@ const HeaderStyled = styled.header`
 `;
 
 const ContentWrapper = styled.div`
-  margin-left: 100px;
+  margin-left: 75px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -25,12 +21,13 @@ const ContentWrapper = styled.div`
 `;
 
 const HeaderLogo = styled.div`
-  padding: 10px 2em;
+  padding: 1em 2em;
   text-align: center;
   flex: 1;
 
   img {
     width: 100%;
+    max-width: fit-content;
   }
 
   @media (max-width: 768px) {
@@ -93,14 +90,8 @@ const ContactDetail = styled.div`
 `;
 
 const SocialIcons = styled(ContactDetail)`
-  font-size: 2em;
   a {
-    margin: 0 5px;
-    color: ${({ theme }) => theme.colors.primary};
-
-    :hover {
-      color: ${({ theme }) => theme.colors.backgroundHover};
-    }
+    margin: 0 8px;    
   }
 
   @media (max-width: 768px) {
@@ -108,15 +99,53 @@ const SocialIcons = styled(ContactDetail)`
     position: absolute;
     right: 10px;
     top: 8px;
+    font-size: 10px;
     a {
-      margin: 0;
+      margin: 2px;
     }
   }
+
   @media (max-width: 470px) {
     flex-direction: row;
     position: relative;
     top: 0;
     right: 0;
+  }
+`;
+
+const EmailIcon = styled.a`
+  color: ${({ theme }) => theme.colors.envelope};
+  font-size: 2.5em;
+  max-width: 40px;
+  transition: all 200ms ease-in;
+
+  :hover {
+    color: ${({ theme }) => theme.colors.envelope_hover};
+    transform: scale(1.1);
+  }
+`;
+
+const WhatsappIcon = styled.a`
+  color: ${({ theme }) => theme.colors.whatsapp};
+  font-size: 2.5em;
+  max-width: 40px;
+  transition: all 200ms ease-in;
+
+  :hover {
+    color: ${({ theme }) => theme.colors.whatsapp_hover};
+    transform: scale(1.1);
+  }
+`;
+
+const FacebookIcon = styled.a`
+  color: ${({ theme }) => theme.colors.facebook};
+  font-size: 2.5em;
+  max-width: 40px;
+  transition: all 200ms ease-in;
+
+  :hover {
+    color: ${({ theme }) => theme.colors.facebook_hover};
+    transform: scale(1.1);
   }
 `;
 
@@ -128,9 +157,9 @@ export default function Header() {
         <Menu />
         {/* </div> */}
         <HeaderLogo>
-          <Link href="/">
+          <Link href='/'>
             <a>
-              <img src="/images/logo_full.png" />
+              <img src='/images/logo_full.png' alt='Logo de latitud náutica' />
             </a>
           </Link>
         </HeaderLogo>
@@ -141,34 +170,33 @@ export default function Header() {
             <ContactDetail>
               <a
                 href={`https://wa.me/${contactData.celularPhone.number}`}
-                target="_blank"
-                rel="noreferrer"
+                target='_blank'
+                rel='noreferrer'
               >
-                <RiPhoneLine />
                 {contactData.celularPhone.display}
               </a>
             </ContactDetail>
             <ContactDetail>
-              <a href={`mailto:${contactData.email}`}>
-                <RiMailSendLine />
-                {' '}
-                {contactData.email}
-              </a>
+              <a href={`mailto:${contactData.email}`}>{contactData.email}</a>
             </ContactDetail>
             <SocialIcons>
-              <a href={contactData.facebook} target="_blank" rel="noreferrer">
-                <RiFacebookCircleLine />
-              </a>
-              <a
-                href={`https://wa.me/${contactData.celularPhone.number}`}
-                target="_blank"
-                rel="noreferrer"
+              <FacebookIcon
+                href={contactData.facebook}
+                target='_blank'
+                rel='noreferrer'
               >
-                <RiWhatsappLine />
-              </a>
-              <a href={`mailto:${contactData.email}`}>
-                <RiMailSendLine />
-              </a>
+                <FaFacebook />
+              </FacebookIcon>
+              <WhatsappIcon
+                href={`https://wa.me/${contactData.celularPhone.number}`}
+                target='_blank'
+                rel='noreferrer'
+              >
+                <FaWhatsapp />
+              </WhatsappIcon>
+              <EmailIcon href={`mailto:${contactData.email}`}>
+                <FaEnvelope />
+              </EmailIcon>
             </SocialIcons>
           </ContactDetailsWrapper>
         </ResponsiveWrapper>

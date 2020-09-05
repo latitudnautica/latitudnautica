@@ -15,6 +15,12 @@ const colors = {
   raisinBlack: '#25171A',
   lightBlack: '#F5F5F5',
   border: '#edf2f7',
+  whatsapp: '#25d366',
+  whatsapp_hover: '#128c7e',
+  facebook: '#3b5998',
+  facebook_hover: '#264689',
+  envelope: '#e06140',
+  envelope_hover: '#ac2a09',
 };
 
 const input = {
@@ -42,6 +48,7 @@ const menu = {
   burgerBackground: colors.primary,
   burgerBackgroundHover: colors.raisinBlack,
 };
+
 const border = {
   gradient: `linear-gradient(
     0deg,
@@ -51,6 +58,7 @@ const border = {
     rgba(75, 205, 238, 1) 100%
   )`,
 };
+
 const details = {
   boxShadow: '0 0 5px -4px #25171A',
   boxShadowBottom: '0 10px 18px -10px #25171A',

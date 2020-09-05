@@ -2,7 +2,7 @@ import Axios from 'axios';
 
 const urls = {
   test: 'https://www.demo.latitudnautica.xyz/test',
-  development: 'http://localhost:5000/api',
+  development: 'http://localhost:5001/api',
   production: 'https://www.api.latitudnautica.xyz/api',
 };
 
