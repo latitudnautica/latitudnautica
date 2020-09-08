@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Formik, Field, Form } from 'formik';
@@ -118,7 +119,7 @@ const ContactPage = ({ categories, featuredProducts }) => {
       setPreMessage(parsedMessage);
     }
     if (Router.query.product) {
-      const parsedMessage = `Hola, me interesa el producto ${Router.query.product}" me podrías mandar mas información.   <br/> Link al producto  <a href='${Router.query.link}> ${Router.query.product}</a>"  '`;
+      const parsedMessage = `Hola, me interesa el producto "${Router.query.product}", me podrías mandar mas información.`;
       setPreMessage(parsedMessage);
     }
   }, [Router.query.searched]);
@@ -140,6 +141,7 @@ const ContactPage = ({ categories, featuredProducts }) => {
                 link: Router.query.link || '',
                 message: preMessage || '',
               }}
+
               validate={(values) => {
                 const errors = {};
                 if (!values.email) {
@@ -156,9 +158,9 @@ const ContactPage = ({ categories, featuredProducts }) => {
                 }
                 return errors;
               }}
+
               onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(true);
-                console.log(values);
                 setMessageStatus({
                   status: 'enviando',
                   isEmailSent: null,

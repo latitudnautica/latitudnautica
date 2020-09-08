@@ -101,7 +101,7 @@ const SocialIcons = styled(ContactDetail)`
     top: 8px;
     font-size: 10px;
     a {
-      margin: 2px;
+      margin: 2npm run px;
     }
   }
 
@@ -157,9 +157,9 @@ export default function Header() {
         <Menu />
         {/* </div> */}
         <HeaderLogo>
-          <Link href='/'>
+          <Link href="/">
             <a>
-              <img src='/images/logo_full.png' alt='Logo de latitud náutica' />
+              <img src="/images/logo_full.png" alt="Logo de latitud náutica" />
             </a>
           </Link>
         </HeaderLogo>
@@ -170,8 +170,8 @@ export default function Header() {
             <ContactDetail>
               <a
                 href={`https://wa.me/${contactData.celularPhone.number}`}
-                target='_blank'
-                rel='noreferrer'
+                target="_blank"
+                rel="noreferrer"
               >
                 {contactData.celularPhone.display}
               </a>
@@ -182,15 +182,15 @@ export default function Header() {
             <SocialIcons>
               <FacebookIcon
                 href={contactData.facebook}
-                target='_blank'
-                rel='noreferrer'
+                target="_blank"
+                rel="noreferrer"
               >
                 <FaFacebook />
               </FacebookIcon>
               <WhatsappIcon
                 href={`https://wa.me/${contactData.celularPhone.number}`}
-                target='_blank'
-                rel='noreferrer'
+                target="_blank"
+                rel="noreferrer"
               >
                 <FaWhatsapp />
               </WhatsappIcon>

@@ -58,14 +58,18 @@ const Arrow = styled.div`
   }
 `;
 
+const ArrowLeft = styled(FaAngleLeft)``;
+const ArrowRight = styled(FaAngleRight)``;
+
 const NextArrow = styled(Arrow)`
   :before {
-    content: ${FaAngleRight};
+    content: ${ArrowRight};
   }
 `;
+
 const PrevArrow = styled(Arrow)`
   :before {
-    content: ${FaAngleRight};
+    content: ${ArrowLeft};
   }
 `;
 const FeaturedProducts = ({ featuredProducts }) => {
@@ -80,7 +84,7 @@ const FeaturedProducts = ({ featuredProducts }) => {
 
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 800,
     slidesToShow: 8,
     slidesToScroll: 1,

@@ -9,6 +9,7 @@ import Error from 'next/error';
 import FeaturedProduct from '@/components/FeaturedProducts';
 import CategoriesNavbar from '@/components/CategoriesNavbar';
 import { Container, Button } from '@/components/layouts/commonStyledComponents';
+import PropTypes from 'prop-types';
 
 const ProductStyled = styled.main``;
 
@@ -59,7 +60,7 @@ const ProductInfo = styled.div`
   flex-basis: 700px;
   flex-shrink: 3;
   margin: 0 2em;
- 
+
   div {
     margin: 1em 0;
   }
@@ -94,7 +95,9 @@ const Breadcrumbs = styled.div`
   margin-bottom: 5px;
 `;
 
-const Producto = ({ errorCode, product, featuredProducts, categories }) => {
+const Producto = ({
+  errorCode, product, featuredProducts, categories,
+}) => {
   if (errorCode) <Error statusCode={errorCode} />;
   const Router = useRouter();
 
@@ -123,7 +126,11 @@ const Producto = ({ errorCode, product, featuredProducts, categories }) => {
             <ProductInfo>
               <Title>{product.name}</Title>
               <Brand>{product.brand}</Brand>
-              <Price> $ {product.price}</Price>
+              <Price>
+                {' '}
+                $
+                {product.price}
+              </Price>
               <Description>{product.description}</Description>
               <Code>
                 Código:
@@ -151,16 +158,32 @@ const Producto = ({ errorCode, product, featuredProducts, categories }) => {
 };
 
 Producto.Layout = MainLayout;
-
+Producto.propTypes = {
+  errorCode: PropTypes.bool.isRequired,
+  product: PropTypes.PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    brand: PropTypes.string.isRequired,
+    Category: PropTypes.number,
+    SubCategory: PropTypes.number,
+    price: PropTypes.number,
+    description: PropTypes.number,
+    codeArticle: PropTypes.number,
+    imagePath: PropTypes.number,
+    tasaIVA: PropTypes.number,
+  }).isRequired,
+  featuredProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  categories: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 export default Producto;
 
 export async function getServerSideProps({ params }) {
   const pid = params.product_id;
   const productData = await axiosBase(`/product/detail/${pid}`).then(
-    (res) => res
+    (res) => res,
   );
   const featuredProducts = await axiosBase('/product/featured').then(
-    (res) => res.data
+    (res) => res.data,
   );
   const categories = await axiosBase('/category/all').then((res) => res.data);
   const errorCode = productData.status === 200 ? false : productData.statusCode;

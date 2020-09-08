@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Slider from 'react-slick';
 import PropTypes from 'prop-types';
@@ -13,10 +12,6 @@ const HomeCarrouselStyled = styled.div`
   display: block;
   position: relative;
   width: 100%;
-`;
-
-const CarrouselWrapper = styled.div`
-  display: flex;
 `;
 
 const HomeCarrousel = ({ bannersData }) => {
@@ -34,7 +29,6 @@ const HomeCarrousel = ({ bannersData }) => {
 
   return (
     <HomeCarrouselStyled>
-      {/* <CarrouselWrapper> */}
       <Slider {...settings}>
         {bannersData.map((e) => (
           <img
@@ -44,12 +38,11 @@ const HomeCarrousel = ({ bannersData }) => {
           />
         ))}
       </Slider>
-      {/* </CarrouselWrapper> */}
     </HomeCarrouselStyled>
   );
 };
 
 HomeCarrousel.propTypes = {
-  bannersData: PropTypes.array,
+  bannersData: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 export default HomeCarrousel;
