@@ -39,7 +39,7 @@ const InfoWrapper = styled.div`
 `;
 
 const ProductName = styled.div`
-  font-family: "Neucha";
+  font-family: 'Neucha';
   letter-spacing: 1px;
   color: #4a4c58;
   font-size: 1.4em;
@@ -69,15 +69,12 @@ export default function ProductCard(props) {
     <ProductCardStyled key={item.id} title={item.id}>
       <animated.div style={fade}>
         <ImageWrapper>
-          {item.imagePath ? (
-            <img
-              onError={onImageError}
-              src={`${process.env.NEXT_PUBLIC_API_URL + item.imagePath}`}
-              alt={`Imagen < ${item.name} >`}
-            />
-          ) : (
-            <img src="/images/logo_test.jpg" alt={`Imagen < ${item.name} >`} />
-          )}
+          <img
+            onError={onImageError}
+            src={`${process.env.NEXT_PUBLIC_API_URL + item.imagePath}`}
+            alt={`Imagen < ${item.name} >`}
+            title={`Imagen < ${item.imageName} >`}
+          />
         </ImageWrapper>
         <InfoWrapper>
           <Code>
@@ -85,16 +82,10 @@ export default function ProductCard(props) {
             {item.id}
           </Code>
           <ProductName>{item.name}</ProductName>
-          <Price>
-            $
-            {item.price}
-          </Price>
-          <Brand>
-            {' '}
-            {item.brand ? item.brand : '-'}
-          </Brand>
+          <Price>${item.price}</Price>
+          <Brand>{item.brand ? item.brand : '-'}</Brand>
           <Link
-            href="/detalle/[p_name]/[product_id]"
+            href='/detalle/[p_name]/[product_id]'
             as={`/detalle/${item.name}/${item.id}`}
           >
             <a>
