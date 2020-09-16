@@ -15,6 +15,8 @@ const SearchBarStyled = styled.div`
     font-size: 2.5em;
     color: ${({ theme }) => theme.colors.orangeYellowCrayola};
   }
+
+  
   input {
     font-family: "Roboto", sans-serif;
     width: 90%;
@@ -31,6 +33,7 @@ const SearchBarStyled = styled.div`
     :focus {
       border-radius: 25px;
       border: 1px solid gray;
+      outline: none;
     }
   }
 
