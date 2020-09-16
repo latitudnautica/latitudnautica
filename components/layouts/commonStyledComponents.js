@@ -10,7 +10,7 @@ export const PageTitleH1 = styled.h1`
   font-size: 2em;
   letter-spacing: 4px;
   border-bottom: 2px solid ${({ theme }) => theme.colors.primary};
-  padding-right: 1em;
+  padding: 0 0 6px  0;
 `;
 
 export const Label = styled.label`

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Formik, Field, Form } from 'formik';
 import axiosBase from '@/utils/axiosBase';
+import PropTypes from 'prop-types';
 import FeaturedProducts from 'components/FeaturedProducts';
 import CategoriesNavbar from '@/components/CategoriesNavbar';
 import { useRouter } from 'next/router';
@@ -107,14 +108,14 @@ const ContactPage = ({ categories, featuredProducts }) => {
   const Router = useRouter();
   useEffect(() => {
     if (Router.query.searched) {
-      const parsedMessage = `Hola, busque el producto "${Router.query.searched}" y no lo encontré en la pagina. ¿Tenes algo parecido a esto?`;
+      const parsedMessage = `Hola, busqué el producto "${Router.query.searched}" y no lo encontré en la página. ¿Tenes algo parecido a esto?`;
       setPreMessage(parsedMessage);
     }
     if (Router.query.product) {
       const parsedMessage = `Hola, me interesa el producto "${Router.query.product}", me podrías mandar mas información.`;
       setPreMessage(parsedMessage);
     }
-  }, [Router.query.searched]);
+  }, [Router.query.searched, Router.query.product]);
 
   return (
     <>
@@ -189,7 +190,7 @@ const ContactPage = ({ categories, featuredProducts }) => {
               }) => (
                 <Form onSubmit={handleSubmit}>
                   <FormFieldsWrapper>
-                    <Label htmlFor='name'>
+                    <Label htmlFor="name">
                       Nombre
                       <InputError>
                         {errors.name && touched.name && errors.name}
@@ -197,15 +198,15 @@ const ContactPage = ({ categories, featuredProducts }) => {
                     </Label>
                     <Field
                       as={Input}
-                      type='text'
-                      id='name'
-                      name='name'
+                      type="text"
+                      id="name"
+                      name="name"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.name}
                     />
 
-                    <Label htmlFor='email'>
+                    <Label htmlFor="email">
                       Email
                       <InputError>
                         {errors.email && touched.email && errors.email}
@@ -213,15 +214,15 @@ const ContactPage = ({ categories, featuredProducts }) => {
                     </Label>
                     <Field
                       as={Input}
-                      type='email'
-                      id='email'
-                      name='email'
+                      type="email"
+                      id="email"
+                      name="email"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.email}
                     />
 
-                    <Label htmlFor='subject'>
+                    <Label htmlFor="subject">
                       Asunto
                       <InputError>
                         {errors.subject && touched.subject && errors.subject}
@@ -229,15 +230,15 @@ const ContactPage = ({ categories, featuredProducts }) => {
                     </Label>
                     <Field
                       as={Input}
-                      type='text'
-                      id='subject'
-                      name='subject'
+                      type="text"
+                      id="subject"
+                      name="subject"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.subject}
                     />
 
-                    <Label htmlFor='phone'>
+                    <Label htmlFor="phone">
                       Teléfono
                       <InputError>
                         {errors.phone && touched.phone && errors.phone}
@@ -245,15 +246,15 @@ const ContactPage = ({ categories, featuredProducts }) => {
                     </Label>
                     <Field
                       as={Input}
-                      type='phone'
-                      id='phone'
-                      name='phone'
+                      type="phone"
+                      id="phone"
+                      name="phone"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.phone}
                     />
 
-                    <Label htmlFor='link'>
+                    <Label htmlFor="link">
                       Link al Producto
                       <InputError>
                         {errors.link && touched.link && errors.link}
@@ -261,30 +262,30 @@ const ContactPage = ({ categories, featuredProducts }) => {
                     </Label>
                     <Field
                       as={Input}
-                      type='link'
-                      id='link'
-                      name='link'
+                      type="link"
+                      id="link"
+                      name="link"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.link}
                     />
 
-                    <Label htmlFor='message'>
+                    <Label htmlFor="message">
                       Mensaje
                       <InputError>
                         {errors.message && touched.message && errors.message}
                       </InputError>
                     </Label>
                     <Textarea
-                      id='message'
-                      name='message'
+                      id="message"
+                      name="message"
                       onChange={handleChange}
-                      rows='10'
+                      rows="10"
                       onBlur={handleBlur}
                       value={values.message}
                     />
                     <Button
-                      type='submit'
+                      type="submit"
                       disabled={
                         (isSubmitting || messageStatus.isEmailSent) && true
                       }
@@ -299,8 +300,8 @@ const ContactPage = ({ categories, featuredProducts }) => {
               <ContactDetail>
                 <a
                   href={`https://wa.me/${contactData.celularPhone.number}`}
-                  target='_blank'
-                  rel='noreferrer'
+                  target="_blank"
+                  rel="noreferrer"
                 >
                   {contactData.celularPhone.display}
                 </a>
@@ -311,15 +312,15 @@ const ContactPage = ({ categories, featuredProducts }) => {
               <SocialIcons>
                 <FacebookIcon
                   href={contactData.facebook}
-                  target='_blank'
-                  rel='noreferrer'
+                  target="_blank"
+                  rel="noreferrer"
                 >
                   <FaFacebook />
                 </FacebookIcon>
                 <WhatsappIcon
                   href={`https://wa.me/${contactData.celularPhone.number}`}
-                  target='_blank'
-                  rel='noreferrer'
+                  target="_blank"
+                  rel="noreferrer"
                 >
                   <FaWhatsapp />
                 </WhatsappIcon>
@@ -340,9 +341,14 @@ ContactPage.Layout = MainLayout;
 
 export default ContactPage;
 
+ContactPage.propTypes = {
+  categories: PropTypes.arrayOf(PropTypes.object).isRequired,
+  featuredProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
 export async function getStaticProps() {
   const featuredProducts = await axiosBase('/product/featured').then(
-    (res) => res.data
+    (res) => res.data,
   );
   const categories = await axiosBase('/category/all').then((res) => res.data);
 

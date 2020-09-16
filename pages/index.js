@@ -1,5 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import axiosBase from '@/utils/axiosBase';
+import PropTypes from 'prop-types';
 
 import FeaturedProducts from 'components/FeaturedProducts';
 import CategoriesNavbar from '@/components/CategoriesNavbar';
@@ -22,12 +23,16 @@ Index.Layout = MainLayout;
 
 export default Index;
 
+Index.propTypes = {
+  featuredProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  banners: PropTypes.arrayOf(PropTypes.object).isRequired,
+  categories: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
 export async function getStaticProps() {
   const categories = await axiosBase('/category/all').then((res) => res.data);
   const banners = await axiosBase('/utils/banners').then((res) => res.data);
-  const featuredProducts = await axiosBase('/product/featured').then(
-    (res) => res.data,
-  );
+  const featuredProducts = await axiosBase('/product/featured').then((res) => res.data);
 
   return {
     props: {
