@@ -163,7 +163,7 @@ const ProductForm = ({ product, isEdit, triggerData }) => {
         });
     } catch (error) {
       toast.error('Algo no funciono como se esperaba...');
-      console.log(error);
+      console.error(error);
     }
   };
   if (isEdited) return <div>Producto Editado</div>;

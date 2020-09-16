@@ -114,7 +114,7 @@ export default function CreateItem(props) {
   useEffect(() => {
     const categoryList = getCategories();
     categoryList.then((data) => {
-      console.log(data);
+      // console.log(data);
       setCategories(data);
     });
   }, []);
@@ -128,7 +128,7 @@ export default function CreateItem(props) {
   }, [categories]);
 
   const handleSubmit = (values) => {
-    console.log(values);
+    // console.log(values);
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/product/create/`;
     axios
       .post(apiUrl, values, {
@@ -137,10 +137,10 @@ export default function CreateItem(props) {
       .then((data) => {
         setProdCreated(data);
         setIsProdCreated(true);
-        console.log(data);
+        // console.log(data);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         setIsProdCreated(false);
       });
 

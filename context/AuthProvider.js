@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
         .catch((err) => {
           setIsAuthenticated(false);
           setIsLoading(false);
-          console.log(err.response);
+          // console.error(err.response);
         });
     };
     initializeAuth();

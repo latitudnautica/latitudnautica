@@ -163,9 +163,13 @@ FeaturedProducts.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequried,
       name: PropTypes.string.isRequried,
-      imagePath: PropTypes.string.isRequired,
+      imagePath: PropTypes.string,
     }),
-  ).isRequired,
+  ).isRequired,  
 };
+
+FeaturedProducts.defaultProps={
+  imagePath : null
+}
 
 export default FeaturedProducts;

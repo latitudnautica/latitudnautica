@@ -79,15 +79,15 @@ export default function UploadFiles(props) {
         setProgress(progress);
       },
     })
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        // console.log(res);
 
         triggerData(true);
         toast.success('Imagen cargada exitosamente');
       })
       .catch((err) => {
         setIsError(err.response);
-        console.log(err, err.response);
+        console.error(err, err.response);
       });
   };
 
@@ -112,7 +112,7 @@ export default function UploadFiles(props) {
     <FileUploadStyled>
       <div>
         {selectedFile ? (
-          <img src={URL.createObjectURL(selectedFile)} height="250px" />
+          <img src={URL.createObjectURL(selectedFile)} alt="Imagen seleccionada para subir" height="250px" />
         ) : (
           <p>Selecciona una imagen para cambiar la que tine el producto</p>
         )}
