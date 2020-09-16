@@ -4,6 +4,11 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { FaWhatsapp, FaEnvelope, FaFacebook } from 'react-icons/fa';
 import contactData from '@/utils/contactData';
+import {
+  FacebookIcon,
+  WhatsappIcon,
+  EmailIcon,
+} from '@/components//layouts/commonStyledComponents';
 import Menu from './Menu';
 import SearchBar from './SearchBar';
 
@@ -91,7 +96,7 @@ const ContactDetail = styled.div`
 
 const SocialIcons = styled(ContactDetail)`
   a {
-    margin: 0 8px;    
+    margin: 0 8px;
   }
 
   @media (max-width: 768px) {
@@ -110,42 +115,6 @@ const SocialIcons = styled(ContactDetail)`
     position: relative;
     top: 0;
     right: 0;
-  }
-`;
-
-const EmailIcon = styled.a`
-  color: ${({ theme }) => theme.colors.envelope};
-  font-size: 2.5em;
-  max-width: 40px;
-  transition: all 200ms ease-in;
-
-  :hover {
-    color: ${({ theme }) => theme.colors.envelope_hover};
-    transform: scale(1.1);
-  }
-`;
-
-const WhatsappIcon = styled.a`
-  color: ${({ theme }) => theme.colors.whatsapp};
-  font-size: 2.5em;
-  max-width: 40px;
-  transition: all 200ms ease-in;
-
-  :hover {
-    color: ${({ theme }) => theme.colors.whatsapp_hover};
-    transform: scale(1.1);
-  }
-`;
-
-const FacebookIcon = styled.a`
-  color: ${({ theme }) => theme.colors.facebook};
-  font-size: 2.5em;
-  max-width: 40px;
-  transition: all 200ms ease-in;
-
-  :hover {
-    color: ${({ theme }) => theme.colors.facebook_hover};
-    transform: scale(1.1);
   }
 `;
 

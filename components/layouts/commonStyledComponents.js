@@ -38,6 +38,7 @@ export const Input = styled.input`
     box-shadow: none;
   }
 `;
+
 export const Textarea = styled.textarea`
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -100,5 +101,41 @@ export const ButtonProductCard = styled(Button)`
 
   :hover {
     background-color: ${({ theme }) => theme.button.background};
+  }
+`;
+
+export const EmailIcon = styled.a`
+  color: ${({ theme }) => theme.colors.envelope};
+  font-size: 2.5em;
+  max-width: 40px;
+  transition: all 200ms ease-in;
+
+  :hover {
+    color: ${({ theme }) => theme.colors.envelope_hover};
+    transform: scale(1.1);
+  }
+`;
+
+export const WhatsappIcon = styled.a`
+  color: ${({ theme }) => theme.colors.whatsapp};
+  font-size: 2.5em;
+  max-width: 40px;
+  transition: all 200ms ease-in;
+
+  :hover {
+    color: ${({ theme }) => theme.colors.whatsapp_hover};
+    transform: scale(1.1);
+  }
+`;
+
+export const FacebookIcon = styled.a`
+  color: ${({ theme }) => theme.colors.facebook};
+  font-size: 2.5em;
+  max-width: 40px;
+  transition: all 200ms ease-in;
+
+  :hover {
+    color: ${({ theme }) => theme.colors.facebook_hover};
+    transform: scale(1.1);
   }
 `;
