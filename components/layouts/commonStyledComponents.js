@@ -6,11 +6,12 @@ export const Container = styled.div`
 `;
 
 export const PageTitleH1 = styled.h1`
-  font-family: "Neucha";
+  font-family: 'Neucha';
   font-size: 2em;
   letter-spacing: 4px;
   border-bottom: 2px solid ${({ theme }) => theme.colors.primary};
-  padding: 0 0 6px  0;
+  padding: 0 0 6px 0;
+  margin: 0 1em;
 `;
 
 export const Label = styled.label`
