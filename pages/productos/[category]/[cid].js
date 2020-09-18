@@ -56,7 +56,7 @@ const ProductsPageWrapper = ({ categories }) => {
   }
 
   if (error) return <div>error obteniendo los productos.</div>;
-  if (true) return <Loading />;;
+  if (!data) return <Loading />;
 
   return (
     <div>
