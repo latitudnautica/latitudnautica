@@ -30,11 +30,16 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>Latitud Náutica - </title>
+        <title>
+          Latitud Náutica - Venta y Fabricación de Equipamiento Náutico{' '}
+        </title>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
         <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0"
-        />
+          name='Description'
+          content='Desde el año 2001 somos una Empresa dedicada a la venta y fabricación de equipamiento náutico, abarcando todos los segmentos, ofreciendo a nuestros clientes todas las soluciones acorde a sus requerimientos.
+          La mayor premisa es centralizar todas las tareas necesarias tanto en la venta de insumos, reposiciones de los mismos y servicios integrales de mantenimiento, tanto en guarderías, clubes o astilleros.'
+        ></meta>
+        <meta name='robots' content='all' />
         {/* Global Site Tag (gtag.js) - Google Analytics */}
         <script
           async
@@ -56,33 +61,33 @@ export default function MyApp({ Component, pageProps }) {
           }}
         />
         <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/images/favicon/apple-touch-icon.png"
+          rel='apple-touch-icon'
+          sizes='180x180'
+          href='/images/favicon/apple-touch-icon.png'
         />
         <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/images/favicon/favicon-32x32.png"
+          rel='icon'
+          type='image/png'
+          sizes='32x32'
+          href='/images/favicon/favicon-32x32.png'
         />
         <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/images/favicon/favicon-16x16.png"
+          rel='icon'
+          type='image/png'
+          sizes='16x16'
+          href='/images/favicon/favicon-16x16.png'
         />
-        <link rel="manifest" href="/site.webmanifest" />
+        <link rel='manifest' href='/site.webmanifest' />
         <link
-          rel="stylesheet"
-          type="text/css"
-          charSet="UTF-8"
-          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
+          rel='stylesheet'
+          type='text/css'
+          charSet='UTF-8'
+          href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css'
         />
         <link
-          rel="stylesheet"
-          type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
+          rel='stylesheet'
+          type='text/css'
+          href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css'
         />
       </Head>
       <SWRConfig

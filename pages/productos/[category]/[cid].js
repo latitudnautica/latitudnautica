@@ -9,6 +9,7 @@ import MainLayout from '@/components/layouts/MainLayout';
 import SidebarMenuProducts from '@/components/SidebarMenuProducts';
 import ListProducts from '@/components/ListProducts';
 import CategoriesNavbar from '@/components/CategoriesNavbar';
+import Loading from '@/components/Loading';
 
 const ListSection = styled.section`
   display: flex;
@@ -51,11 +52,11 @@ const ProductsPageWrapper = ({ categories }) => {
   }, [Router, category]);
 
   if (Router.isFallback) {
-    return <div>cargando...</div>;
+    return <Loading />;
   }
 
   if (error) return <div>error obteniendo los productos.</div>;
-  if (!data) return <div>...cargando</div>;
+  if (true) return <Loading />;;
 
   return (
     <div>
