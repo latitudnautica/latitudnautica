@@ -14,6 +14,7 @@ import {
   PageTitleH1,
   Container,
 } from '@/components/layouts/commonStyledComponents';
+import { GA_TRACKING_ID } from '@/utils/gtag';
 
 const SearchProductsStyled = styled.section`
   margin-top: 3em;
