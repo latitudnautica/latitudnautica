@@ -13,8 +13,7 @@ import '../styles/styles.css';
 import '../styles/nprogress.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-import ReactGA from 'react-ga';
-import { GA_TRACKING_ID } from '../utils/gtag';
+
 
 Router.events.on('routeChangeStart', () => {
   NProgress.start();
@@ -25,11 +24,9 @@ Router.events.on('routeChangeError', () => NProgress.done());
 const Noop = ({ children }) => children;
 
 export default function MyApp({ Component, pageProps }) {
-  const Router = useRouter()
-  console.log(Router);
+  
   const Layout = Component.Layout || Noop;
-  ReactGA.initialize(GA_TRACKING_ID);
-  ReactGA.pageview(Router.asPath);
+ 
 
   return (
     <>
@@ -44,26 +41,7 @@ export default function MyApp({ Component, pageProps }) {
           La mayor premisa es centralizar todas las tareas necesarias tanto en la venta de insumos, reposiciones de los mismos y servicios integrales de mantenimiento, tanto en guarderías, clubes o astilleros.'
         ></meta>
         <meta name='robots' content='all' />
-        {/* Global Site Tag (gtag.js) - Google Analytics
-        <script
-          async
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
-        />
-        <script
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{
-            __html: [
-              `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_TRACKING_ID}', {
-              page_path: window.location.pathname,
-            });
-          `,
-            ],
-          }}
-        /> */}
+        <link rel="manifest" href="/manifest.json"></link>        
         <link
           rel='apple-touch-icon'
           sizes='180x180'
