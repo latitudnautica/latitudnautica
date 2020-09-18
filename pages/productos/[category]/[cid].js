@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import axiosBase from '@/utils/axiosBase';
+import useSWR from 'swr';
 import MainLayout from '@/components/layouts/MainLayout';
 import SidebarMenuProducts from '@/components/SidebarMenuProducts';
 import ListProducts from '@/components/ListProducts';
@@ -19,38 +20,48 @@ const ListSection = styled.section`
   }
 `;
 
-const ProductsPageWrapper = ({ category, categories }) => {
+const ProductsPageWrapper = ({ categories }) => {
+  const [category, setCategory] = useState(null);
   const [products, setProducts] = useState([]);
   const Router = useRouter();
+  const { data, error } = useSWR(`/category/${Router.query.cid}`);
 
   useEffect(() => {
-    if (category) setProducts(category.Products);
-  }, [category]);
+    if (data) {
+      setCategory(data.data[0]);
+      setProducts(data.data[0].Products);
+    }
+  }, [data]);
 
   useEffect(() => {
     const applyFilter = (scid) => {
       const productsFiltered = category.Products.filter(
-        (item) => item.SubCategoryId === Number(scid),
+        (item) => item.SubCategoryId === Number(scid)
       );
       setProducts(productsFiltered);
     };
 
-    if (Router.query.scid) {
-      applyFilter(Router.query.scid);
-    } else {
-      setProducts(category.Products);
+    if (category) {
+      if (Router.query.scid) {
+        applyFilter(Router.query.scid);
+      } else {
+        setProducts(category.Products);
+      }
     }
-  }, [Router]);
+  }, [Router, category]);
 
   if (Router.isFallback) {
     return <div>cargando...</div>;
   }
 
+  if (error) return <div>error obteniendo los productos.</div>;
+  if (!data) return <div>...cargando</div>;
+
   return (
     <div>
       <CategoriesNavbar _categories={categories} />
       <ListSection>
-        <SidebarMenuProducts category={category} />
+        {category && <SidebarMenuProducts category={category} />}
         <ListProducts products={products} />
       </ListSection>
     </div>
@@ -60,11 +71,6 @@ const ProductsPageWrapper = ({ category, categories }) => {
 ProductsPageWrapper.Layout = MainLayout;
 
 ProductsPageWrapper.propTypes = {
-  category: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    Products: PropTypes.arrayOf(PropTypes.object),
-  }).isRequired,
   categories: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
@@ -72,7 +78,7 @@ export default ProductsPageWrapper;
 
 export async function getStaticPaths() {
   const categories = await axiosBase('/category/all?nocache').then(
-    (res) => res.data,
+    (res) => res.data
   );
   const paths = categories.map((cat) => ({
     params: { category: cat.name, cid: cat.id.toString() },
@@ -83,10 +89,10 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const categories = await axiosBase('/category/all?nocache').then(
-    (res) => res.data,
+    (res) => res.data
   );
-  const category = await axiosBase(`/category/${params.cid}?nocache`).then(
-    (res) => res.data[0],
-  );
-  return { props: { category, categories }, revalidate: 1 };
+  // const category = await axiosBase(`/category/${params.cid}?nocache`).then(
+  //   (res) => res.data[0]
+  // );
+  return { props: { categories }, revalidate: 1 };
 }

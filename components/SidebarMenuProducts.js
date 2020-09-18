@@ -71,23 +71,25 @@ const SidebarMenuProducts = ({ category }) => {
       )}
       <animated.div style={menuAppear}>
         <ItemsWrapper>
-          {showMenu
-            && (category && category.SubCategories.length > 0 ? (
-              category.SubCategories.map((sCat) => (
-                <Link
-                  key={sCat.id}
-                  scroll={false}
-                  href={`/productos/[category]/[cid]?scid=${sCat.id}&scname=${sCat.name}`}
-                  as={`/productos/${category.name}/${category.id}?scid=${sCat.id}&scname=${sCat.name}`}
-                  shallow={false}
-                  passHref
-                >
-                  <ButtonExtended as="a">{sCat.name}</ButtonExtended>
-                </Link>
-              ))
-            ) : (
-              <div>No hay sub categorías</div>
-            ))}
+          {category.length === 0
+            ? 'Cargando menu'
+            : showMenu &&
+              (category && category.SubCategories.length > 0 ? (
+                category.SubCategories.map((sCat) => (
+                  <Link
+                    key={sCat.id}
+                    scroll={false}
+                    href={`/productos/[category]/[cid]?scid=${sCat.id}&scname=${sCat.name}`}
+                    as={`/productos/${category.name}/${category.id}?scid=${sCat.id}&scname=${sCat.name}`}
+                    shallow={false}
+                    passHref
+                  >
+                    <ButtonExtended as='a'>{sCat.name}</ButtonExtended>
+                  </Link>
+                ))
+              ) : (
+                <div>No hay sub categorías</div>
+              ))}
         </ItemsWrapper>
       </animated.div>
     </SidebarMenuProductsStyled>
