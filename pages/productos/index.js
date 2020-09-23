@@ -67,7 +67,7 @@ const ProductosMain = ({ categories, featuredProducts }) => {
           >
             <CategoryCard key={cat.id}>
               <CardContent>
-                <a>{cat.name.toUpperCase()}</a>
+                {cat.name.toUpperCase()}
               </CardContent>
             </CategoryCard>
           </Link>
