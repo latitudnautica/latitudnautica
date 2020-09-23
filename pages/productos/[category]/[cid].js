@@ -62,7 +62,7 @@ const ProductsPageWrapper = ({ categories }) => {
   return (
     <>
       <Head>
-        <title>Latitud Náutica - {category.name}</title>
+        <title>Latitud Náutica - {category && category.name}</title>
         <meta
           property='og:title'
           content='Latitud Náutica - Venta y Fabricación de Equipamiento Náutico'
@@ -70,7 +70,7 @@ const ProductsPageWrapper = ({ categories }) => {
         <meta property='og:site_name' content='Latitud Náutica' />
         <meta
           property='og:url'
-          content={`https://www.latitudnautica.com.ar/${category.name}/${category.id}`}
+          content={`https://www.latitudnautica.com.ar/${category && category.name}/${category && category.id}`}
         />
         <meta
           property='og:description'

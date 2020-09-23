@@ -95,16 +95,31 @@ const Breadcrumbs = styled.div`
   margin-bottom: 5px;
 `;
 
-const Producto = ({
-  errorCode, product, featuredProducts, categories,
-}) => {
+const Producto = ({ errorCode, product, featuredProducts, categories }) => {
   if (errorCode) <Error statusCode={errorCode} />;
   const Router = useRouter();
 
   return (
     <>
       <Head>
-        <title>{product.name}</title>
+        <title>Latitud Náutica - {product.name}</title>
+        <meta
+          property='og:title'
+          content={`Latitud Náutica - ${product.name}`}
+        />
+        <meta property='og:site_name' content='Latitud Náutica' />
+        <meta
+          property='og:url'
+          content={`https://www.latitudnautica.com.ar/detalle/${
+            product && product.name
+          }/${product && product.id}`}
+        />
+        <meta property='og:description' content={`${product.description}`} />
+        <meta property='og:type' content='website' />
+        <meta
+          property='og:image'
+          content='https://www.latitudnautica.com.ar/images/logo_full.png'
+        />
       </Head>
       <CategoriesNavbar _categories={categories} />
       <Container>
@@ -126,11 +141,7 @@ const Producto = ({
             <ProductInfo>
               <Title>{product.name}</Title>
               <Brand>{product.brand}</Brand>
-              <Price>
-                {' '}
-                $
-                {product.price}
-              </Price>
+              <Price> ${product.price}</Price>
               <Description>{product.description}</Description>
               <Code>
                 Código:
@@ -180,10 +191,10 @@ export default Producto;
 export async function getServerSideProps({ params }) {
   const pid = params.product_id;
   const productData = await axiosBase(`/product/detail/${pid}`).then(
-    (res) => res,
+    (res) => res
   );
   const featuredProducts = await axiosBase('/product/featured').then(
-    (res) => res.data,
+    (res) => res.data
   );
   const categories = await axiosBase('/category/all').then((res) => res.data);
   const errorCode = productData.status === 200 ? false : productData.statusCode;
