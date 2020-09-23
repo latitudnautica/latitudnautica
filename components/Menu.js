@@ -55,9 +55,6 @@ const MenuStyled = styled.nav`
   }
 `;
 
-const MenuLogo = styled.img`
-  width: 250px;
-`;
 const LeftMenu = ({ open, setOpen }) => (
   <MenuStyled open={open}>
     {/* <MenuLogo src='/images/logo.png' /> */}

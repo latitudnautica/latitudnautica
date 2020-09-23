@@ -1,67 +1,80 @@
-import MainLayout from 'components/layouts/MainLayout';
-import axiosbase from 'utils/axiosBase';
-import styled from 'styled-components';
 import Link from 'next/link';
+import styled from 'styled-components';
+import axiosBase from '@/utils/axiosBase';
+import FeaturedProducts from '@/components/FeaturedProducts';
+import PropTypes from 'prop-types';
+import MainLayout from 'components/layouts/MainLayout';
 
 const CategoriesContainer = styled.main`
   display: flex;
+  margin-top: 1em;
   justify-content: center;
   flex-wrap: wrap;
+  background: ${({ theme }) => theme.colors.background};
+  padding: 3em 0;
 `;
 
 const CategoryCard = styled.a`
+  /* border: 1px solid red; */
+  background-color: #0000001a;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   margin: 15px;
-  max-width: 200px;
-  max-height: 200px;
+  padding: 1em;
+  min-width: 150px;
+  min-height: 150px;
   text-align: center;
-  box-shadow: 0px 0px 14px -5px gray;
+  box-shadow: ${({ theme }) => theme.details.boxShadow};
   transition: 200ms;
   cursor: pointer;
+  border-radius: 5px;
 
   :hover {
-    box-shadow: 0px 0px 0px 0px gray;
+    transform: translateY(-10px);
+  }
+
+  @media (max-width: 576px) {
+    min-width: 100%;
+    min-height: 100%;
+    margin: 5px;
+
+    :hover {
+      transform: translateX(-5px);
+    }
   }
 `;
-const CardImage = styled.img`
-  /* max-height: 150px;
-  max-width: 150px; */
-  width: 100%;
-`;
+
 const CardContent = styled.div`
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 700;
 `;
 
-const ProductosMain = ({ categories }) => {
-  if (categories.length == 0) { return <CategoriesContainer>Cargando..</CategoriesContainer>; }
+const ProductosMain = ({ categories, featuredProducts }) => {
+  if (categories.length == 0) {
+    return <CategoriesContainer>Cargando..</CategoriesContainer>;
+  }
 
   return (
-    <CategoriesContainer>
-      {categories.map((cat) => (
-        <Link
-          key={cat.id}
-          href="/productos/[category]/[cid]"
-          as={`/productos/${cat.name}/${cat.id}`}
-          passHref
-        >
-          <CategoryCard key={cat.id}>
-            <CardImage
-              src={
-                  cat.imageUrl
-                    ? process.env.NEXT_PUBLIC_API_URL + cat.imageUrl
-                    : '/images/logo_test.jpg'
-                }
-            />
-            <CardContent>
-              <a>{cat.name.toUpperCase()}</a>
-            </CardContent>
-          </CategoryCard>
-        </Link>
-      ))}
-    </CategoriesContainer>
+    <>
+      <CategoriesContainer>
+        {categories.map((cat) => (
+          <Link
+            key={cat.id}
+            href='/productos/[category]/[cid]'
+            as={`/productos/${cat.name}/${cat.id}`}
+            passHref
+          >
+            <CategoryCard key={cat.id}>
+              <CardContent>
+                <a>{cat.name.toUpperCase()}</a>
+              </CardContent>
+            </CategoryCard>
+          </Link>
+        ))}
+      </CategoriesContainer>
+      <FeaturedProducts featuredProducts={featuredProducts} />
+    </>
   );
 };
 
@@ -69,11 +82,19 @@ ProductosMain.Layout = MainLayout;
 
 export default ProductosMain;
 
+ProductosMain.propsTypes = {
+  featuredProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  categories: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
 export async function getStaticProps() {
-  const categories = await axiosbase('/category/all').then((res) => res.data);
+  const categories = await axiosBase('/category/all').then((res) => res.data);
+  const featuredProducts = await axiosBase('/product/featured').then(
+    (res) => res.data
+  );
 
   return {
-    props: { categories },
-    revalidate: 3600,
+    props: { categories, featuredProducts },
+    revalidate: 10,
   };
 }
