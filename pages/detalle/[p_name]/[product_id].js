@@ -115,10 +115,14 @@ const Producto = ({ errorCode, product, featuredProducts, categories }) => {
           }/${product && product.id}`}
         />
         <meta property='og:description' content={`${product.description}`} />
-        <meta property='og:type' content='website' />
+        <meta property='og:type' content='item' />
         <meta
           property='og:image'
-          content='https://www.latitudnautica.com.ar/images/logo_full.png'
+          content={
+            product.imagePath
+              ? process.env.NEXT_PUBLIC_API_URL + product.imagePath
+              : '/images/logo_test.jpg'
+          }
         />
       </Head>
       <CategoriesNavbar _categories={categories} />
