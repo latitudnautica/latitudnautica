@@ -11,7 +11,6 @@ import SidebarMenuProducts from '@/components/SidebarMenuProducts';
 import ListProducts from '@/components/ListProducts';
 import CategoriesNavbar from '@/components/CategoriesNavbar';
 import Loading from '@/components/Loading';
-import { GA_TRACKING_ID } from '@/utils/gtag';
 
 const ListSection = styled.section`
   display: flex;
@@ -62,21 +61,7 @@ const ProductsPageWrapper = ({ categories }) => {
 
   return (<>
     <Head>
-    <script
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{
-            __html: [
-              `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_TRACKING_ID}', {
-              page_path: window.location.pathname,
-            });
-          `,
-            ],
-          }}
-        />
+     <title>Latitud Náutica - Productos Náuticos</title>
     </Head>
     <div>
       <CategoriesNavbar _categories={categories} />
