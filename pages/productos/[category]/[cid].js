@@ -97,8 +97,6 @@ export async function getStaticProps({ params }) {
   const categories = await axiosBase('/category/all?nocache').then(
     (res) => res.data
   );
-  // const category = await axiosBase(`/category/${params.cid}?nocache`).then(
-  //   (res) => res.data[0]
-  // );
+  
   return { props: { categories }, revalidate: 1 };
 }
