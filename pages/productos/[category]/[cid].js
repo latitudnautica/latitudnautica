@@ -59,18 +59,37 @@ const ProductsPageWrapper = ({ categories }) => {
   if (error) return <div>error obteniendo los productos.</div>;
   if (!data) return <Loading />;
 
-  return (<>
-    <Head>
-     <title>Latitud Náutica - Productos Náuticos</title>
-    </Head>
-    <div>
-      <CategoriesNavbar _categories={categories} />
-      <ListSection>
-        {category && <SidebarMenuProducts category={category} />}
-        <ListProducts products={products} />
-      </ListSection>
-    </div>
-  </>
+  return (
+    <>
+      <Head>
+        <title>Latitud Náutica - {category.name}</title>
+        <meta
+          property='og:title'
+          content='Latitud Náutica - Venta y Fabricación de Equipamiento Náutico'
+        />
+        <meta property='og:site_name' content='Latitud Náutica' />
+        <meta
+          property='og:url'
+          content={`https://www.latitudnautica.com.ar/${category.name}/${category.id}`}
+        />
+        <meta
+          property='og:description'
+          content='Somos una empresa dedicada a la venta y fabricación de equipamiento náutico. venta de insumos y servicios integrales de mantenimiento, tanto en guarderías, clubes o astilleros.'
+        />
+        <meta property='og:type' content='website' />
+        <meta
+          property='og:image'
+          content='https://www.latitudnautica.com.ar/images/logo_full.png'
+        />
+      </Head>
+      <div>
+        <CategoriesNavbar _categories={categories} />
+        <ListSection>
+          {category && <SidebarMenuProducts category={category} />}
+          <ListProducts products={products} />
+        </ListSection>
+      </div>
+    </>
   );
 };
 
@@ -97,6 +116,6 @@ export async function getStaticProps({ params }) {
   const categories = await axiosBase('/category/all?nocache').then(
     (res) => res.data
   );
-  
+
   return { props: { categories }, revalidate: 1 };
 }
