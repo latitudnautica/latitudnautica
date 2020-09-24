@@ -96,8 +96,11 @@ const Breadcrumbs = styled.div`
 `;
 
 const Producto = ({ errorCode, product, featuredProducts, categories }) => {
-  if (errorCode) <Error statusCode={errorCode} />;
   const Router = useRouter();
+  console.log(errorCode);
+  console.log(product);
+  if (errorCode) return <Error statusCode={errorCode} />;
+  if (product == null) return <Error statusCode={404} title="No se encontró el producto"/>;
 
   return (
     <>
@@ -203,6 +206,7 @@ export async function getServerSideProps({ params }) {
   const categories = await axiosBase('/category/all').then((res) => res.data);
   const errorCode = productData.status === 200 ? false : productData.statusCode;
   const product = productData.data;
+  console.log(product);
 
   return {
     props: {

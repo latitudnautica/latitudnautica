@@ -88,13 +88,13 @@ const Editar = ({ categories }) => {
 
   useEffect(() => {
     if (data) {
-      setCategoryData(data.data[0]);
+      setCategoryData(data.data);
     }
   }, [data]);
 
-  if (data === 'undefined') return <div>Cargando</div>;
+  if (!data) return <div>Cargando</div>;
   if (error) return <div>algo salio mal</div>;
-  
+
   const handleCategorySelector = (e) => {
     const id = e.target.value;
     setCatSelected(id);
