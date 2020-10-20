@@ -28,8 +28,6 @@ const ProductsPageWrapper = ({ categories }) => {
   const [products, setProducts] = useState([]);
   const Router = useRouter();
   const { data, error } = useSWR(`/category/${Router.query.cid}`);
-  console.log(data);
-
   
   useEffect(() => {
     if (data) {

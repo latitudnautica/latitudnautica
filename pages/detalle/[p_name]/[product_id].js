@@ -76,15 +76,21 @@ const Title = styled.h1`
   text-transform: uppercase;
   margin: 0px;
 `;
-const Brand = styled.h2`
-  font-size: 1.4em;
-
+const Brand = styled.h4`
+  font-size: 1.2em;
   margin-top: 5px;
 `;
-const Price = styled.h3`
-  color: ${({ theme }) => theme.colors.price};
-  margin: 10px 0 20px 0;
+const Price = styled.div`
+  font-size: 1.1em;
+  font-weight: 400;
+  position:relative;  
 `;
+const Currency = styled.span`
+  position: relative;
+  font-size: 0.7em;
+  top: -2px;
+`;
+
 const Description = styled.div`
   line-height: 1.4em;
 `;
@@ -97,10 +103,9 @@ const Breadcrumbs = styled.div`
 
 const Producto = ({ errorCode, product, featuredProducts, categories }) => {
   const Router = useRouter();
-  console.log(errorCode);
-  console.log(product);
   if (errorCode) return <Error statusCode={errorCode} />;
-  if (product == null) return <Error statusCode={404} title="No se encontró el producto"/>;
+  if (product == null)
+    return <Error statusCode={404} title='No se encontró el producto' />;
 
   return (
     <>
@@ -148,7 +153,12 @@ const Producto = ({ errorCode, product, featuredProducts, categories }) => {
             <ProductInfo>
               <Title>{product.name}</Title>
               <Brand>{product.brand}</Brand>
-              <Price> ${product.price}</Price>
+              <Price>
+                <Currency>{`${
+                  product.currency ? product.currency : '$'
+                }`}</Currency>
+                <span> {`${product.price}`}</span>
+              </Price>
               <Description>{product.description}</Description>
               <Code>
                 Código:
@@ -206,7 +216,6 @@ export async function getServerSideProps({ params }) {
   const categories = await axiosBase('/category/all').then((res) => res.data);
   const errorCode = productData.status === 200 ? false : productData.statusCode;
   const product = productData.data;
-  console.log(product);
 
   return {
     props: {

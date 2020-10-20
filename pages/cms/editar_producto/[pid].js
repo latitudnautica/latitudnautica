@@ -54,39 +54,41 @@ const EditProduct = () => {
 
   return (
     <CmsLayout>
-      <ProductsContainer>
-        <h2>
-          Editando el Producto:
-          {' '}
-          <b>{product.name}</b>
-        </h2>
-        <ProdSection>
-          <div>
-            <h3>
-              Categoría:
-              {product.Category.name}
-            </h3>
-            <h3>
-              Sub Categoría:
-              {product.SubCategory.name}
-            </h3>
-            <h3>
-              Producto Visible:
-              {product.visible ? 'visible' : 'oculto'}
-            </h3>
-          </div>
-          <ProductCard item={product} />
+      {product && (
+        <ProductsContainer>
+          <h2>
+            Editando el Producto:
+            <b>{product.name}</b>
+          </h2>
+          <ProdSection>
+            <div>
+              <h3>
+                Categoría:
+                {product.Category.name}
+              </h3>
+              <h3>
+                Sub Categoría:
+                {product.SubCategory.name}
+              </h3>
+              <h3>
+                Producto Visible:
+                {product.visible ? 'visible' : 'oculto'}
+              </h3>
+            </div>
+            <ProductCard item={product} />
 
-          <UploadFiles
-            product={product}
-            triggerData={handleTriggerData}
-          />
-        </ProdSection>
-        <h2>Editar Info del Producto</h2>
-        <InfoSection>
-          <ProductForm product={product} isEdit triggerData={handleTriggerData} />
-        </InfoSection>
-      </ProductsContainer>
+            <UploadFiles product={product} triggerData={handleTriggerData} />
+          </ProdSection>
+          <h2>Editar Info del Producto</h2>
+          <InfoSection>
+            <ProductForm
+              product={product}
+              isEdit
+              triggerData={handleTriggerData}
+            />
+          </InfoSection>
+        </ProductsContainer>
+      )}
     </CmsLayout>
   );
 };

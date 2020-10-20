@@ -4,12 +4,12 @@
     "description": "Desde el año 2001 somos una Empresa dedicada a la venta y fabricación de equipamiento náutico, abarcando todos los segmentos, ofreciendo a nuestros clientes todas las soluciones acorde a sus requerimientos. La mayor premisa es centralizar todas las tareas necesarias tanto en la venta de insumos, reposiciones de los mismos y servicios integrales de mantenimiento, tanto en guarderías, clubes o astilleros.",
     "icons": [
       {
-        "src": "/static/favicon/android-chrome-192x192.png",
+        "src": "/favicon/android-chrome-192x192.png",
         "type": "image/png",
         "sizes": "192x192"
       },
       {
-        "src": "/static/favicon/android-chrome-512x512.png",
+        "src": "/favicon/android-chrome-512x512.png",
         "type": "image/png",
         "sizes": "512x512"
       }

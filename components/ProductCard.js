@@ -34,7 +34,6 @@ const ProductCardStyled = styled.div`
 `;
 
 const InfoWrapper = styled.div`
-  /* border: 1px solid red; */
   text-align: center;
 `;
 
@@ -44,22 +43,25 @@ const ProductName = styled.div`
   color: #4a4c58;
   font-size: 1.4em;
   font-weight: 700;
+  text-transform: uppercase;
+  margin: 0.6em 0;
 `;
 
 const Price = styled.div`
-  font-size: 1.1em;
+  font-size: 1.3em;
   font-weight: 400;
+  position: relative;
+  margin-bottom: 10px;
+`;
+const Currency = styled.span`
+  position: relative;
+  font-size: 0.7em;
+  top: -2px;
 `;
 
 const Brand = styled.div`
   font-size: 1em;
-`;
-
-const Code = styled.div`
-  font-size: 0.8em;
-  margin: 0 5px 0 0;
-  text-align: right;
-  color: #4a4c58;
+  text-transform: uppercase;
 `;
 
 export default function ProductCard(props) {
@@ -77,12 +79,11 @@ export default function ProductCard(props) {
           />
         </ImageWrapper>
         <InfoWrapper>
-          <Code>
-            cod:
-            {item.id}
-          </Code>
           <ProductName>{item.name}</ProductName>
-          <Price>${item.price}</Price>
+          <Price>
+            <Currency>{`${item.currency ? item.currency : '$'}`}</Currency>
+            <span> {`${item.price}`}</span>
+          </Price>
           <Brand>{item.brand ? item.brand : '-'}</Brand>
           <Link
             href='/detalle/[p_name]/[product_id]'

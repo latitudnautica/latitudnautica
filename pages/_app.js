@@ -37,23 +37,23 @@ export default function MyApp({ Component, pageProps }) {
           La mayor premisa es centralizar todas las tareas necesarias tanto en la venta de insumos, reposiciones de los mismos y servicios integrales de mantenimiento, tanto en guarderías, clubes o astilleros.'
         ></meta>
         <meta name='robots' content='all' />
-        <link rel='manifest' href='/static/site.webmanifest'></link>
+        <link rel='manifest' href='site.webmanifest'></link>
         <link
           rel='apple-touch-icon'
           sizes='180x180'
-          href='/static/favicon/apple-touch-icon.png'
+          href='favicon/apple-touch-icon.png'
         />
         <link
           rel='icon'
           type='image/png'
           sizes='32x32'
-          href='/static/favicon/favicon-32x32.png'
+          href='favicon/favicon-32x32.png'
         />
         <link
           rel='icon'
           type='image/png'
           sizes='16x16'
-          href='/static/favicon/favicon-16x16.png'
+          href='favicon/favicon-16x16.png'
         />
         <link rel='manifest' href='/site.webmanifest' />
         <link

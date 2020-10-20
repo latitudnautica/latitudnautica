@@ -19,7 +19,7 @@ const formatProdToEdit = (prod) => ({
   imageUrl: prod.imageUrl || undefined,
   name: prod.name || undefined,
   price: prod.price || undefined,
-  priceDolar: prod.priceDolar || undefined,
+  currency: prod.currency || undefined,
   promoActive: prod.promoActive || undefined,
   serialNumber: prod.serialNumber || undefined,
   sku: prod.sku || undefined,
@@ -257,6 +257,17 @@ const ProductForm = ({ product, isEdit, triggerData }) => {
                 {errors.price && touched.price && errors.price}
               </FieldGroup>
               <FieldGroup>
+                <label>Precio Símbolo</label>
+                <Field
+                  type="text"
+                  name="currency"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.currency}
+                />
+                {errors.priceDolar && touched.priceDolar && errors.priceDolar}
+              </FieldGroup>
+              <FieldGroup>
                 <label>Precio</label>
                 <Field
                   type="number"
@@ -266,17 +277,6 @@ const ProductForm = ({ product, isEdit, triggerData }) => {
                   value={values.price}
                 />
                 {errors.price && touched.price && errors.price}
-              </FieldGroup>
-              <FieldGroup>
-                <label>Precio Dolares</label>
-                <Field
-                  type="number"
-                  name="priceDolar"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.priceDolar}
-                />
-                {errors.priceDolar && touched.priceDolar && errors.priceDolar}
               </FieldGroup>
               <FieldGroup>
                 <label>IVA</label>
