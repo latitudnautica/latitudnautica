@@ -81,9 +81,9 @@ const Brand = styled.h4`
   margin-top: 5px;
 `;
 const Price = styled.div`
-  font-size: 1.1em;
+  font-size: 1.3em;
   font-weight: 400;
-  position:relative;  
+  position: relative;
 `;
 const Currency = styled.span`
   position: relative;
@@ -93,6 +93,7 @@ const Currency = styled.span`
 
 const Description = styled.div`
   line-height: 1.4em;
+  white-space: pre-line;
 `;
 const Code = styled.div``;
 const Iva = styled.div``;
@@ -157,7 +158,7 @@ const Producto = ({ errorCode, product, featuredProducts, categories }) => {
                 <Currency>{`${
                   product.currency ? product.currency : '$'
                 }`}</Currency>
-                <span> {`${product.price}`}</span>
+                <span> {`${product.price ? product.price : '-'}`}</span>
               </Price>
               <Description>{product.description}</Description>
               <Code>

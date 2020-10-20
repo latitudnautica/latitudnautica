@@ -82,7 +82,7 @@ export default function ProductCard(props) {
           <ProductName>{item.name}</ProductName>
           <Price>
             <Currency>{`${item.currency ? item.currency : '$'}`}</Currency>
-            <span> {`${item.price}`}</span>
+            <span> {`${item.price ? item.price : '-'}`}</span>
           </Price>
           <Brand>{item.brand ? item.brand : '-'}</Brand>
           <Link
