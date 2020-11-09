@@ -104,7 +104,7 @@ const ProductsPageWrapper = ({ categories }) => {
 ProductsPageWrapper.Layout = MainLayout;
 
 ProductsPageWrapper.propTypes = {
-  categories: PropTypes.arrayOf(PropTypes.object).isRequired,
+  categories: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default ProductsPageWrapper;

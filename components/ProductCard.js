@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import Image from 'next/image'
+import Image from 'next/image';
 import { useSpring, animated } from 'react-spring';
 import onImageError from '@/utils/onImageError';
 import { ButtonProductCard } from './layouts/Button';
@@ -67,14 +67,23 @@ const Brand = styled.div`
 
 export default function ProductCard(props) {
   const { item } = props;
+  !item && <div> Cargando...</div>;
+  let newImagePath;
+  if (item.imagePath === null) {
+    newImagePath = '/images/logo.png';
+  } else {
+    newImagePath = process.env.NEXT_PUBLIC_API_URL + item.imagePath;
+  }
+
   const fade = useSpring({ opacity: 1, from: { opacity: 0 } });
+
   return (
     <ProductCardStyled key={item.id} title={item.id}>
       <animated.div style={fade}>
         <ImageWrapper>
           <Image
             onError={onImageError}
-            src={`${process.env.NEXT_PUBLIC_API_URL + item.imagePath}`}
+            src={newImagePath}
             alt={`Imagen < ${item.name} >`}
             title={`Imagen < ${item.imageName} >`}
             layout='fill'
