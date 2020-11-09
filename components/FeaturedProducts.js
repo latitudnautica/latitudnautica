@@ -79,6 +79,7 @@ const PrevArrow = styled(Arrow)`
 const FeaturedProducts = ({ featuredProducts }) => {
   const [products, setProducts] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     if (featuredProducts) {
       setProducts(featuredProducts);
@@ -159,7 +160,11 @@ const FeaturedProducts = ({ featuredProducts }) => {
                     <Image
                       // onError={onImageError}
                       key={i}
-                      src={`${process.env.NEXT_PUBLIC_API_URL}/${i.imagePath}`}
+                      src={
+                        i.imagePath === null
+                          ? '/images/logo.png'
+                          : process.env.NEXT_PUBLIC_API_URL + i.imagePath
+                      }
                       alt={i.name}
                       title={i.name}
                       layout='fill'

@@ -106,8 +106,15 @@ const Breadcrumbs = styled.div`
 const Producto = ({ errorCode, product, featuredProducts, categories }) => {
   const Router = useRouter();
   if (errorCode) return <Error statusCode={errorCode} />;
-  if (product == null)
+  if (product === null)
     return <Error statusCode={404} title='No se encontró el producto' />;
+
+  const image =
+    product.imagePath === null
+      ? '/images/logo.png'
+      : process.env.NEXT_PUBLIC_API_URL + product.imagePath;
+
+  console.log(image);
 
   return (
     <>
@@ -126,14 +133,7 @@ const Producto = ({ errorCode, product, featuredProducts, categories }) => {
         />
         <meta property='og:description' content={`${product.description}`} />
         <meta property='og:type' content='item' />
-        <meta
-          property='og:image'
-          content={
-            product.imagePath
-              ? process.env.NEXT_PUBLIC_API_URL + product.imagePath
-              : '/images/logo_test.jpg'
-          }
-        />
+        <meta property='og:image' content={image} />
       </Head>
       <CategoriesNavbar _categories={categories} />
       <Container>
@@ -144,12 +144,10 @@ const Producto = ({ errorCode, product, featuredProducts, categories }) => {
           <ProductWrapper>
             <ProductImage>
               <Image
-                src={
-                  product.imagePath
-                    ? process.env.NEXT_PUBLIC_API_URL + product.imagePath
-                    : '/images/logo_test.jpg'
-                }
-                layout='fill'
+                src={image}
+                width={500}
+                height={700}
+                layout='responsive'
                 alt={product.name}
               />
             </ProductImage>
@@ -194,13 +192,13 @@ Producto.propTypes = {
   product: PropTypes.PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    brand: PropTypes.string.isRequired,
-    Category: PropTypes.number,
-    SubCategory: PropTypes.number,
+    brand: PropTypes.string,
+    Category: PropTypes.object,
+    SubCategory: PropTypes.object,
     price: PropTypes.number,
-    description: PropTypes.number,
-    codeArticle: PropTypes.number,
-    imagePath: PropTypes.number,
+    description: PropTypes.string,
+    codeArticle: PropTypes.string,
+    imagePath: PropTypes.string,
     tasaIVA: PropTypes.number,
   }).isRequired,
   featuredProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
