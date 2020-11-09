@@ -5,11 +5,12 @@ import Link from 'next/link';
 import Slider from 'react-slick';
 import PropTypes from 'prop-types';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
-// eslint-disable-next-line import/no-unresolved
 import onImageError from '@/utils/onImageError';
+import Image from 'next/image';
 
 const FeaturedProductosWrapper = styled.section`
-  margin: 2em 3em;
+  margin: 2em auto;
+  max-width: 1500px;
 
   h3 {
     text-align: center;
@@ -17,10 +18,13 @@ const FeaturedProductosWrapper = styled.section`
   }
 `;
 
-const ImageItemCarrousel = styled.img`
+const ImageItemCarrouselWrapper = styled.div`
   width: 100%;
-  object-fit: contain;
+  position: relative;
   transition: transform 0.3s ease-out;
+  img {
+    object-fit: contain;
+  }
 `;
 
 const ItemCarrouselWrapper = styled.div`
@@ -34,7 +38,7 @@ const ItemCarrouselWrapper = styled.div`
   min-height: 200px;
   cursor: pointer;
 
-  &:hover ${ImageItemCarrousel} {
+  &:hover ${ImageItemCarrouselWrapper} {
     transform: scale(1.05);
   }
 `;
@@ -97,23 +101,15 @@ const FeaturedProducts = ({ featuredProducts }) => {
     prevArrow: <PrevArrow />,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1500,
         settings: {
           slidesToShow: 6,
-          slidesToScroll: 1,
-          arrows: true,
-        },
-      },
-      {
-        breakpoint: 800,
-        settings: {
-          slidesToShow: 5,
           slidesToScroll: 2,
           arrows: true,
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 1024,
         settings: {
           slidesToShow: 4,
           slidesToScroll: 2,
@@ -121,9 +117,25 @@ const FeaturedProducts = ({ featuredProducts }) => {
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 800,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          arrows: true,
+        },
+      },
+      {
+        breakpoint: 600,
         settings: {
           slidesToShow: 2,
+          slidesToScroll: 1,
+          arrows: true,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
           slidesToScroll: 1,
           arrows: true,
         },
@@ -138,21 +150,24 @@ const FeaturedProducts = ({ featuredProducts }) => {
         {isLoading
           ? []
           : products.map((i) => (
-            <ItemCarrouselWrapper key={i.id}>
-              <Link
-                href="/detalle/[name]/[id]"
-                as={`/detalle/${i.name}/${i.id}`}
-              >
-                <ImageItemCarrousel
-                  onError={onImageError}
-                  key={i}
-                  src={process.env.NEXT_PUBLIC_API_URL + i.imagePath}
-                  alt={i.name}
-                  title={i.name}
-                />
-              </Link>
-            </ItemCarrouselWrapper>
-          ))}
+              <ItemCarrouselWrapper key={i.id}>
+                <Link
+                  href='/detalle/[name]/[id]'
+                  as={`/detalle/${i.name}/${i.id}`}
+                >
+                  <ImageItemCarrouselWrapper>
+                    <Image
+                      // onError={onImageError}
+                      key={i}
+                      src={`${process.env.NEXT_PUBLIC_API_URL}/${i.imagePath}`}
+                      alt={i.name}
+                      title={i.name}
+                      layout='fill'
+                    />
+                  </ImageItemCarrouselWrapper>
+                </Link>
+              </ItemCarrouselWrapper>
+            ))}
       </Slider>
     </FeaturedProductosWrapper>
   );
@@ -164,12 +179,12 @@ FeaturedProducts.propTypes = {
       id: PropTypes.string.isRequried,
       name: PropTypes.string.isRequried,
       imagePath: PropTypes.string,
-    }),
-  ).isRequired,  
+    })
+  ).isRequired,
 };
 
-FeaturedProducts.defaultProps={
-  imagePath : null
-}
+FeaturedProducts.defaultProps = {
+  imagePath: null,
+};
 
 export default FeaturedProducts;

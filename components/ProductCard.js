@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
+import Image from 'next/image'
 import { useSpring, animated } from 'react-spring';
 import onImageError from '@/utils/onImageError';
 import { ButtonProductCard } from './layouts/Button';
@@ -71,11 +72,12 @@ export default function ProductCard(props) {
     <ProductCardStyled key={item.id} title={item.id}>
       <animated.div style={fade}>
         <ImageWrapper>
-          <img
+          <Image
             onError={onImageError}
             src={`${process.env.NEXT_PUBLIC_API_URL + item.imagePath}`}
             alt={`Imagen < ${item.name} >`}
             title={`Imagen < ${item.imageName} >`}
+            layout='fill'
           />
         </ImageWrapper>
         <InfoWrapper>

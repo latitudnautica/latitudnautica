@@ -12,30 +12,30 @@
   "dependencies": {
     "@brainhubeu/react-carousel": "^1.19.26",
     "axios": "^0.19.2",
-    "formik": "^2.2.0",
+    "formik": "^2.2.1",
     "js-cookie": "^2.2.1",
-    "next": "^9.5.4",
+    "next": "^10.0.1",
     "nprogress": "^0.2.0",
     "prop-types": "^15.7.2",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "react-ga": "^3.1.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-ga": "^3.2.0",
     "react-icons": "^3.11.0",
-    "react-slick": "^0.27.11",
+    "react-slick": "^0.27.12",
     "react-spring": "^8.0.27",
     "react-toastify": "^6.0.9",
-    "styled-components": "^5.2.0",
+    "styled-components": "^5.2.1",
     "swr": "^0.2.3",
     "yup": "^0.29.3"
   },
   "author": "Bernardo Munz",
   "license": "ISC",
   "devDependencies": {
-    "eslint": "^7.10.0",
+    "eslint": "^7.12.1",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsx-a11y": "^6.3.1",
-    "eslint-plugin-react": "^7.21.3",
-    "eslint-plugin-react-hooks": "^4.1.2"
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0"
   }
 }

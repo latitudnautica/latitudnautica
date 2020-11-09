@@ -10,6 +10,7 @@ import FeaturedProduct from '@/components/FeaturedProducts';
 import CategoriesNavbar from '@/components/CategoriesNavbar';
 import { Container, Button } from '@/components/layouts/commonStyledComponents';
 import PropTypes from 'prop-types';
+import Image from 'next/image';
 
 const ProductStyled = styled.main``;
 
@@ -24,42 +25,42 @@ const ProductWrapper = styled.div`
   border-width: 3px;
   border-radius: 5px;
   border-image-source: ${({ theme }) => theme.border.gradient};
+  min-height: 500px;
 
   @media (max-width: 640px) {
     flex-direction: column;
+    align-items: center;
   }
 `;
 
 const ProductImage = styled.div`
-  text-align: center;
-  margin: 1em 0;
-  flex-basis: 300px;
+  flex-basis: 200px;
   flex-shrink: 1;
+  margin: 1em 1em;
+  position: relative;
+  max-width: 300px;
+  max-height: 300px;
+  min-width: 300px;
 
   img {
     object-fit: contain;
-    width: 100%;
-    max-height: 300px;
-
-    @media (max-width: 640px) {
-      margin: 0;
-      border-right: none;
-      width: 40%;
-    }
   }
 
   @media (max-width: 640px) {
-    margin: 0;
-    flex-basis: 100px;
+    flex-basis: 300px;
+    margin: 1em;
+    width: 100%;
+    min-width: 100%;
   }
 `;
 
 const ProductInfo = styled.div`
   display: flex;
-  flex-direction: column;
   flex-basis: 700px;
+  flex-direction: column;
   flex-shrink: 3;
   margin: 0 2em;
+  justify-content: space-between;
 
   div {
     margin: 1em 0;
@@ -142,12 +143,13 @@ const Producto = ({ errorCode, product, featuredProducts, categories }) => {
         <ProductStyled>
           <ProductWrapper>
             <ProductImage>
-              <img
+              <Image
                 src={
                   product.imagePath
                     ? process.env.NEXT_PUBLIC_API_URL + product.imagePath
                     : '/images/logo_test.jpg'
                 }
+                layout='fill'
                 alt={product.name}
               />
             </ProductImage>
