@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Slider from 'react-slick';
 import PropTypes from 'prop-types';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
-import onImageError from '@/utils/onImageError';
 import Image from 'next/image';
 
 const FeaturedProductosWrapper = styled.section`

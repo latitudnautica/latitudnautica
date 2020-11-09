@@ -56,9 +56,7 @@ const HomeCarrousel = ({ bannersData }) => {
   const [items, setItems] = useState();
   const [index, setIndex] = useState(0);
   const [lastIndex, setLastIndex] = useState(bannersData.length - 1);
-  // const [resetIndex, setResetIndex] = useState(false);
   const [direction, setDirection] = useState(true);
-  const [animState, setAnimState] = useState(false);
 
   const options = {
     animationPrev: 'fade-in-bck',
@@ -100,7 +98,6 @@ const HomeCarrousel = ({ bannersData }) => {
   useEffect(() => {
     const animation = direction ? options.animationNext : options.animationPrev;
     if (items) {
-      console.log(items[index]);
       items.forEach((element) => {
         element.classList.remove('active');
         element.classList.remove(options.animationNext);

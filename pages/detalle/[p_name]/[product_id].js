@@ -114,8 +114,6 @@ const Producto = ({ errorCode, product, featuredProducts, categories }) => {
       ? '/images/logo.png'
       : process.env.NEXT_PUBLIC_API_URL + product.imagePath;
 
-  console.log(image);
-
   return (
     <>
       <Head>
