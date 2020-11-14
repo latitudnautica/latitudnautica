@@ -11,17 +11,17 @@ import {
 import Burger from './Burger';
 
 const MenuStyled = styled.nav`
+  background: ${({ theme }) => theme.menu.background};
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  background: ${({ theme }) => theme.menu.background};
-  transform: ${({ open }) => (open ? 'translateX(0)' : 'translateX(-100%)')};
   height: 100vh;
-  text-align: left;
+  justify-content: center;
+  left: 0;
   padding: 2rem;
   position: absolute;
+  text-align: left;
   top: 0;
-  left: 0;
+  transform: ${({ open }) => (open ? 'translateX(0)' : 'translateX(-100%)')};
   transition: transform 0.3s ease-in-out;
   z-index: 998;
 
@@ -57,42 +57,41 @@ const MenuStyled = styled.nav`
 
 const LeftMenu = ({ open, setOpen }) => (
   <MenuStyled open={open}>
-    {/* <MenuLogo src='/images/logo.png' /> */}
-    <Link href="/">
+    <Link href='/'>
       <a onClick={() => setOpen(!open)}>
-        <span role="img" aria-label="home">
+        <span role='img' aria-label='home'>
           <RiHome2Line />
         </span>
         Home
       </a>
     </Link>
-    <Link href="/quienes_somos">
+    <Link href='/quienes_somos'>
       <a onClick={() => setOpen(!open)}>
-        <span role="img" aria-label="quienes somos">
+        <span role='img' aria-label='quienes somos'>
           <RiSailboatLine />
         </span>
         Quienes Somos
       </a>
     </Link>
-    <Link href="/productos">
+    <Link href='/productos'>
       <a onClick={() => setOpen(!open)}>
-        <span role="img" aria-label="productos">
+        <span role='img' aria-label='productos'>
           <RiShoppingBasketLine />
         </span>
         Productos
       </a>
     </Link>
-    <Link href="/contacto">
+    <Link href='/contacto'>
       <a onClick={() => setOpen(!open)}>
-        <span role="img" aria-label="contacto">
+        <span role='img' aria-label='contacto'>
           <RiContactsLine />
         </span>
         Contacto
       </a>
     </Link>
-    <Link href="/cms">
+    <Link href='/cms'>
       <a onClick={() => setOpen(!open)}>
-        <span role="img" aria-label="panel de administración">
+        <span role='img' aria-label='panel de administración'>
           <RiAdminLine />
         </span>
         cms
