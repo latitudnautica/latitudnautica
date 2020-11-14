@@ -12,7 +12,7 @@ const HomeCarrouselStyled = styled.div`
   overflow: hidden;
 `;
 const ImageWrapper = styled.div`
-  position: relative;  
+  position: relative;
 `;
 
 const Arrows = styled.div`
@@ -29,7 +29,7 @@ const Arrows = styled.div`
 `;
 
 const ArrowBase = styled.button`
-  padding: 10px;
+  padding: 0.3em;
   background-color: #0000005c;
   border: none;
   font-size: 3em;
@@ -44,10 +44,13 @@ const ArrowBase = styled.button`
 `;
 
 const ArrowLeft = styled(ArrowBase)`
-  border-radius: 0 50% 50% 0;
+  border-radius: 0 5em 5em 0;
+  margin-left: -20px;
 `;
+
 const ArrowRight = styled(ArrowBase)`
-  border-radius: 50% 0 0 50%;
+  border-radius: 5em 0 0 5em;
+  margin-right: -20px;
 `;
 
 const HomeCarrousel = ({ bannersData }) => {
