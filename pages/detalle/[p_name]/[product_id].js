@@ -143,10 +143,11 @@ const Producto = ({ errorCode, product, featuredProducts, categories }) => {
             <ProductImage>
               <Image
                 src={image}
-                width={500}
-                height={700}
-                layout='responsive'
+                // width={500}
+                // height={500}
+                layout='fill'
                 alt={product.name}
+                priority={true}
               />
             </ProductImage>
             <ProductInfo>
