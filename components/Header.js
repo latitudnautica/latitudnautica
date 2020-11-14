@@ -15,18 +15,29 @@ import SearchBar from './SearchBar';
 const HeaderStyled = styled.header`
   box-shadow: 0 0 13px -2px #acb1b3;
   border-radius: 0 0 30px 30px;
+  position: relative;
+  display: flex;
+  align-items: center;
+`;
+
+const MenuWrapper = styled.div`
+  flex: 1;
+  max-width: 80px;
+  min-width: 80px;
+  display: flex;
+  justify-content: center;
 `;
 
 const ContentWrapper = styled.div`
-  margin-left: 75px;
   display: flex;
+  flex: 3;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 `;
 
 const HeaderLogo = styled.div`
-  padding: 1em 2em;
+  padding: 1em 0;
   text-align: center;
   flex: 1;
 
@@ -36,7 +47,7 @@ const HeaderLogo = styled.div`
   }
 
   @media (max-width: 768px) {
-    padding: 10px 1em;
+    /* padding: 10px 1em; */
     flex: 1;
     img {
       width: 100%;
@@ -44,7 +55,7 @@ const HeaderLogo = styled.div`
   }
 
   @media (max-width: 470px) {
-    padding: 10px 1em;
+    /* padding: 10px 1em; */
     flex: 2;
     img {
       width: 100%;
@@ -57,6 +68,7 @@ const ResponsiveWrapper = styled.div`
   flex-direction: row;
   width: 75%;
   transition: all 0.2s;
+  flex: 3;
 
   @media (max-width: 768px) {
     flex-direction: column-reverse;
@@ -121,14 +133,14 @@ const SocialIcons = styled(ContactDetail)`
 export default function Header() {
   return (
     <HeaderStyled>
-      <ContentWrapper>
-        {/* <div> */}
+      <MenuWrapper>
         <Menu />
-        {/* </div> */}
+      </MenuWrapper>
+      <ContentWrapper>
         <HeaderLogo>
-          <Link href="/">
+          <Link href='/'>
             <a>
-              <img src="/images/logo_full.png" alt="Logo de latitud náutica" />
+              <img src='/images/logo_full.png' alt='Logo de latitud náutica' />
             </a>
           </Link>
         </HeaderLogo>
@@ -139,8 +151,8 @@ export default function Header() {
             <ContactDetail>
               <a
                 href={`https://wa.me/${contactData.celularPhone.number}`}
-                target="_blank"
-                rel="noreferrer"
+                target='_blank'
+                rel='noreferrer'
               >
                 {contactData.celularPhone.display}
               </a>
@@ -151,15 +163,15 @@ export default function Header() {
             <SocialIcons>
               <FacebookIcon
                 href={contactData.facebook}
-                target="_blank"
-                rel="noreferrer"
+                target='_blank'
+                rel='noreferrer'
               >
                 <FaFacebook />
               </FacebookIcon>
               <WhatsappIcon
                 href={`https://wa.me/${contactData.celularPhone.number}`}
-                target="_blank"
-                rel="noreferrer"
+                target='_blank'
+                rel='noreferrer'
               >
                 <FaWhatsapp />
               </WhatsappIcon>

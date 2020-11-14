@@ -10,6 +10,7 @@ import FeaturedProduct from '@/components/FeaturedProducts';
 import CategoriesNavbar from '@/components/CategoriesNavbar';
 import { Container, Button } from '@/components/layouts/commonStyledComponents';
 import PropTypes from 'prop-types';
+import Image from 'next/image';
 
 const ProductStyled = styled.main``;
 
@@ -24,42 +25,42 @@ const ProductWrapper = styled.div`
   border-width: 3px;
   border-radius: 5px;
   border-image-source: ${({ theme }) => theme.border.gradient};
+  min-height: 500px;
 
   @media (max-width: 640px) {
     flex-direction: column;
+    align-items: center;
   }
 `;
 
 const ProductImage = styled.div`
-  text-align: center;
-  margin: 1em 0;
-  flex-basis: 300px;
+  flex-basis: 200px;
   flex-shrink: 1;
+  margin: 1em 1em;
+  position: relative;
+  max-width: 300px;
+  max-height: 300px;
+  min-width: 300px;
 
   img {
     object-fit: contain;
-    width: 100%;
-    max-height: 300px;
-
-    @media (max-width: 640px) {
-      margin: 0;
-      border-right: none;
-      width: 40%;
-    }
   }
 
   @media (max-width: 640px) {
-    margin: 0;
-    flex-basis: 100px;
+    flex-basis: 300px;
+    margin: 1em;
+    width: 100%;
+    min-width: 100%;
   }
 `;
 
 const ProductInfo = styled.div`
   display: flex;
-  flex-direction: column;
   flex-basis: 700px;
+  flex-direction: column;
   flex-shrink: 3;
   margin: 0 2em;
+  justify-content: space-between;
 
   div {
     margin: 1em 0;
@@ -105,8 +106,13 @@ const Breadcrumbs = styled.div`
 const Producto = ({ errorCode, product, featuredProducts, categories }) => {
   const Router = useRouter();
   if (errorCode) return <Error statusCode={errorCode} />;
-  if (product == null)
+  if (product === null)
     return <Error statusCode={404} title='No se encontró el producto' />;
+
+  const image =
+    product.imagePath === null
+      ? '/images/logo.png'
+      : process.env.NEXT_PUBLIC_API_URL + product.imagePath;
 
   return (
     <>
@@ -125,14 +131,7 @@ const Producto = ({ errorCode, product, featuredProducts, categories }) => {
         />
         <meta property='og:description' content={`${product.description}`} />
         <meta property='og:type' content='item' />
-        <meta
-          property='og:image'
-          content={
-            product.imagePath
-              ? process.env.NEXT_PUBLIC_API_URL + product.imagePath
-              : '/images/logo_test.jpg'
-          }
-        />
+        <meta property='og:image' content={image} />
       </Head>
       <CategoriesNavbar _categories={categories} />
       <Container>
@@ -142,12 +141,11 @@ const Producto = ({ errorCode, product, featuredProducts, categories }) => {
         <ProductStyled>
           <ProductWrapper>
             <ProductImage>
-              <img
-                src={
-                  product.imagePath
-                    ? process.env.NEXT_PUBLIC_API_URL + product.imagePath
-                    : '/images/logo_test.jpg'
-                }
+              <Image
+                src={image}
+                width={500}
+                height={700}
+                layout='responsive'
                 alt={product.name}
               />
             </ProductImage>
@@ -192,13 +190,13 @@ Producto.propTypes = {
   product: PropTypes.PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    brand: PropTypes.string.isRequired,
-    Category: PropTypes.number,
-    SubCategory: PropTypes.number,
+    brand: PropTypes.string,
+    Category: PropTypes.object,
+    SubCategory: PropTypes.object,
     price: PropTypes.number,
-    description: PropTypes.number,
-    codeArticle: PropTypes.number,
-    imagePath: PropTypes.number,
+    description: PropTypes.string,
+    codeArticle: PropTypes.string,
+    imagePath: PropTypes.string,
     tasaIVA: PropTypes.number,
   }).isRequired,
   featuredProducts: PropTypes.arrayOf(PropTypes.object).isRequired,

@@ -12,6 +12,8 @@ import theme from '../styles/theme';
 import '../styles/styles.css';
 import '../styles/nprogress.css';
 import 'react-toastify/dist/ReactToastify.css';
+import '../styles/banner.css';
+import '../styles/animations.css';
 
 Router.events.on('routeChangeStart', () => {
   NProgress.start();
