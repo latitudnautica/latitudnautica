@@ -9,7 +9,8 @@ import Image from 'next/image';
 
 const FeaturedProductosWrapper = styled.section`
   margin: 2em auto;
-  max-width: 1500px;
+  /* max-width: 1500px; */
+  border: 1px solid red;
 
   h3 {
     text-align: center;
@@ -48,9 +49,9 @@ const ItemCarrouselWrapper = styled.div`
 // `;
 
 const Arrow = styled.div`
-  color: red;
+  /* color: red; */
   width: 40px;
-  height: 40px;
+  /* height: 40px; */
   text-align: center;
   font-size: 1em;
   z-index: 99;
@@ -65,12 +66,14 @@ const ArrowLeft = styled(FaAngleLeft)``;
 const ArrowRight = styled(FaAngleRight)``;
 
 const NextArrow = styled(Arrow)`
+  right:5px;  
   :before {
     content: ${ArrowRight};
   }
 `;
 
 const PrevArrow = styled(Arrow)`
+  left:5px;
   :before {
     content: ${ArrowLeft};
   }
@@ -89,8 +92,8 @@ const FeaturedProducts = ({ featuredProducts }) => {
   const settings = {
     dots: true,
     infinite: false,
-    speed: 800,
-    slidesToShow: 8,
+    speed: 500,
+    slidesToShow: 6,
     slidesToScroll: 1,
     variableWidth: false,
     centerMode: false,
@@ -100,14 +103,6 @@ const FeaturedProducts = ({ featuredProducts }) => {
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     responsive: [
-      {
-        breakpoint: 1500,
-        settings: {
-          slidesToShow: 6,
-          slidesToScroll: 2,
-          arrows: true,
-        },
-      },
       {
         breakpoint: 1024,
         settings: {
@@ -133,11 +128,11 @@ const FeaturedProducts = ({ featuredProducts }) => {
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 375,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 2,
           slidesToScroll: 1,
-          arrows: true,
+          arrows: false,
         },
       },
     ],
@@ -145,33 +140,32 @@ const FeaturedProducts = ({ featuredProducts }) => {
 
   return (
     <FeaturedProductosWrapper>
-      <h3>Productos Destacados</h3>
       <Slider {...settings}>
         {isLoading
           ? []
           : products.map((i) => (
-              <ItemCarrouselWrapper key={i.id}>
-                <Link
-                  href='/detalle/[name]/[id]'
-                  as={`/detalle/${i.name}/${i.id}`}
-                >
-                  <ImageItemCarrouselWrapper>
-                    <Image
-                      // onError={onImageError}
-                      key={i}
-                      src={
-                        i.imagePath === null
-                          ? '/images/logo.png'
-                          : process.env.NEXT_PUBLIC_API_URL + i.imagePath
-                      }
-                      alt={i.name}
-                      title={i.name}
-                      layout='fill'
-                    />
-                  </ImageItemCarrouselWrapper>
-                </Link>
-              </ItemCarrouselWrapper>
-            ))}
+            <ItemCarrouselWrapper key={i.id}>
+              <Link
+                href='/detalle/[name]/[id]'
+                as={`/detalle/${i.name}/${i.id}`}
+              >
+                <ImageItemCarrouselWrapper>
+                  <Image
+                    // onError={onImageError}
+                    key={i}
+                    src={
+                      i.imagePath === null
+                        ? '/images/logo.png'
+                        : process.env.NEXT_PUBLIC_API_URL + i.imagePath
+                    }
+                    alt={i.name}
+                    title={i.name}
+                    layout='fill'
+                  />
+                </ImageItemCarrouselWrapper>
+              </Link>
+            </ItemCarrouselWrapper>
+          ))}
       </Slider>
     </FeaturedProductosWrapper>
   );
