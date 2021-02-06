@@ -9,8 +9,6 @@ import Image from 'next/image';
 
 const FeaturedProductosWrapper = styled.section`
   margin: 2em auto;
-  /* max-width: 1500px; */
-  border: 1px solid red;
 
   h3 {
     text-align: center;
